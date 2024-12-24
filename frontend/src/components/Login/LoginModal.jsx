@@ -4,6 +4,7 @@ import api from "../../api"; // Adjust the import according to your file structu
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 
 const LoginModal = ({ isOpen, onClose }) => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ const LoginModal = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     try {
-      const res = await api.post("/api/token/", { email, password }); 
+      const res = await api.post("/api/token/", { username, email, password }); 
       localStorage.setItem(ACCESS_TOKEN, res.data.access);
       localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
       navigate("/dashboard");
@@ -45,6 +46,22 @@ const LoginModal = ({ isOpen, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="username" className="block text-sm text-gray-800 font-semibold">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm text-gray-800 font-semibold">
               Email
