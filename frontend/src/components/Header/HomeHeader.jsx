@@ -56,7 +56,7 @@ export default function HomeHeader() {
 
             
             <Link
-              to="#"
+              to="/register"
               className="text-white transition duration-200 ease-in-out bg-blue1 hover:bg-darkblue font-medium rounded-3xl text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none"
             >
               Sign Up

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CardSign from "./CardSign";
 import axios from "axios";
-import LoginModal from "../frontend/src/components/Login/LoginModal"; // Import the LoginModal component
+import LoginModal from "../Login/LoginModal"; // Adjust the import according to your file structure
+import api from "../../api";
 
 const signup = [
   {
@@ -20,40 +21,33 @@ const signup = [
 ];
 
 export default function Register() {
-  const [email, setEmail] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal
-  const [errorMessage, setErrorMessage] = useState(""); // State to manage error message
-  const navigate = useNavigate();
 
-  const getCSRFToken = () => {
-    let csrfToken = null;
-    const cookies = document.cookie.split(';');
-    cookies.forEach(cookie => {
-      if (cookie.trim().startsWith('csrftoken=')) {
-        csrfToken = cookie.trim().substring('csrftoken='.length);
-      }
-    });
-    return csrfToken;
-  };
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // Add state for error message
 
-  const handleRegister = async (e) => {
+  const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    const csrfToken = getCSRFToken();
+
     try {
-      const response = await axios.post('/accounts/register/', { email }, {
-        headers: { 'X-CSRFToken': csrfToken },
-      });
-      if (response.data.message) {
-        navigate('/dashboard'); // Redirect to dashboard if registration is successful
-      }
-    } catch (error) { setErrorMessage(error.response.data.error); }
+      const res = await api.post("/api/user/register/", { email, username, password });
+      setIsModalOpen(true);
+    } catch (error) {
+      setErrorMessage(error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="mx-auto w-full max-w-10xl">
+    <div className="mx-auto w-full max-w-6xl">
       <div className="flex mx-3xl">
         {/* Left */}
-        <div className="hidden lg:flex lg:flex-col lg:w-1/3 bg-darkblue bg-opacity-40 px-14 py-14">
+        <div className="hidden lg:flex lg:flex-col lg:w-1/2 bg-darkblue bg-opacity-40 px-14 py-14">
           <h1 className="text-white text-3xl mb-12 mt-12 w-56">Land a job worth loving.</h1>
           <div className="flex flex-col justify-center gap-2">
             {signup.map((step, index) => (
@@ -81,7 +75,17 @@ export default function Register() {
           <div className="flex flex-col my-24 m-auto scale-110">
             <h1 className="text-white text-3xl mb-14">Sign Up</h1>
 
-            <form onSubmit={handleRegister} className="flex flex-col">
+            <form onSubmit={handleSubmit} className="flex flex-col"> {/* Change to handleSubmit */}
+              <label htmlFor="username" className="text-gray-200 ml-2 mb-2"> {/* Change id to username */}
+                Username
+              </label>
+              <input 
+                className="rounded-full border-2 w-80 py-2 pl-4 mb-4"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
               <label htmlFor="email" className="text-gray-200 ml-2 mb-2">
                 Email
               </label>
@@ -92,11 +96,21 @@ export default function Register() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+              <label htmlFor="password" className="text-gray-200 ml-2 mb-2"> {/* Change id to password */}
+                Password
+              </label>
+              <input 
+                className="rounded-full border-2 w-80 py-2 pl-4 mb-4"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
               <button 
                 type="submit" 
                 className="mt-2 bg-blue1 hover:bg-blue-700 text-white py-2 px-4 rounded-full w-28"
               >
-                Continue
+                {loading ? "Loading..." : "Continue"} {/* Change Continue to a string */}
               </button>
             </form>
 
