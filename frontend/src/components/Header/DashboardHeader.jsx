@@ -1,12 +1,27 @@
-import { Link , NavLink} from "react-router-dom";
-import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getUserDetails } from "../../api";
 
 export default function DashboardHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        const data = await getUserDetails();
+        setUserDetails(data);
+      } catch (error) {
+        console.log("Failed to fetch user details");
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
 
   return (
     <header className="shadow sticky z-50 top-0">
@@ -24,22 +39,21 @@ export default function DashboardHeader() {
           </Link>
 
           <div className="flex items-center gap-3 px-2 py-1.5 bg-darkblue bg-opacity-50 rounded-2xl">
-            <div className="bg-gray-300 w-6 h-6 rounded-full flex justify-center items-center font-semibold text-xs">V</div>
-            <img src="/down-arrow.png" className="w-4 h-4" alt="" />
+                <div className="bg-gray-300 w-6 h-6 rounded-full flex justify-center items-center font-semibold text-xs">{userDetails ? userDetails.username.charAt(0): 'O'}</div>
+                <img src="/down-arrow.png" className="w-4 h-4" alt="" />
           </div>
-
         </div>
-
-        <div className={`bg-black2 ${isMenuOpen ? 'block' : 'hidden'} h-screen w-1/4 z-10 absolute top-0 left-0`}>
+        
+        <div className={`bg-black2 ${isMenuOpen ? 'block' : 'hidden'} h-screen w-1/3 lg:w-1/4 xl:w-1/5 z-10 absolute top-0 left-0`}>
           <div className="flex justify-end mt-4 mr-4">
-            <img src="/close.svg" className="`${isMenuOpen ? 'block' : 'hidden'}` flex w-8 h-8 opacity-75 cursor-pointer" alt="" onClick={toggleMenu} />
+            <img src="/close.svg" className="flex w-8 h-8 opacity-75 cursor-pointer" alt="" onClick={toggleMenu} />
           </div>
 
-          <div className={`${isMenuOpen ? 'block' : 'hidden'} `}>
+          <div className={`{isMenuOpen ? 'block' : 'hidden'}`}>
             <ul className="flex flex-col mt-12 text-lg gap-1">
               <li>
                 <NavLink
-                  to="/"
+                  to="/dashboard"
                   className={({ isActive }) =>
                     `block py-2 text-center duration-200 ${isActive ? "text-blue1" : "text-gray-100"} hover:bg-blue1`
                   }
@@ -54,32 +68,51 @@ export default function DashboardHeader() {
                     `block py-2 text-center duration-200 ${isActive ? "text-blue2" : "text-gray-100"} hover:bg-blue1`
                   }
                 >
-                  About
+                  Practice
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/contact"
+                  to="/analysis"
                   className={({ isActive }) =>
                     `block py-2 text-center duration-200 ${isActive ? "text-blue2" : "text-gray-100"} hover:bg-blue1 `
                   }
                 >
-                  Contact
+                  Analysis
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/github"
+                  to="/review-interview"
                   className={({ isActive }) =>
                     `block py-2 text-center duration-200 ${isActive ? "text-blue2" : "text-gray-100"} hover:bg-blue1 `
                   }
                 >
-                  Github
+                  Review Interviews
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/interview-category"
+                  className={({ isActive }) =>
+                    `block py-2 text-center duration-200 ${isActive ? "text-blue2" : "text-gray-100"} hover:bg-blue1 `
+                  }
+                >
+                  General Interviews
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/courses"
+                  className={({ isActive }) =>
+                    `block py-2 text-center duration-200 ${isActive ? "text-blue2" : "text-gray-100"} hover:bg-blue1 `
+                  }
+                >
+                  Courses
                 </NavLink>
               </li>
             </ul>
           </div>
-
         </div>
       </nav>
     </header>
