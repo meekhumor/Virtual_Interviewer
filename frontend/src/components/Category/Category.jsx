@@ -35,15 +35,15 @@ const category = [
   },
   {
     label: "Leadership Skills",
-    title: "Financial Management",
+    title: "Financial Skills",
     level: "Mid",
-    time: "30",
+    time: "40",
     questions: "10",
     image: "/category/icon5.svg",
   },
   {
     label: "Leadership Skills",
-    title: "Leadership / Leading Others",
+    title: "Leadership",
     level: "Management",
     time: "30",
     questions: "10",
@@ -67,7 +67,7 @@ export default function Category() {
     
      
 
-      <div className="flex flex-wrap justify-center items-center gap-6">
+      <div className="flex flex-wrap justify-center items-center gap-6 mb-44">
         {category.map((step, index) => (
           <div key={index}>
             <div>
