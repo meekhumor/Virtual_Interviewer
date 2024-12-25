@@ -39,7 +39,7 @@ export default function DashboardHeader() {
           </Link>
 
           <div className="flex items-center gap-3 px-2 py-1.5 bg-darkblue bg-opacity-50 rounded-2xl">
-                <div className="bg-gray-300 w-6 h-6 rounded-full flex justify-center items-center font-semibold text-xs">{userDetails ? userDetails.username.charAt(0): 'O'}</div>
+                <div className="bg-gray-300 w-6 h-6 rounded-full flex justify-center items-center font-semibold text-xs">{userDetails ? userDetails.username.charAt(0).toUpperCase(): 'O'}</div>
                 <img src="/down-arrow.png" className="w-4 h-4" alt="" />
           </div>
         </div>
@@ -63,7 +63,7 @@ export default function DashboardHeader() {
               </li>
               <li>
                 <NavLink
-                  to="/about"
+                  to="/practice"
                   className={({ isActive }) =>
                     `block py-2 text-center duration-200 ${isActive ? "text-blue2" : "text-gray-100"} hover:bg-blue1`
                   }

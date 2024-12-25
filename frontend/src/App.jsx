@@ -18,6 +18,7 @@ import Analysis from './components/Review_Interview/Analysis';
 import About from './components/About/About';
 import Contact from './components/Contact/Contact';
 import Courses from "./components/Courses/Courses";
+import Practice from "./components/Practice/Practice";
 
 function Logout() {
   localStorage.clear();
@@ -49,6 +50,7 @@ function App() {
             <Route path="contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
             <Route path="logout" element={<Logout />} />
             <Route path="courses" element={<Courses />} />
+            <Route path="practice" element={<Practice />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
