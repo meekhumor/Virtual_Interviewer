@@ -18,7 +18,7 @@ function Layout() {
   };
 
   const renderFooter = () => {
-      if(location.pathname === '/interview-setting' || location.pathname === '/resume') {
+      if(location.pathname === '/interview-setting' || location.pathname === '/resume' || location.pathname === '/cam-permission' || location.pathname === '/cam-preview1' || location.pathname === '/cam-preview2') {
         return null;
       } else {
         return <Footer />;
