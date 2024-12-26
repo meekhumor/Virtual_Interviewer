@@ -74,7 +74,7 @@ function Interview_Setting() {
             </div>
             <span className={`${isToggled ? 'text-gray-400' : 'text-gray-700'} font-semibold`}>Real Interview</span>
         </div>
-        <Link to="/" className="text-white py-2 rounded-3xl px-8  bg-blue1 hover:bg-darkblue mt-6">Next</Link>
+        <Link to="/resume" className="text-white py-2 rounded-3xl px-8  bg-blue1 hover:bg-darkblue mt-6">Next</Link>
     </div>
   );
 }

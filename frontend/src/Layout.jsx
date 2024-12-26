@@ -18,7 +18,11 @@ function Layout() {
   };
 
   const renderFooter = () => {
-      return <Footer />;
+      if(location.pathname === '/interview-setting' || location.pathname === '/resume') {
+        return null;
+      } else {
+        return <Footer />;
+      }
   };
 
   return (
