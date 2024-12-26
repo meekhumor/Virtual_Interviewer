@@ -26,7 +26,7 @@ export default function DashboardHeader() {
   return (
     <header className="shadow sticky z-50 top-0">
       <nav className="bg-black px-4 py-4">
-        <div className="flex flex-wrap justify-evenly items-center mx-auto mt-2">
+        <div className="flex flex-wrap justify-evenly items-center mx-auto mt-2 ">
           <button type="button" className="text-white" onClick={toggleMenu}>
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>

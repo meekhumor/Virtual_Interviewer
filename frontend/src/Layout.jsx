@@ -4,25 +4,28 @@ import DashboardHeader from './components/Header/DashboardHeader';
 import Footer from './components/Footer/Footer';
 import RegisterHeader from './components/Header/RegisterHeader';
 
-
 function Layout() {
   const location = useLocation();
 
   const renderHeader = () => {
     if (location.pathname === '/') {
       return <HomeHeader />;
-    } else if(location.pathname === '/register'){
+    } else if (location.pathname === '/register' || location.pathname === '/email-verification') {
       return <RegisterHeader />;
-    }else{
+    } else {
       return <DashboardHeader />;
     }
+  };
+
+  const renderFooter = () => {
+      return <Footer />;
   };
 
   return (
     <>
       {renderHeader()}
       <Outlet />
-      <Footer />
+      {renderFooter()}
     </>
   );
 }

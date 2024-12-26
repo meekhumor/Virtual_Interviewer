@@ -19,6 +19,8 @@ import About from './components/About/About';
 import Contact from './components/Contact/Contact';
 import Courses from "./components/Courses/Courses";
 import Practice from "./components/Practice/Practice";
+import Email_Verification from "./components/Email_Verification/Email_Verification";
+import Interview_Setting from "./components/Interview_Setting/Interview_Setting";
 
 function Logout() {
   localStorage.clear();
@@ -49,8 +51,12 @@ function App() {
             <Route path="about" element={<ProtectedRoute><About /></ProtectedRoute>} />
             <Route path="contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
             <Route path="logout" element={<Logout />} />
-            <Route path="courses" element={<Courses />} />
-            <Route path="practice" element={<Practice />} />
+            <Route path="courses" element={<ProtectedRoute><Courses /></ProtectedRoute>} />
+            <Route path="practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
+            <Route path="email-verification" element={<ProtectedRoute><Email_Verification /></ProtectedRoute>} />
+            <Route path="interview-setting" element={<ProtectedRoute><Interview_Setting /></ProtectedRoute>} />
+
+
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

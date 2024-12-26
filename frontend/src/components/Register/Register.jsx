@@ -44,7 +44,7 @@ export default function Register() {
   };
 
   return (
-    <div className=" w-full max-w-5xl min-h-screen flex mx-auto gap-20">
+    <div className=" w-full max-w-6xl min-h-screen flex mx-auto gap-20">
       {/* Left */}
       <div className="hidden lg:flex lg:flex-col lg:w-1/2 bg-darkblue bg-opacity-40 lg:justify-center lg:gap-12 lg:px-14 min-h-screen">
         <h1 className="text-white text-3xl">Land a job worth loving.</h1>
