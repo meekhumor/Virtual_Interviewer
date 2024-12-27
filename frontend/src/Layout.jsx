@@ -12,13 +12,15 @@ function Layout() {
       return <HomeHeader />;
     } else if (location.pathname === '/register' || location.pathname === '/email-verification') {
       return <RegisterHeader />;
+    } else if (location.pathname === '/interview-simulator'){
+      return null
     } else {
       return <DashboardHeader />;
     }
   };
 
   const renderFooter = () => {
-      if(location.pathname === '/interview-setting' || location.pathname === '/resume' || location.pathname === '/cam-permission' || location.pathname === '/cam-preview1' || location.pathname === '/cam-preview2') {
+      if(location.pathname === '/interview-setting' || location.pathname === '/resume' || location.pathname === '/cam-permission' || location.pathname === '/cam-preview1' || location.pathname === '/cam-preview2' || location.pathname === '/interview-simulator') {
         return null;
       } else {
         return <Footer />;
