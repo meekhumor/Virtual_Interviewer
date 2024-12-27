@@ -32,53 +32,54 @@ const features = [
     },
     {
         title: 'Real interview pressure, real results',
-        description: 'We record your responses to create realistic interview pressure.',
+        description: 'Recording your responses adds a touch of realistic interview pressure',
         image: 'home/icon2.svg'
     },
     {
         title: 'Self-review for self-improvement',
-        description: 'Know exactly how you have performed and refine your approach to nail the interview.',
+        description: 'Know exactly how you have performed and refine your approach.',
         image: 'home/icon3.svg'
     },
     {
         title: 'Tailor-made interview questions',
-        description: 'Personalize your prep with custom questions tailored to your job roles and industries.',
+        description: 'Personalize your prep with custom questions tailored to your job roles.',
         image: 'home/icon4.svg'
     },
     {
-        title: 'Level up your skills',
-        description: 'Access curated resources to continuously improve your interview skills and stay ahead.',
+        title: 'Enhance and level up your skills',
+        description: 'Access curated resources to continuously improve your interview skills.',
         image: 'home/icon5.svg'
     }
 ]
 
 export default function Home() {
     return (
-        <div className="mx-auto w-full max-w-8xl">
-            <div className='flex justify-center items-center'>
-                <div className='flex flex-col mt-16 mb-5' id="hero">
-                    <h1 className='text-white font-bold text-5xl text-center'>Your <span className='text-blue1'>Dream Job</span> is Just an <br /> Interview Away!</h1>
-                    <p className='text-gray-400 text-center mt-4 '>Transform your interview skills from preparation to practice,<br /> and all the way to sucess</p>
-                    <div className='flex flex-row gap-6 justify-center mt-8'>
-                        <button className='rounded-full  text-white bg-blue1 px-7 py-4 '>Start for Free</button>
-                        <button className='rounded-full  text-gray-700 bg-white px-7 py-4'>Learn More</button>
-                    </div>
+        <div className="mx-auto w-full min-h-screen max-w-6xl flex flex-col my-20 mb-36">
+
+            {/* Heading  */}
+            <div className='flex flex-col justify-center gap-4 mb-24'>
+                <h1 className='text-white font-bold text-5xl text-center'>Your <span className='text-blue1'>Dream Job</span> is Just an <br /> Interview Away!</h1>
+                <p className='text-gray-400 text-center'>Transform your interview skills from preparation to practice,<br /> and all the way to sucess</p>
+                <div className='flex flex-row gap-6 justify-center mt-4'>
+                    <Link to = "/register" className='rounded-full hover:bg-darkblue text-white bg-blue1 px-7 py-4 '>Start for Free</Link>
+                    <Link to = "#" className='rounded-full hover:bg-black1 hover:text-white  text-gray-700 bg-white px-7 py-4'>Learn More</Link>
                 </div>
             </div>  
             
-            <div className='scale-100 mb-12'>
-                {/* How it works section */}
-                <div className='mt-16 text-center'>
-                    <p className='text-gray-500 text-sm'>3 SIMPLE STEPS</p>
-                    <h1 className='text-white font-bold text-3xl'>How does it works?</h1>
+            
+            {/* How it works section */}
+            <div className='flex flex-col gap-16 mb-8'>
+                <div className='text-center gap-1'>
+                    <p className='text-gray-500 '>3 SIMPLE STEPS</p>
+                    <h1 className='text-white font-bold text-4xl'>How does it works?</h1>
                 </div>
-                <div className="flex flex-col items-center bg-black min-h-screen py-10">
+                <div className="flex flex-col items-center">
                     {steps.map((step, index) => (
-                        <div key={index} className={`flex flex-col sm:flex-row items-center ${index % 2 === 0 ? 'sm:flex-row-reverse' : ''} mb-10`}>
-                            <div className="md:w-1/2 mx-6">
+                        <div key={index} className={`flex flex-col sm:flex-row items-center ${index % 2 === 0 ? 'sm:flex-row-reverse' : ''} gap-36 mb-16`}>
+                            <div className="md:w-1/2 mx-auto transform scale-140">
                                 <LottieAnimation animationData={step.animation} />
                             </div>
-                            <div className="md:w-1/2 mx-6">
+                            <div className="md:w-1/2 mx-auto">
                                 <Card1
                                     number={index + 1}
                                     title={step.title}
@@ -88,12 +89,13 @@ export default function Home() {
                         </div>
                     ))}
                 </div>
-                
-                {/* Features section */}
-                <div className='flex justify-center'>
-                    <h1 className='text-white text-center font-bold text-3xl max-w-xl mb-14'>Achieve interview success with our AI-powered <span className='text-blue1'>practice tools</span></h1>
-                </div>
-                <div className="flex flex-wrap justify-center lg:max-w-5xl m-auto gap-6 md:max-w-3xl sm:max-w-xl">
+            </div>
+
+            
+            {/* Features section */}
+            <div className='flex flex-col gap-16 mb-24'>
+                <h1 className='text-white text-center font-bold text-4xl max-w-xl mx-auto'>Achieve interview success with our AI-powered <span className='text-blue1'>practice tools</span></h1>
+                <div className="flex flex-wrap justify-center lg:max-w-5xl m-auto gap-8 md:max-w-3xl sm:max-w-xl">
                     {features.map((step, index) => (
                         <div key={index}>
                         <Card2 
@@ -104,16 +106,16 @@ export default function Home() {
                         </div>
                     ))}
                 </div>
-                
-                <div className='flex justify-center mt-16'>
-                    <div className='flex flex-col max-w-md'>
-                        <h1 className='text-white text-3xl '>Take the first step toward your <span className='text-blue1'>dream job</span></h1>
-                        <p className='text-gray-400 max-w-sm text-md mt-3'>You can start practicing and improving you skills immediately.</p>
-                        <button className='text-white bg-blue1 w-36 py-3 rounded-full mt-8'>Sign Up</button>
-                    </div>
-                    <img src="" alt="" />
-                </div>
+            </div>
 
+            {/* Sign Up  */}
+            <div className='flex justify-center gap-28'>
+                <div className='flex flex-col max-w-md gap-3 my-auto'>
+                    <h1 className='text-white text-3xl font-semibold'>Take the first step toward your <span className='text-blue1'>dream job</span></h1>
+                    <p className='text-gray-400 max-w-sm'>You can start practicing and improving you skills immediately.</p>
+                    <Link to="/register" className='text-white bg-blue1 w-28 py-3 rounded-full text-center mt-10'>Sign Up</Link>
+                </div>
+                <img src="/home/lasticon.svg" className='w-68' alt="" />
             </div>
         </div>
     );

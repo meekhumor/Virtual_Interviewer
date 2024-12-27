@@ -22,6 +22,9 @@ export default {
       fontSize: { 
         'xxs': '0.625rem', 
       },
+      scale: {
+        '140' : '1.40',
+      }
     },
   },
   plugins: [],
