@@ -20,7 +20,7 @@ function Layout() {
   };
 
   const renderFooter = () => {
-      if(location.pathname === '/interview-setting' || location.pathname === '/resume' || location.pathname === '/cam-permission' || location.pathname === '/cam-preview1' || location.pathname === '/cam-preview2' || location.pathname === '/interview-simulator') {
+      if(location.pathname === '/interview-setting' || location.pathname === '/resume' || location.pathname === '/cam-permission' || location.pathname === '/cam-preview1' || location.pathname === '/cam-preview2' || location.pathname === '/interview-simulator' || location.pathname === '/register') {
         return null;
       } else {
         return <Footer />;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link} from "react-router-dom";
 import api from "../../api"; // Adjust the import according to your file structure
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 
@@ -32,19 +32,21 @@ const LoginModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white px-14 py-6 rounded shadow-lg max-w-md w-full relative">
-        <div className="relative left-80 px-4 cursor-pointer">
+      <div className="bg-white px-14 py-6 rounded shadow-lg max-w-lg w-full relative">
+        <div className="relative left-96 mx-2 top-3 cursor-pointer">
           <img src="/closeLogin.svg" onClick={onClose} alt="Close" />
         </div>
 
+        {/* Heading  */}
         <div className="flex flex-col gap-3 items-center justify-center mb-8 mt-4">
           <h1 className="text-3xl font-semibold">Welcome back!</h1>
           <div className="flex gap-1 text-sm">
             <p className="text-gray-700">Don&apos;t have an account?</p>
-            <button className="text-blue1">Sign Up</button>
+            <Link to="/register" className="text-blue1">Sign Up</Link>
           </div>
         </div>
 
+        {/* Credentials  */}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="username" className="block text-sm text-gray-800 font-semibold">
@@ -94,14 +96,14 @@ const LoginModal = ({ isOpen, onClose }) => {
             />
           </div>
 
-          <button type="submit" className="w-full py-2 px-4 bg-blue1 text-white rounded-xl hover:bg-darkblue">
+          <button type="submit" className="w-full py-3 px-4 bg-blue1 text-white rounded-xl hover:bg-darkblue mt-6">
             {loading ? "Loading..." : "Submit"}
           </button>
 
           {errorMessage && <p className="text-sm text-red-500 text-center mt-4">{errorMessage}</p>}
 
-          <p className="text-sm text-center mt-7 mb-6 text-darkblue cursor-pointer">Forgot your password?</p>
         </form>
+        <p className="text-sm text-center mt-7 mb-6 text-darkblue cursor-pointer">Forgot your password?</p>
       </div>
     </div>
   );

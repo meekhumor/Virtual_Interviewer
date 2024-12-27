@@ -44,9 +44,9 @@ export default function Register() {
   };
 
   return (
-    <div className=" w-full max-w-6xl min-h-screen flex mx-auto gap-20">
+    <div className=" w-full max-w-5xl  flex mx-auto  h-full mt-16">
       {/* Left */}
-      <div className="hidden lg:flex lg:flex-col lg:w-1/2 bg-darkblue bg-opacity-40 lg:justify-center lg:gap-12 lg:px-14 min-h-screen">
+      <div className="hidden lg:flex lg:flex-col lg:w-1/2 bg-darkblue bg-opacity-40 lg:justify-center lg:gap-12 lg:px-14 h-full lg:py-20 rounded-l-3xl">
         <h1 className="text-white text-3xl">Land a job worth loving.</h1>
         <div className="flex flex-col gap-8">
           {signup.map((step, index) => (
@@ -60,16 +60,15 @@ export default function Register() {
       </div>
 
       {/* Right */}
-      <div className="flex flex-col  justify-center gap-5 mx-auto">
+      <div className="flex flex-col gap-12 bg-black1 bg-opacity-40 p-20 px-24 rounded-r-3xl ">
 
           <h1 className="text-white text-3xl">Sign Up</h1>
-          
           <form onSubmit={handleSubmit} className="flex flex-col ">
             <label htmlFor="username" className="text-gray-200 ml-2 mb-2"> 
               Username
             </label>
             <input 
-              className="rounded-full border-2 w-96 py-2 pl-4 mb-4"
+              className="rounded-full border-2 w-80 py-1 pl-4 mb-4"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -80,7 +79,7 @@ export default function Register() {
             </label>
             <input 
               type="email" 
-              className="rounded-full border-2 py-2 pl-4 mb-4"
+              className="rounded-full border-2 py-1 pl-4 mb-4"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -89,7 +88,7 @@ export default function Register() {
               Password
             </label>
             <input 
-              className="rounded-full border-2 py-2 pl-4 mb-4"
+              className="rounded-full border-2 py-1 pl-4 mb-4"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -97,14 +96,13 @@ export default function Register() {
             />
             <button 
               type="submit" 
-              className="bg-blue1 hover:bg-blue-700 text-white py-2 px-4 rounded-full w-28 mt-6"
+              className="bg-blue1 hover:bg-blue-700 text-white py-1 px-4 rounded-full w-28 mt-6"
             >
               {loading ? "Loading..." : "Continue"} 
             </button>
           </form>
-
           {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
-        </div>
+      </div>
     
 
       {/* Login Modal */}
