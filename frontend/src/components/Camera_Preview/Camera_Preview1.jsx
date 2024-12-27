@@ -1,6 +1,41 @@
-import {Link} from "react-router-dom"
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Camera_Preview1() {
+  const [videoAccess, setVideoAccess] = useState(false);
+  const [audioAccess, setAudioAccess] = useState(false);
+  const [networkAccess, setNetworkAccess] = useState(false);
+  const navigate = useNavigate('')
+
+  useEffect(() => {
+    // Check for video access
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(() => setVideoAccess(true))
+      .catch(() => setVideoAccess(false));
+
+    // Check for audio access
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(() => setAudioAccess(true))
+      .catch(() => setAudioAccess(false));
+
+    // Check for network access
+    setNetworkAccess(navigator.onLine);
+
+    // Optional: Check network periodically
+    const handleNetworkChange = () => setNetworkAccess(navigator.onLine);
+    window.addEventListener('online', handleNetworkChange);
+    window.addEventListener('offline', handleNetworkChange);
+
+    return () => {
+      window.removeEventListener('online', handleNetworkChange);
+      window.removeEventListener('offline', handleNetworkChange);
+    };
+  }, []);
+  useEffect(() => { 
+    if (videoAccess && audioAccess && networkAccess) {
+      navigate('/cam-preview2'); 
+    } 
+  }, [videoAccess, audioAccess, networkAccess, navigate]);
 
   return (
     <div className="mx-auto w-full max-w-xl flex flex-col gap-3 items-center bg-darkblue bg-opacity-40 py-14 my-16 rounded-3xl">
@@ -15,20 +50,19 @@ export default function Camera_Preview1() {
       <div className='flex gap-14'>
         <div className='flex flex-col items-center gap-3'>
           <p className='items-center text-white '>Video</p>
-          <img src="/public/check.png" className='w-16' alt="" />
+          <img src={videoAccess ? "/public/check.svg" : "/public/cross.svg"} className='w-16' alt="" />
         </div>
 
         <div className='flex flex-col items-center gap-3'>
           <p className='items-center text-white'>Audio</p>
-          <img src="/public/check.png" className='w-16' alt="" />
+          <img src={audioAccess ? "/public/check.svg" : "/public/cross.svg"} className='w-16' alt="" />
         </div>
 
         <div className='flex flex-col items-center gap-3'>
           <p className='items-center text-white'>Network</p>
-          <img src="/public/check.png" className='w-16' alt="" />
+          <img src={networkAccess ? "/public/check.svg" : "/public/cross.svg"} className='w-16' alt="" />
         </div>
       </div>
-      <Link to="/cam-preview2" className="text-white py-2 rounded-3xl px-8  bg-blue1 hover:bg-darkblue mt-12">Next</Link>
     </div>
   );
 }
