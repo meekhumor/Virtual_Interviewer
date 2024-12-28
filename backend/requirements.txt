@@ -1,4 +1,4 @@
-aasgiref==3.8.1
+asgiref==3.8.1
 PyJWT==2.10.1
 pytz==2024.2
 sqlparse==0.5.3
