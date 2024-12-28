@@ -33,7 +33,8 @@ export default function DashboardHeader() {
             </svg>
           </button>
           <Link to="/" className="flex items-center">
-            <div className="text-2xl ml-4 text-white font-bold">
+            <img className=" w-10 rounded-full bg-transparent bg-darkblue bg-opacity-40" src="https://d154zarmrcpu4a.cloudfront.net/60fe828b-2ebf-4dd2-9b4d-d78f771b83cc.png" />
+            <div className="text-3xl ml-4 text-white font-extrabold">
               Virtual <span className="text-blue1">AI</span>
             </div>
           </Link>

@@ -24,7 +24,8 @@ export default {
       },
       scale: {
         '140' : '1.40',
-      }
+      },
+
     },
   },
   plugins: [],

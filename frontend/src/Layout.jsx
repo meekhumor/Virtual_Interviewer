@@ -12,7 +12,7 @@ function Layout() {
       return <HomeHeader />;
     } else if (location.pathname === '/register' || location.pathname === '/email-verification') {
       return <RegisterHeader />;
-    } else if (location.pathname === '/interview-simulator'){
+    } else if (location.pathname === '/interview-simulator' || location.pathname === '/animation'){
       return null
     } else {
       return <DashboardHeader />;
@@ -20,10 +20,10 @@ function Layout() {
   };
 
   const renderFooter = () => {
-      if(location.pathname === '/interview-setting' || location.pathname === '/resume' || location.pathname === '/cam-permission' || location.pathname === '/cam-preview1' || location.pathname === '/cam-preview2' || location.pathname === '/interview-simulator' || location.pathname === '/register') {
-        return null;
-      } else {
+      if(location.pathname === '/' || location.pathname === '/dashboard' ) {
         return <Footer />;
+      } else {
+        return null;
       }
   };
 

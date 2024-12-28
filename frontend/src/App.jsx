@@ -22,6 +22,7 @@ import Practice from "./components/Practice/Practice";
 import Email_Verification from "./components/Email_Verification/Email_Verification";
 import Interview_Setting from "./components/Interview_Setting/Interview_Setting";
 import Interview_Simulator from "./components/Interview_Simulator/Interview_Simulator";
+import Animation from "./components/Animation";
 
 function Logout() {
   localStorage.clear();
@@ -49,15 +50,15 @@ function App() {
             <Route path="resume" element={<ProtectedRoute><Resume /></ProtectedRoute>} />
             <Route path="review-interview" element={<ProtectedRoute><Review_Interview /></ProtectedRoute>} />
             <Route path="analysis" element={<ProtectedRoute><Analysis /></ProtectedRoute>} />
-            <Route path="about" element={<ProtectedRoute><About /></ProtectedRoute>} />
-            <Route path="contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
             <Route path="logout" element={<Logout />} />
             <Route path="courses" element={<ProtectedRoute><Courses /></ProtectedRoute>} />
             <Route path="practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
             <Route path="email-verification" element={<ProtectedRoute><Email_Verification /></ProtectedRoute>} />
             <Route path="interview-setting" element={<ProtectedRoute><Interview_Setting /></ProtectedRoute>} />
             <Route path="interview-simulator" element={<ProtectedRoute><Interview_Simulator /></ProtectedRoute>} />
-
+            <Route path="animation" element={<Animation />} />
 
             <Route path="*" element={<NotFound />} />
           </Route>

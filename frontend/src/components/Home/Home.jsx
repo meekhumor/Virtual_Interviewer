@@ -5,6 +5,8 @@ import animation1 from './animations/analysis.json';
 import animation2 from './animations/choose.json';
 import animation3 from './animations/interview.json';
 import Card2 from './Card2';
+import Animation from '../Animation';
+import { useState } from 'react';
 
 const steps = [
     {
@@ -53,9 +55,11 @@ const features = [
 ]
 
 export default function Home() {
+    const [showAnimation, setShowAnimation] = useState(true); 
+    const handleAnimationComplete = () => { setShowAnimation(false)};
+
     return (
         <div className="mx-auto w-full min-h-screen max-w-6xl flex flex-col my-20 mb-36">
-
             {/* Heading  */}
             <div className='flex flex-col justify-center gap-4 mb-24'>
                 <h1 className='text-white font-bold text-5xl text-center'>Your <span className='text-blue1'>Dream Job</span> is Just an <br /> Interview Away!</h1>
