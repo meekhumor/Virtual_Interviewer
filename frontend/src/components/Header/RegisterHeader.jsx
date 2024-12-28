@@ -6,7 +6,7 @@ export default function RegisterHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false); 
 
   return (
-    <header className="shadow sticky z-50 top-0 max-w-6xl mx-auto">
+    <header className="shadow sticky z-50 top-0 max-w-7xl mx-auto px-12">
       <nav className="bg-black border-gray-200 py-6 max-w-screen-xl">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center">
