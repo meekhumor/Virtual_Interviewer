@@ -36,6 +36,7 @@ export default function Register() {
     try {
       const res = await api.post("/api/user/register/", { email, username, password });
       setIsModalOpen(true);
+      alert("done")
     } catch (error) {
       setErrorMessage(error.response.data.error);
     } finally {

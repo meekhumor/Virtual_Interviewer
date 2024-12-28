@@ -18,8 +18,8 @@ export default function HomeHeader() {
       <nav className="bg-black border-gray-200 px-4 lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl mt-2">
           <Link to="/" className="flex items-center">
-            <img className=" w-10 rounded-full bg-transparent bg-darkblue bg-opacity-40" src="https://d154zarmrcpu4a.cloudfront.net/60fe828b-2ebf-4dd2-9b4d-d78f771b83cc.png" />
-            <div className="text-3xl ml-4 text-white font-extrabold">
+            <img className=" w-8 rounded-full bg-transparent bg-darkblue bg-opacity-40" src="https://d154zarmrcpu4a.cloudfront.net/60fe828b-2ebf-4dd2-9b4d-d78f771b83cc.png" />
+            <div className="text-2xl ml-4 text-white font-extrabold">
               Virtual <span className="text-blue1">AI</span>
             </div>
           </Link>
