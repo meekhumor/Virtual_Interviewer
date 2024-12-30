@@ -73,3 +73,7 @@ function App() {
 }
 
 export default App;
+
+{/* <img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="https://interviewbot.ai/assets/feature3.png" width="819" height="968"> </img> */}
+{/* <img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="https://interviewbot.ai/assets/feature2.png" width="819" height="968"> </img> */}
+{/* <img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="https://interviewbot.ai/assets/feature.png" width="819" height="968"> </img> */}
