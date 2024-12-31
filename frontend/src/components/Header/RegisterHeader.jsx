@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import LoginModal from "../Login/LoginModal";
+import LoginModal from "../Modal/LoginModal";
 
 export default function RegisterHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false); 

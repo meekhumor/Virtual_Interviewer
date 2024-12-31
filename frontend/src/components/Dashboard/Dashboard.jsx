@@ -1,3 +1,4 @@
+import { useState } from "react";
 import CardDash1 from "./CardDash1";
 import { Link, NavLink } from "react-router-dom";
 
@@ -24,6 +25,7 @@ const interview = [
 
 
 export default function Dashboard() {
+
     return (
         <div className="w-full max-w-4xl mb-36 mx-auto">
             <div className='flex justify-center items-center'>
@@ -112,7 +114,6 @@ export default function Dashboard() {
                             <Link to="" className="hover:cursor-pointer text-sm text-blue1 mt-3">Take Interview</Link>
                         </div>
                     </div>
-
 
                 </div>
             </div>

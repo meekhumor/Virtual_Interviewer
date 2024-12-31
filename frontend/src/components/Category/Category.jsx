@@ -52,34 +52,29 @@ const category = [
 ];
 
 export default function Category() {
-
   return (
     <div className="mx-auto w-full max-w-6xl min-h-screen">
       <div className="flex justify-center flex-row items-center mb-8">
         <div className="flex flex-col mt-12 mb-5 gap-2 items-center">
-          <p className="text-gray-400 text-xs">GENERAL INTERVIEW</p>
+          <p className="text-gray-400 text-sm">GENERAL INTERVIEW</p>
           <h1 className="text-white text-2xl text-center">
-            Select an interview
+            Select an Interview
           </h1>
         </div>
       </div>
 
-    
-     
-
       <div className="flex flex-wrap justify-center items-center gap-6 mb-44">
         {category.map((step, index) => (
           <div key={index}>
-            <div>
-              <CardCat
-                label={step.label}
-                level={step.level}
-                time={step.time}
-                questions={step.questions}
-                title={step.title}
-                image={step.image}
-              />
-            </div>
+            <CardCat
+              index={index}
+              label={step.label}
+              level={step.level}
+              time={step.time}
+              questions={step.questions}
+              title={step.title}
+              image={step.image}
+            />
           </div>
         ))}
       </div>
