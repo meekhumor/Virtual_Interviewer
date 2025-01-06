@@ -1,25 +1,35 @@
+import {Link} from "react-router-dom"
+
 export default function Footer() {
   return (
-    <footer className="border-t">
-      <div className="flex max-w-xl mx-auto justify-evenly mt-8">
-        <p className="text-gray-400 text-sm">Contact</p>
-        <p className="text-gray-400 text-sm">About</p>
-        <p className="text-gray-400 text-sm">Support</p>
-        <p className="text-gray-400 text-sm">Acknowledgement</p>
+    <footer className="flex flex-col border-t gap-6">
+      <div className="flex max-w-xl mx-auto justify-evenly gap-6 mt-8 text-gray-400 text-sm">
+        <Link to="/contact">Contact</Link>
+        <Link to="/about">About</Link>
+        <Link to="/support">Support</Link>
+        <Link to="/acknowledgement">Acknowledgement</Link>
       </div>
 
-      <div className="flex gap-6 justify-center mt-6">
-        <img src="footer/linkedin.svg" className="w-6" alt="" />
-        <img src="footer/github.svg" className="w-6" alt="" />
-        <img src="footer/discord.svg" className="w-6" alt="" />
+
+      <div className="footer-icons flex gap-6 justify-center">
+        <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">
+          <img src="footer/linkedin.svg" className="w-6 cursor-pointer" alt="LinkedIn" />
+        </a>
+        <a href="https://github.com/meekhumor/virtual_interviewer" target="_blank" rel="noopener noreferrer">
+          <img src="footer/github.svg" className="w-6 cursor-pointer" alt="GitHub" />
+        </a>
+        <a href="https://discordapp.com/channels/1291698189782483028/1291804960006340659" target="_blank" rel="noopener noreferrer">
+          <img src="footer/discord.svg" className="w-6 cursor-pointer" alt="Discord" />
+        </a>
       </div>
 
-      <div className="text-center mt-14 text-xs flex flex-col gap-1 mb-8">
+      <div className="text-center text-xs flex flex-col gap-1 mb-8">
         <p className="text-gray-400">&copy; 2024 Virtual AI. All rights reserved.</p>
-        <p className="text-gray-400"> This website is a clone of
+        {/* <p className="text-gray-400"> This website is a clone of
           <a href="https://myinterviewpractice.com" className="hover:text-gray-300"> myinterviewpractice.com </a>
-        </p>
+        </p> */}
       </div>
     </footer>
   );
 }
+

@@ -17,8 +17,8 @@ import Camera_Preview2 from './components/Camera_Preview/Camera_Preview2';
 import Resume from './components/Resume/Resume';
 import Review_Interview from './components/Review_Interview/Review_Interview';
 import Analysis from './components/Review_Interview/Analysis';
-import About from './components/About/About';
-import Contact from './components/Contact/Contact';
+import About from "./components/Home/About";
+import Contact from "./components/Home/Contact";
 import Courses from "./components/Courses/Courses";
 import Practice from "./components/Practice/Practice";
 import Email_Verification from "./components/Email_Verification/Email_Verification";
@@ -26,6 +26,8 @@ import Interview_Setting from "./components/Interview_Setting/Interview_Setting"
 import Interview_Simulator from "./components/Interview_Simulator/Interview_Simulator";
 import Animation from "./components/Animation";
 import SpeechToText from "./components/speech";
+import Acknowledgement from "./components/Home/Acknowledgement";
+import Support from "./components/Home/Support";
 
 function Logout() {
   localStorage.clear();
@@ -63,6 +65,9 @@ function App() {
             <Route path="interview-simulator" element={<ProtectedRoute><Interview_Simulator /></ProtectedRoute>} />
             <Route path="animation" element={<Animation />} />
             <Route path="speech" element={<SpeechToText />} />
+            <Route path="acknowledgement" element={<Acknowledgement />} />
+            <Route path="support" element={<Support />} />
+
 
             <Route path="*" element={<NotFound />} />
           </Route>

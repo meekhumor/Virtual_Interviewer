@@ -45,7 +45,7 @@ export default function Register() {
       // Step 3: Redirect to the dashboard
       navigate("/dashboard");
     } catch (error) {
-      setErrorMessage(error.response?.data?.error || "An error occurred");
+      alert("Already registered, please login!")
     } finally {
       setLoading(false);
     }
@@ -108,7 +108,6 @@ export default function Register() {
             {loading ? "Loading..." : "Continue"} 
           </button>
         </form>
-        {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
       </div>
     </div>
   );
