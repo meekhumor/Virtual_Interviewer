@@ -38,7 +38,7 @@ export default function Resume() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-xl flex flex-col gap-4 items-center bg-darkblue bg-opacity-40 py-14 my-16 rounded-3xl">
+    <div className="mx-auto w-full max-w-xl flex flex-col gap-4 items-center bg-darkblue bg-opacity-40 py-14 my-28 rounded-3xl">
       <h1 className="text-white text-3xl text-center">
         Upload a resume to improve your interview
       </h1>
@@ -53,17 +53,25 @@ export default function Resume() {
         </div>
       </label>
 
-      <div className="flex gap-3 bg-darkblue bg-opacity-40 items-center justify-between py-4 px-4 rounded-xl w-4/5">
-        <div className='flex gap-6'>
-          <img src="/file-upload.png" className="w-8 h-8" alt="" />
-          <p className="text-gray-400 text-sm w-2/3">
-             Click animation to select files Upload PDF or DOCX
+      <div className="flex items-center justify-between gap-4 bg-darkblue bg-opacity-40 py-4 px-6 rounded-xl w-4/5">
+        <div className="flex items-center gap-4">
+          <img
+            src="/file-upload.png"
+            className="w-8 h-8"
+          />
+          <p className="text-gray-400 text-sm">
+            Click the icon to select files. <br/>Upload PDF or DOCX.
           </p>
         </div>
-        <button onClick={handleUpload} className="px-6 text-sm py-2 bg-blue1 rounded-xl text-white">
+        
+        <button
+          onClick={handleUpload}
+          className="px-6 py-2 bg-blue1 hover:bg-darkblue rounded-xl text-white"
+        >
           Upload
         </button>
       </div>
+
         {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
     </div>
   );

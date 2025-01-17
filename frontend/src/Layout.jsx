@@ -8,7 +8,7 @@ function Layout() {
   const location = useLocation();
 
   const renderHeader = () => {
-    if (location.pathname === '/') {
+    if (location.pathname === '/' || location.pathname === '/about' || location.pathname === '/contact') {
       return <HomeHeader />;
     } else if (location.pathname === '/register' || location.pathname === '/email-verification') {
       return <RegisterHeader />;

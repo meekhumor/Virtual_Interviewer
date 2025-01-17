@@ -151,7 +151,7 @@ export default function Home() {
             <span className="text-blue1">dream job</span>
           </h1>
           <p className="text-gray-400 max-w-sm">
-            You can start practicing and improving you skills immediately.
+            You can start practicing and improving your skills immediately.
           </p>
           <Link
             to="/register"
@@ -160,8 +160,12 @@ export default function Home() {
             Sign Up
           </Link>
         </div>
-        <img src="/home/lasticon.svg" className="w-68" alt="" />
+        <img
+          src="/home/lasticon.svg"
+          className="w-64"
+        />
       </div>
+
     </div>
   );
 }
