@@ -5,6 +5,7 @@ import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import './index.css'
 import 'regenerator-runtime/runtime';
+import { InterviewProvider } from "./components/Interview_Context";
 
 
 import Home from './components/Home/Home';
@@ -25,9 +26,9 @@ import Email_Verification from "./components/Email_Verification/Email_Verificati
 import Interview_Setting from "./components/Interview_Setting/Interview_Setting";
 import Interview_Simulator from "./components/Interview_Simulator/Interview_Simulator";
 import Animation from "./components/Animation";
-import SpeechToText from "./components/speech";
 import Acknowledgement from "./components/Home/Acknowledgement";
 import Support from "./components/Home/Support";
+import Interviewer from "./components/Interviewer";
 
 function Logout() {
   localStorage.clear();
@@ -41,7 +42,7 @@ function RegisterAndLogout() {
 
 function App() {
   return (
-    <>
+    <InterviewProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -64,16 +65,14 @@ function App() {
             <Route path="interview-setting" element={<ProtectedRoute><Interview_Setting /></ProtectedRoute>} />
             <Route path="interview-simulator" element={<ProtectedRoute><Interview_Simulator /></ProtectedRoute>} />
             <Route path="animation" element={<Animation />} />
-            <Route path="speech" element={<SpeechToText />} />
             <Route path="acknowledgement" element={<Acknowledgement />} />
             <Route path="support" element={<Support />} />
-
-
             <Route path="*" element={<NotFound />} />
+            <Route path="interview" element={<Interviewer />} />
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </InterviewProvider>
   );
 }
 

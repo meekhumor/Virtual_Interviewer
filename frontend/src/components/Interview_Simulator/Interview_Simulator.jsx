@@ -19,6 +19,8 @@ import { Editor } from "@monaco-editor/react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { useInterview } from "../Interview_Context";
+
 
 export default function Interview_Simulator() {
   const videoRef = useRef(null);
@@ -30,9 +32,12 @@ export default function Interview_Simulator() {
   const [transcriptHistory, setTranscriptHistory] = useState([]);
   const [isTopBarOpen, setIsTopBarOpen] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
-
+  const [response, setResponse] = useState('');
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
-
+  const { interviewSettings } = useInterview()
+  const { level, time, domain } = interviewSettings
+  const [text, setText] = useState("");
+  
   const handleStart = () => {
     setIsStart((prev) => !prev);
     setMicStatus(true);
@@ -41,6 +46,7 @@ export default function Interview_Simulator() {
   const handleStop = () => {
     setIsStart(false);
     stopListening();
+    handleSendMessage(transcript)
     setTranscriptHistory((prevHistory) => [...prevHistory, transcript]);
     resetTranscript();
   };
@@ -76,9 +82,8 @@ export default function Interview_Simulator() {
     }
   }, [videoStatus]);
 
-  const [text, setText] = useState("");
 
-  const handleSpeak = () => {
+  const handleSpeak = (text) => {
     if (text) {
       const utterance = new SpeechSynthesisUtterance(text);
       // const voices = window.speechSynthesis.getVoices();
@@ -99,7 +104,64 @@ export default function Interview_Simulator() {
     }
   };
 
+  const handleSendMessage = async (inputMessage) => {
+    if (!inputMessage.trim()) {
+      console.warn("Input message is empty.");
+      return;
+    }
+  
+    setTranscriptHistory((prevHistory) => [
+      ...prevHistory,
+      { sender: "user", text: inputMessage },
+    ]);
+  
+    const data = {
+      input_value: inputMessage,
+      tweaks: {
+        "TextInput-dQRtu": { input_value: domain },
+        "TextInput-ptq20": { input_value: level },
+        "TextInput-UZt05": { input_value: time },
+      },
+    };
+  
+    try {
+      const response = await fetch("http://localhost:8000/api/proxy/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Unauthorized. Please check your access token.");
+        } else if (response.status === 500) {
+          throw new Error("Server error. Please try again later.");
+        }
+        throw new Error(`Error: ${response.statusText}`);
+      }
+  
+      const result = await response.json();
+      const message = result.outputs?.[0]?.outputs?.[0]?.results?.message?.text || "No response received";
+      handleSpeak(message)
+  
+      setTranscriptHistory((prevHistory) => [
+        ...prevHistory,
+        { sender: "ai", text: message },
+      ]);
+    } catch (error) {
+      console.error("Error fetching AI response:", error.message);
+  
+      setTranscriptHistory((prevHistory) => [
+        ...prevHistory,
+        { sender: "ai", text: error.message },
+      ]);
+    }
+  };
+
   return (
+    
     <div className="flex flex-col justify-between items-center text-white min-h-screen relative">
       {/* Top Bar */}
       <div
@@ -107,17 +169,6 @@ export default function Interview_Simulator() {
           isTopBarOpen ? "h-8" : "h-24"
         } bg-darkblue bg-opacity-30 flex items-center justify-center transition-all duration-500 ease-in-out rounded-b-xl`}
       >
-        <div>
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={3}
-            cols={150}
-            placeholder="Type text here"
-            className="text-black"
-          />
-          <button onClick={handleSpeak}>Speak</button>
-        </div>
 
         {/* Toggle Button */}
         <button
@@ -181,26 +232,51 @@ export default function Interview_Simulator() {
           <div className="flex-1 overflow-auto mb-4">
             {transcriptHistory.length > 0 ? (
               transcriptHistory.map((item, index) => (
-                <div key={index} className="flex justify-end mb-3">
-                  <div className="max-w-[75%] p-3 rounded-lg text-white bg-blue1 rounded-tl-none">
-                    {item}
+                <div
+                  key={index}
+                  className={`flex ${
+                    item.sender === "ai" ? "justify-start" : "justify-end"
+                  } mb-3`}
+                >
+                  <div
+                    className={`max-w-[75%] p-3 rounded-lg text-white ${
+                      item.sender === "ai" ? "bg-gray-600" : "bg-blue1"
+                    } rounded-tl-none`}
+                  >
+                    {item.text}
                   </div>
                 </div>
               ))
             ) : (
               <div className="text-white p-3 rounded-lg bg-gray-600">
-                Start speaking to see the transcript here...
+                Chat with virtual interviewer...
               </div>
             )}
           </div>
+
+
 
           <div className="flex gap-2 mb-4">
             <input
               type="text"
               placeholder="Type your message..."
               className="flex-grow p-2 px-4 rounded-lg text-black"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSendMessage(text);
+                  setText("");
+                }
+              }}
             />
-            <button className="bg-blue1 hover:bg-darkblue text-lg text-white p-2 px-4 rounded-lg">
+            <button
+              className="bg-blue1 hover:bg-darkblue text-lg text-white p-2 px-4 rounded-lg"
+              onClick={() => {
+                handleSendMessage(text);
+                setText("");
+              }}
+            >
               Send
             </button>
           </div>

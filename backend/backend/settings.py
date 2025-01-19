@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'corsheaders',
-    'uploads'
+    'uploads',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +57,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+
+
+
 
 ROOT_URLCONF = 'backend.urls'
 

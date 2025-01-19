@@ -62,7 +62,7 @@ const Interviewer = () => {
   };
 
   return (
-    <div>
+    <div className='bg-white'>
       <h2>Virtual Interviewer</h2>
       <form onSubmit={handleSubmit}>
         <div>

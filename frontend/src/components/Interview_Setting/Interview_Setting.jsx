@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import { useInterview } from '../Interview_Context';
 
 const levels = ["Internship", "Entry Level", "Mid Level", "Management"];
 const content = [
@@ -15,14 +16,21 @@ const time = ["20", "30", "45", "60"];
 function Interview_Setting() {
   const [selectedlevel, setSelectedlevel] = useState(0);
   const [selectedtime, setSelectedTime] = useState(0); 
-    
   const [isToggled, setIsToggled] = useState(false);
+  const {setInterviewSettings} = useInterview()
+  const navigate = useNavigate()
 
   const handleToggle = () => {
     setIsToggled(!isToggled);
   };
 
-
+  const handleNext = () => { 
+    setInterviewSettings({ 
+        level: levels[selectedlevel], 
+        time: time[selectedtime],
+        domain: "AI/ML"
+    }); navigate('/resume');
+  };
 
   return (
 
@@ -81,7 +89,7 @@ function Interview_Setting() {
             </div>
             <span className={`${isToggled ? 'text-gray-400' : 'text-gray-700'} font-semibold`}>Real Interview</span>
         </div>
-        <Link to="/resume" className="text-white py-2 rounded-3xl px-8  bg-blue1 hover:bg-darkblue mt-6">Next</Link>
+        <button onClick={handleNext} className="text-white py-2 rounded-3xl px-8 bg-blue1 hover:bg-darkblue mt-6">Next</button>
     </div>
   );
 }
