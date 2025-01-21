@@ -28,28 +28,13 @@ export default function Interview_Simulator() {
   const [videoStatus, setVideoStatus] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
   const [showCodeEditor, setShowCodeEditor] = useState(false);
-  const [isStart, setIsStart] = useState(false);
   const [transcriptHistory, setTranscriptHistory] = useState([]);
   const [isTopBarOpen, setIsTopBarOpen] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
-  const [response, setResponse] = useState('');
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const { interviewSettings } = useInterview()
   const { level, time, domain } = interviewSettings
   const [text, setText] = useState("");
-  
-  const handleStart = () => {
-    setIsStart((prev) => !prev);
-    setMicStatus(true);
-    startListening();
-  };
-  const handleStop = () => {
-    setIsStart(false);
-    stopListening();
-    handleSendMessage(transcript)
-    setTranscriptHistory((prevHistory) => [...prevHistory, transcript]);
-    resetTranscript();
-  };
 
   const startListening = () => {
     SpeechRecognition.startListening({ continuous: true });
@@ -164,22 +149,44 @@ export default function Interview_Simulator() {
     
     <div className="flex flex-col justify-between items-center text-white min-h-screen relative">
       {/* Top Bar */}
-      <div
-        className={`absolute top-0 max-w-7xl w-full mx-auto ${
-          isTopBarOpen ? "h-8" : "h-24"
-        } bg-darkblue bg-opacity-30 flex items-center justify-center transition-all duration-500 ease-in-out rounded-b-xl`}
-      >
+      <div className={`absolute top-0 max-w-7xl w-full mx-auto ${isTopBarOpen ? "h-28" : "h-8"} bg-zinc-900 flex items-center justify-between px-6 transition-all duration-500 ease-in-out rounded-b-xl shadow-lg`}>
+        <div className={`w-full flex ${isTopBarOpen ? "block" : "hidden"} justify-between items-center`}>
+          {/* Left Section */}
+          <div className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg h-14">
+            <img src="/time.png" alt="Clock" className="w-8 h-8" />
+            <p className="text-xl font-semibold">15:45</p>
+          </div>
+
+          {/* Center Section */}
+          <div className="flex flex-col items-center my-4">
+            <div className="w-96 bg-gray-800 h-12 rounded-full overflow-hidden relative flex items-center">
+              <div className="bg-blue-600 h-full absolute left-0 top-0" style={{ width: "40%" }}></div>
+              <div className="flex items-center justify-between w-full px-4 relative z-10">
+                <img src="/rocket.png" alt="Rocket" className="w-8 h-8" />
+                <img src="/goal.png" alt="Goal" className="w-8 h-8" />
+              </div>
+            </div>
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-6">
+            <button className="bg-yellow-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
+              <img src="/analysis.png" alt="Analysis" className="w-7" />
+            </button>
+            <button className="bg-blue-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
+              <img src="/help.png" alt="Help" className="w-7" />
+            </button>
+          </div>
+        </div>
 
         {/* Toggle Button */}
         <button
           onClick={() => setIsTopBarOpen((prev) => !prev)}
-          className="absolute bottom-0 transform translate-y-1/2 bg-gray-900 px-4 py-2 rounded-full shadow-lg transition-all duration-300 ease-in-out"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-gray-800 px-4 py-2 rounded-full shadow-lg transition-all duration-300 ease-in-out"
         >
           <img
             src="down-arrow.png"
-            className={`w-6 transform transition-transform duration-500 ease-in-out ${
-              isTopBarOpen ? "rotate-0" : "rotate-180"
-            }`}
+            className={`w-6 transform transition-transform duration-500 ease-in-out ${isTopBarOpen ? "rotate-0" : "rotate-180"}`}
             alt="Toggle"
           />
         </button>
@@ -200,7 +207,13 @@ export default function Interview_Simulator() {
             className="text-gray-500"
           />
         </div>
-        <div className="bg-darkblue bg-opacity-30 w-56 h-56 rounded-full  hover:scale-105"></div>
+        <div className="bg-darkblue bg-opacity-30 w-56 h-56 rounded-full  hover:scale-105 flex items-center justify-center">
+          <div
+              className={`w-3 h-3 rounded-full shadow-lg ${
+                micStatus ? "bg-green-600 animate-pulse" : "bg-red-600"
+              }`}
+            ></div>
+        </div>
       </div>
 
       {/* User Webcam  */}
@@ -323,39 +336,31 @@ export default function Interview_Simulator() {
         </button>
 
         <div className="flex gap-6">
-          <button
-            onClick={handleStart}
-            className={`${
-              isStart ? "bg-yellow-600 p-3" : "bg-green-600 p-4"
-            } hover:bg-blue2 rounded-2xl font-bold`}
-          >
-            <img
-              src={isStart ? "pause.svg" : "start.svg"}
-              className={`${isStart ? "w-8" : "w-6"}`}
-              alt=""
-            />
-          </button>
-          <button
-            onClick={handleStop}
-            className="bg-red-600 hover:bg-blue2 text-white text-xl p-4 rounded-2xl font-bold"
-          >
-            <img src="stop.svg" className="w-6" alt="" />
-          </button>
-        </div>
-
-        <div className="flex gap-6">
-          <button
-            onClick={() => setMicStatus((prev) => !prev)}
-            className={`text-white p-3 rounded-2xl hover:bg-darkblue ${
-              micStatus ? "bg-blue1" : "bg-gray-600"
-            }`}
-          >
-            {micStatus ? (
-              <FiMic className="w-8 h-8" />
-            ) : (
-              <FiMicOff className="w-8 h-8" />
-            )}
-          </button>
+        <button
+          onClick={() => {
+            setMicStatus((prev) => {
+              if (!prev) {
+                // When turning mic ON
+                startListening();
+              } else {
+                // When turning mic OFF
+                stopListening();
+                handleSendMessage(transcript);
+                resetTranscript();
+              }
+              return !prev;
+            });
+          }}
+          className={`text-white p-3 rounded-2xl hover:bg-darkblue ${
+            micStatus ? "bg-blue1" : "bg-gray-600"
+          }`}
+        >
+          {micStatus ? (
+            <FiMic className="w-8 h-8" />
+          ) : (
+            <FiMicOff className="w-8 h-8" />
+          )}
+        </button>
           <button
             onClick={() => setVideoStatus((prev) => !prev)}
             className={`text-white p-3 rounded-2xl hover:bg-darkblue ${
@@ -371,15 +376,6 @@ export default function Interview_Simulator() {
           <button className="text-white p-3 bg-red-600 hover:bg-gray-600 rounded-2xl">
             <FiLogOut className="w-8 h-8" />
           </button>
-        </div>
-
-        <div className="flex gap-4 items-center">
-          <p className="text-2xl font-bold">Listening</p>
-          <div
-            className={`w-3 h-3 rounded-full shadow-lg ${
-              isStart ? "bg-green-600 animate-pulse" : "bg-red-600"
-            }`}
-          ></div>
         </div>
 
         <button
