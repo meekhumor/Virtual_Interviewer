@@ -149,31 +149,29 @@ export default function Interview_Simulator() {
     
     <div className="flex flex-col justify-between items-center text-white min-h-screen relative">
       {/* Top Bar */}
-      <div className={`absolute top-0 max-w-7xl w-full mx-auto ${isTopBarOpen ? "h-28" : "h-8"} bg-zinc-900 flex items-center justify-between px-6 transition-all duration-500 ease-in-out rounded-b-xl shadow-lg`}>
-        <div className={`w-full flex ${isTopBarOpen ? "block" : "hidden"} justify-between items-center`}>
-          {/* Left Section */}
-          <div className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg h-14">
-            <img src="/time.png" alt="Clock" className="w-8 h-8" />
+      <div className={`fixed top-0 max-w-7xl w-full mx-auto ${isTopBarOpen ? "h-28" : "h-8"} bg-zinc-900 flex items-center justify-between px-6 transition-all duration-500 ease-in-out rounded-b-xl z-10`}>
+        <div className={`w-full flex ${isTopBarOpen ? "opacity-100" : "opacity-0"} justify-between items-center mb-4 px-6 transition-opacity duration-300`}>
+          {/* Time */}
+          <div className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg">
+            <img src="/time.png" alt="Clock" className="w-7 h-7" />
             <p className="text-xl font-semibold">15:45</p>
           </div>
 
-          {/* Center Section */}
-          <div className="flex flex-col items-center my-4">
-            <div className="w-96 bg-gray-800 h-12 rounded-full overflow-hidden relative flex items-center">
-              <div className="bg-blue-600 h-full absolute left-0 top-0" style={{ width: "40%" }}></div>
-              <div className="flex items-center justify-between w-full px-4 relative z-10">
-                <img src="/rocket.png" alt="Rocket" className="w-8 h-8" />
-                <img src="/goal.png" alt="Goal" className="w-8 h-8" />
-              </div>
+          {/* Question */}
+          <div className="w-96 bg-gray-800 h-12 rounded-full overflow-hidden relative flex items-center my-4">
+            <div className="bg-blue-600 h-full absolute left-0 top-0" style={{ width: "40%" }}></div>
+            <div className="flex justify-between w-full px-4 relative z-10 items-center">
+              <img src="/rocket.png" alt="Rocket" className="w-7 h-7" />
+              <img src="/goal.png" alt="Goal" className="w-7 h-7" />
             </div>
           </div>
 
-          {/* Right Section */}
-          <div className="flex items-center gap-6">
-            <button className="bg-yellow-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
+          {/* Analysis and Help */}
+          <div className="flex items-center gap-6 h-12">
+            <Link to="/analysis" className="bg-yellow-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
               <img src="/analysis.png" alt="Analysis" className="w-7" />
-            </button>
-            <button className="bg-blue-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
+            </Link>
+            <button  onClick={() => { setShowInfo((prev) => !prev); }} className="bg-blue-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
               <img src="/help.png" alt="Help" className="w-7" />
             </button>
           </div>
@@ -182,7 +180,7 @@ export default function Interview_Simulator() {
         {/* Toggle Button */}
         <button
           onClick={() => setIsTopBarOpen((prev) => !prev)}
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-gray-800 px-4 py-2 rounded-full shadow-lg transition-all duration-300 ease-in-out"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-zinc-800 px-4 py-2 rounded-full shadow-lg transition-all duration-300 ease-in-out z-30"
         >
           <img
             src="down-arrow.png"
@@ -192,21 +190,13 @@ export default function Interview_Simulator() {
         </button>
       </div>
 
+
       {/* Center Bot */}
       <div
         className={`w-full flex-grow flex justify-center items-center transition-all duration-300 ${
           showMessages ? "ml-1/4" : ""
         } ${showCodeEditor ? "mr-1/4" : ""}`}
       >
-        <div className="rounded-full absolute top-8 hover:scale-110 right-8 cursor-pointer">
-          <AiOutlineInfoCircle
-            size={40}
-            onClick={() => {
-              setShowInfo((prev) => !prev);
-            }}
-            className="text-gray-500"
-          />
-        </div>
         <div className="bg-darkblue bg-opacity-30 w-56 h-56 rounded-full  hover:scale-105 flex items-center justify-center">
           <div
               className={`w-3 h-3 rounded-full shadow-lg ${
@@ -218,7 +208,7 @@ export default function Interview_Simulator() {
 
       {/* User Webcam  */}
       <Draggable bounds="parent">
-        <div className="z-10 bg-darkblue bg-opacity-30 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
+        <div className="z-10 bg-zinc-950 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
           {videoStatus ? (
             <video
               ref={videoRef}
@@ -227,7 +217,7 @@ export default function Interview_Simulator() {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center shadow-xl">
-              <div className="bg-darkblue bg-opacity-20 w-28 h-28 rounded-full"></div>
+              <div className="bg-zinc-900 w-28 h-28 rounded-full"></div>
             </div>
           )}
         </div>
@@ -302,7 +292,11 @@ export default function Interview_Simulator() {
           showCodeEditor ? "" : "hidden"
         }`}
       >
-        <div className="bg-darkblue bg-opacity-30  w-full flex flex-col justify-between overflow-hidden">
+          <button className="absolute z-30 text-xl bottom-8 left-1/2 transform -translate-x-1/2 bg-blue1 text-white px-6 py-3 rounded-lg font-semibold hover:bg-darkblue transition duration-300">
+            Submit
+          </button>
+
+          {/* Code Editor */}
           <Editor
             height="900px"
             defaultLanguage="python"
@@ -316,15 +310,29 @@ export default function Interview_Simulator() {
               fontFamily: "'Fira Code', monospace",
             }}
           />
-        </div>
       </div>
+
 
       {/* Info  */}
       <div
-        className={`absolute right-10 top-20 w-96 h-96 bg-gray-300 rounded-lg ${
-          showInfo ? "" : "hidden"
+        className={`fixed inset-0 flex items-center justify-center z-20 ${
+          showInfo ? "block" : "hidden"
         }`}
-      ></div>
+      >
+        <div className="relative w-96 h-96 bg-gray-300 rounded-lg shadow-lg">
+          <button onClick={() => setShowInfo(false)} className="absolute top-3 right-3 text-gray-700 hover:text-gray-900">
+            <img src="/closeLogin.svg" alt="" />
+          </button>
+
+          <div className="p-6">
+            <h2 className="text-2xl font-semibold text-gray-800">Instructions:</h2>
+            <p className="mt-4 text-gray-600">
+              This are instructions.
+            </p>
+          </div>
+        </div>
+      </div>
+
 
       {/* Bottom bar */}
       <div className="w-full bg-darkblue bg-opacity-30 h-24 flex justify-between items-center">
