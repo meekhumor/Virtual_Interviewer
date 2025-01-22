@@ -153,7 +153,7 @@ export default function Interview_Simulator() {
         <div className={`w-full flex ${isTopBarOpen ? "opacity-100" : "opacity-0"} justify-between items-center mb-4 px-6 transition-opacity duration-300`}>
           {/* Time */}
           <div className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg">
-            <img src="/time.png" alt="Clock" className="w-7 h-7" />
+            <img src="/clock.png" alt="Clock" className="w-7 h-7" />
             <p className="text-xl font-semibold">15:45</p>
           </div>
 

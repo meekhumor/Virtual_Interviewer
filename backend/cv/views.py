@@ -73,28 +73,30 @@ def stream_video(request):
     return StreamingHttpResponse(video_stream(), content_type='multipart/x-mixed-replace; boundary=frame')
 
 def eye_and_lightning_checker(request):
-    ret, frame = cap.read()
-    if not ret:
-        return JsonResponse({"error": "Could not access camera"}, status=500)
+    # Create a new instance of FaceMesh for each request
+    with mp.solutions.face_mesh.FaceMesh(refine_landmarks=True) as face_mesh:
+        ret, frame = cap.read()
+        if not ret:
+            return JsonResponse({"error": "Could not access camera"}, status=500)
 
-    frame = cv2.flip(frame, 1)
-    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        frame = cv2.flip(frame, 1)
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    results = face_mesh.process(rgb_frame)
+        results = face_mesh.process(rgb_frame)
 
-    if results.multi_face_landmarks:
-        for face_landmarks in results.multi_face_landmarks:
-            h, w, _ = frame.shape
-            face_roi = frame[int(h * 0.2):int(h * 0.8), int(w * 0.2):int(w * 0.8)]
-            mean_brightness, overexposed_ratio = calculate_brightness(face_roi)
-            eye_contact = detect_eye_contact(face_landmarks, frame_width=w, frame_height=h)
+        if results.multi_face_landmarks:
+            for face_landmarks in results.multi_face_landmarks:
+                h, w, _ = frame.shape
+                face_roi = frame[int(h * 0.2):int(h * 0.8), int(w * 0.2):int(w * 0.8)]
+                mean_brightness, overexposed_ratio = calculate_brightness(face_roi)
+                eye_contact = detect_eye_contact(face_landmarks, frame_width=w, frame_height=h)
 
-            lighting_status = "Well Lit" if mean_brightness > 100 and overexposed_ratio < 0.1 else "Poor Lighting"
-            eye_contact_status = "GOOD" if eye_contact else "BAD"
+                lighting_status = "Well Lit" if mean_brightness > 100 and overexposed_ratio < 0.1 else "Poor Lighting"
+                eye_contact_status = "GOOD" if eye_contact else "BAD"
 
-            return JsonResponse({
-                "lighting_status": lighting_status,
-                "eye_contact_status": eye_contact_status
-            })
+                return JsonResponse({
+                    "lighting_status": lighting_status,
+                    "eye_contact_status": eye_contact_status
+                })
 
-    return JsonResponse({"lighting_status": "No face detected", "eye_contact_status": "No face detected"})
+        return JsonResponse({"lighting_status": "No face detected", "eye_contact_status": "No face detected"})

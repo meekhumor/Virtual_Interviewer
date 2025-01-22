@@ -29,7 +29,7 @@ import Animation from "./components/Animation";
 import Acknowledgement from "./components/Home/Acknowledgement";
 import Support from "./components/Home/Support";
 import Interviewer from "./components/Interviewer";
-import EyeChecker from "./Eye";
+import EyeStatusChecker from "./Eye";
 
 function Logout() {
   localStorage.clear();
@@ -70,7 +70,8 @@ function App() {
             <Route path="support" element={<Support />} />
             <Route path="*" element={<NotFound />} />
             <Route path="interview" element={<Interviewer />} />
-            <Route path="eye" element={<EyeChecker />} />
+            <Route path="eye" element={<EyeStatusChecker />} />
+
 
           </Route>
         </Routes>
