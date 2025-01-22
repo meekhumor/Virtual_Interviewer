@@ -28,7 +28,7 @@ import Interview_Simulator from "./components/Interview_Simulator/Interview_Simu
 import Animation from "./components/Animation";
 import Acknowledgement from "./components/Home/Acknowledgement";
 import Support from "./components/Home/Support";
-import WebcamComponent from "./components/webcam";
+import Review_Interface from "./components/Review_Interview/Review_Interface";
 
 
 function Logout() {
@@ -69,7 +69,8 @@ function App() {
             <Route path="acknowledgement" element={<Acknowledgement />} />
             <Route path="support" element={<Support />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="webcam" element={<WebcamComponent />} />
+            <Route path="review" element={<Review_Interface />} />
+
 
 
           </Route>
