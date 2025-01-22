@@ -28,8 +28,8 @@ import Interview_Simulator from "./components/Interview_Simulator/Interview_Simu
 import Animation from "./components/Animation";
 import Acknowledgement from "./components/Home/Acknowledgement";
 import Support from "./components/Home/Support";
-import Interviewer from "./components/Interviewer";
-import EyeStatusChecker from "./Eye";
+import WebcamComponent from "./components/webcam";
+
 
 function Logout() {
   localStorage.clear();
@@ -69,8 +69,7 @@ function App() {
             <Route path="acknowledgement" element={<Acknowledgement />} />
             <Route path="support" element={<Support />} />
             <Route path="*" element={<NotFound />} />
-            <Route path="interview" element={<Interviewer />} />
-            <Route path="eye" element={<EyeStatusChecker />} />
+            <Route path="webcam" element={<WebcamComponent />} />
 
 
           </Route>

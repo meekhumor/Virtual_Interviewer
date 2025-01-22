@@ -10,8 +10,12 @@ export default function Camera_Preview1() {
   useEffect(() => {
     // Check for video access
     navigator.mediaDevices.getUserMedia({ video: true })
-      .then(() => setVideoAccess(true))
-      .catch(() => setVideoAccess(false));
+    .then(() => setVideoAccess(true))
+    .catch((err) => {
+      console.error("Error accessing video: ", err);
+      setVideoAccess(false);
+    });
+  
 
     // Check for audio access
     navigator.mediaDevices.getUserMedia({ audio: true })

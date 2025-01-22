@@ -7,6 +7,4 @@ urlpatterns = [
     path("api-auth/", include("rest_framework.urls")),
     path("api/", include("api.urls")),
     path('upload/', include('uploads.urls')),
-    path('cv/', include("cv.urls"))
-
 ]

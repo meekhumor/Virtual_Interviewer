@@ -20,6 +20,9 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { useInterview } from "../Interview_Context";
+import axios from 'axios';
+
+import { X } from 'lucide-react';
 
 
 export default function Interview_Simulator() {
@@ -47,6 +50,7 @@ export default function Interview_Simulator() {
   const getVideo = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      console.log("Stream obtained:", stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
@@ -58,13 +62,18 @@ export default function Interview_Simulator() {
   useEffect(() => {
     if (videoStatus) {
       getVideo();
-    } else {
+    } else if (videoRef.current && videoRef.current.srcObject) {
+      const tracks = videoRef.current.srcObject.getTracks();
+      tracks.forEach((track) => track.stop());
+      videoRef.current.srcObject = null;
+    }
+
+    return () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const tracks = videoRef.current.srcObject.getTracks();
         tracks.forEach((track) => track.stop());
-        videoRef.current.srcObject = null;
       }
-    }
+    };
   }, [videoStatus]);
 
 
@@ -145,6 +154,8 @@ export default function Interview_Simulator() {
     }
   };
 
+
+
   return (
     
     <div className="flex flex-col justify-between items-center text-white min-h-screen relative">
@@ -207,110 +218,199 @@ export default function Interview_Simulator() {
       </div>
 
       {/* User Webcam  */}
+    
       <Draggable bounds="parent">
-        <div className="z-10 bg-zinc-950 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
-          {videoStatus ? (
-            <video
-              ref={videoRef}
-              autoPlay
-              className="w-full h-full rounded-2xl transform scale-x-[-1]"
-            />
+      <div className="z-10 bg-zinc-950 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
+        {videoStatus ? (
+          <video
+            ref={videoRef}
+            autoPlay
+            className="w-full h-full rounded-2xl transform scale-x-[-1]"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center shadow-xl">
+            <div className="bg-zinc-900 w-28 h-28 rounded-full"></div>
+          </div>
+        )}
+      </div>
+    </Draggable>
+
+      {/* Messages  */}
+      <div 
+      className={`
+        absolute left-0 top-0 bottom-24 w-1/4 z-20
+        transform transition-transform duration-300 ease-in-out
+        ${showMessages ? 'translate-x-0' : '-translate-x-full'}
+      `}
+    >
+      <div className="h-full bg-zinc-950 border-r border-zinc-800/50 flex flex-col">
+        {/* Header */}
+        <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-blue1 animate-pulse"></div>
+              <h1 className="text-lg font-medium text-zinc-100">Interview Chat</h1>
+            </div>
+            <button
+              onClick={() => setShowMessages(false)}
+              className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors"
+              aria-label="Close messages"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+
+        {/* Messages Container */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
+          {transcriptHistory.length > 0 ? (
+            transcriptHistory.map((item, index) => (
+              <div
+                key={index}
+                className={`flex ${
+                  item.sender === "ai" ? "justify-start" : "justify-end"
+                } group`}
+              >
+                <div
+                  className={`
+                    max-w-[85%] p-3 rounded-2xl text-sm
+                    ${item.sender === "ai" 
+                      ? "bg-zinc-800/75 text-zinc-200 rounded-tl-none" 
+                      : "bg-blue1 text-white rounded-tr-none"
+                    }
+                    backdrop-blur-sm shadow-lg
+                  `}
+                >
+                  {item.text}
+                </div>
+              </div>
+            ))
           ) : (
-            <div className="w-full h-full flex items-center justify-center shadow-xl">
-              <div className="bg-zinc-900 w-28 h-28 rounded-full"></div>
+            <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
+              <div className="w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center">
+                <FiMessageSquare className="w-6 h-6 text-zinc-500" />
+              </div>
+              <div className="text-zinc-500 text-sm">
+                Start your interview conversation...
+              </div>
             </div>
           )}
         </div>
-      </Draggable>
 
-      {/* Messages  */}
-      <div
-        className={`absolute left-0 top-0 bottom-24 w-1/4 bg-black z-20 ${
-          showMessages ? "" : "hidden"
-        }`}
-      >
-        <div className="bg-darkblue bg-opacity-30 h-full p-4 flex flex-col justify-between">
-          <h1 className="text-2xl text-white mb-4">Messages</h1>
-
-          <div className="flex-1 overflow-auto mb-4">
-            {transcriptHistory.length > 0 ? (
-              transcriptHistory.map((item, index) => (
-                <div
-                  key={index}
-                  className={`flex ${
-                    item.sender === "ai" ? "justify-start" : "justify-end"
-                  } mb-3`}
-                >
-                  <div
-                    className={`max-w-[75%] p-3 rounded-lg text-white ${
-                      item.sender === "ai" ? "bg-gray-600" : "bg-blue1"
-                    } rounded-tl-none`}
-                  >
-                    {item.text}
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-white p-3 rounded-lg bg-gray-600">
-                Chat with virtual interviewer...
-              </div>
-            )}
-          </div>
-
-
-
-          <div className="flex gap-2 mb-4">
+        {/* Input Area */}
+        <div className="p-3 border-t border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
+          <div className="flex gap-2 items-center">
             <input
               type="text"
-              placeholder="Type your message..."
-              className="flex-grow p-2 px-4 rounded-lg text-black"
+              placeholder="Type your response..."
+              className="flex-grow p-2.5 px-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50 text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-blue1/50 focus:ring-1 focus:ring-blue1/25 transition-colors"
               value={text}
               onChange={(e) => setText(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && text.trim()) {
                   handleSendMessage(text);
                   setText("");
                 }
               }}
             />
             <button
-              className="bg-blue1 hover:bg-darkblue text-lg text-white p-2 px-4 rounded-lg"
+              className="p-2.5 rounded-xl bg-blue1 text-white hover:bg-blue1/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               onClick={() => {
-                handleSendMessage(text);
-                setText("");
+                if (text.trim()) {
+                  handleSendMessage(text);
+                  setText("");
+                }
               }}
+              disabled={!text.trim()}
             >
               Send
             </button>
           </div>
         </div>
       </div>
+    </div>
 
       {/* Code Editor */}
-      <div
-        className={`absolute right-0 top-0 bottom-24 w-1/4 bg-black z-20 flex flex-col gap-4 ${
-          showCodeEditor ? "" : "hidden"
-        }`}
-      >
-          <button className="absolute z-30 text-xl bottom-8 left-1/2 transform -translate-x-1/2 bg-blue1 text-white px-6 py-3 rounded-lg font-semibold hover:bg-darkblue transition duration-300">
-            Submit
-          </button>
+      <div 
+      className={`
+        absolute right-0 top-0 bottom-24 w-1/4 z-20
+        transform transition-transform duration-300 ease-in-out 
+        ${showCodeEditor ? 'block' : 'hidden'}
+      `}
+    >
+      <div className="h-full bg-zinc-950 border-l border-zinc-800/50 flex flex-col">
+        {/* Header */}
+        <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg font-medium text-zinc-100">Code Solution</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <button 
+                className="px-3 py-1.5 text-sm font-medium text-white bg-blue1 rounded-lg hover:bg-blue1/80 focus:outline-none focus:ring-2 focus:ring-blue1/50 focus:ring-offset-1 focus:ring-offset-zinc-900 transition-all"
+                onClick={() => console.log("Submit button clicked")}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
 
-          {/* Code Editor */}
+        {/* Editor Container */}
+        <div className="flex-1 overflow-hidden bg-zinc-950">
           <Editor
-            height="900px"
+            height="100%"
+            width="100%"
             defaultLanguage="python"
-            defaultValue="# Write your code here"
+            defaultValue="# Write your solution here"
             theme="vs-dark"
             options={{
-              fontSize: 20,
+              fontSize: 14,
               lineNumbers: "on",
               automaticLayout: true,
               minimap: { enabled: false },
-              fontFamily: "'Fira Code', monospace",
+              fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+              padding: { top: 16 },
+              scrollBeyondLastLine: false,
+              smoothScrolling: true,
+              cursorBlinking: "smooth",
+              cursorSmoothCaretAnimation: true,
+              renderLineHighlight: "all",
+              lineHeight: 1.6,
+              letterSpacing: 0.5,
+              tabSize: 4,
+              theme: {
+                base: 'vs-dark',
+                inherit: true,
+                rules: [],
+                colors: {
+                  'editor.background': '#09090b',
+                  'editor.lineHighlightBackground': '#18181b',
+                  'editorLineNumber.foreground': '#3f3f46',
+                  'editorLineNumber.activeForeground': '#71717a',
+                }
+              }
+            }}
+            beforeMount={(monaco) => {
+              monaco.editor.defineTheme('custom-dark', {
+                base: 'vs-dark',
+                inherit: true,
+                rules: [],
+                colors: {
+                  'editor.background': '#09090b',
+                  'editor.lineHighlightBackground': '#18181b',
+                  'editorLineNumber.foreground': '#3f3f46',
+                  'editorLineNumber.activeForeground': '#71717a',
+                }
+              });
+              monaco.editor.setTheme('custom-dark');
             }}
           />
+        </div>
       </div>
+    </div>
+
+
 
 
       {/* Info  */}
@@ -388,9 +488,9 @@ export default function Interview_Simulator() {
 
         <button
           onClick={() => setShowCodeEditor((prev) => !prev)}
-          className="bg-orange-700 hover:bg-darkblue text-white text-xl p-3 mr-20 rounded-2xl font-bold"
+          className="bg-orange-600 hover:bg-darkblue text-white text-xl p-3 mr-20 rounded-2xl font-bold"
         >
-          Code Editor
+          <img src="/code.png" alt="" className="w-8"/>
         </button>
       </div>
     </div>
