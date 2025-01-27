@@ -35,9 +35,40 @@ export default function Interview_Simulator() {
   const [isTopBarOpen, setIsTopBarOpen] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
-  const { interviewSettings } = useInterview()
-  const { level, time, domain } = interviewSettings
   const [text, setText] = useState("");
+  const [timeLeft, setTimeLeft] = useState(null); // Countdown time in seconds
+  const [isRunning, setIsRunning] = useState(false);
+  const [Level, setLevel] = useState("");
+  const [Time, setTime] = useState("");
+
+
+  useEffect(() => {
+    const storedTime = sessionStorage.getItem("interviewTime");
+    const storedLevel = sessionStorage.getItem("interviewLevel");
+
+    setTime(storedTime)
+    setLevel(storedLevel)
+
+    if (storedTime) {
+      setTimeLeft(parseInt(storedTime) * 60); // Convert minutes to seconds
+    }
+  }, []);
+
+  useEffect(() => {
+    let timer;
+    if (isRunning && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isRunning, timeLeft]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const startListening = () => {
     SpeechRecognition.startListening({ continuous: true });
@@ -112,9 +143,9 @@ export default function Interview_Simulator() {
     const data = {
       input_value: inputMessage,
       tweaks: {
-        "TextInput-dQRtu": { input_value: domain },
-        "TextInput-ptq20": { input_value: level },
-        "TextInput-UZt05": { input_value: time },
+        "TextInput-dQRtu": { input_value: "AI/ML" },
+        "TextInput-ptq20": { input_value: Level },
+        "TextInput-UZt05": { input_value: Time },
       },
     };
   
@@ -165,7 +196,7 @@ export default function Interview_Simulator() {
           {/* Time */}
           <div className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg">
             <img src="/clock.png" alt="Clock" className="w-7 h-7" />
-            <p className="text-xl font-semibold">15:45</p>
+            {timeLeft !== null && <p className="text-xl font-semibold">{formatTime(timeLeft)}</p>}
           </div>
 
           {/* Question */}
@@ -233,7 +264,7 @@ export default function Interview_Simulator() {
           </div>
         )}
       </div>
-    </Draggable>
+      </Draggable>
 
       {/* Messages  */}
       <div 
@@ -328,7 +359,7 @@ export default function Interview_Simulator() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
 
       {/* Code Editor */}
       <div 
@@ -408,9 +439,7 @@ export default function Interview_Simulator() {
           />
         </div>
       </div>
-    </div>
-
-
+      </div>
 
 
       {/* Info  */}
@@ -446,6 +475,7 @@ export default function Interview_Simulator() {
         <div className="flex gap-6">
         <button
           onClick={() => {
+            setIsRunning((prev) => !prev);
             setMicStatus((prev) => {
               if (!prev) {
                 // When turning mic ON

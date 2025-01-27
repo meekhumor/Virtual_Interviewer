@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import {Link, useNavigate} from "react-router-dom"
-import { useInterview } from '../Interview_Context';
 
 const levels = ["Internship", "Entry Level", "Mid Level", "Management"];
 const content = [
@@ -17,7 +16,6 @@ function Interview_Setting() {
   const [selectedlevel, setSelectedlevel] = useState(0);
   const [selectedtime, setSelectedTime] = useState(0); 
   const [isToggled, setIsToggled] = useState(false);
-  const {setInterviewSettings} = useInterview()
   const navigate = useNavigate()
 
   const handleToggle = () => {
@@ -25,11 +23,10 @@ function Interview_Setting() {
   };
 
   const handleNext = () => { 
-    setInterviewSettings({ 
-        level: levels[selectedlevel], 
-        time: time[selectedtime],
-        domain: "AI/ML"
-    }); navigate('/resume');
+    sessionStorage.setItem('interviewTime', time[selectedtime]);
+    sessionStorage.setItem('interviewLevel', levels[selectedlevel]);
+
+    navigate('/resume');
   };
 
   return (

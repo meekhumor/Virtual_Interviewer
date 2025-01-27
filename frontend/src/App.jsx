@@ -30,7 +30,6 @@ import Acknowledgement from "./components/Home/Acknowledgement";
 import Support from "./components/Home/Support";
 import Review_Interface from "./components/Review_Interview/Review_Interface";
 
-
 function Logout() {
   localStorage.clear();
   return <Navigate to="/register" />;
@@ -43,7 +42,6 @@ function RegisterAndLogout() {
 
 function App() {
   return (
-    <InterviewProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -76,7 +74,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </InterviewProvider>
   );
 }
 

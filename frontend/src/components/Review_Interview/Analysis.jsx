@@ -9,7 +9,7 @@ const Analysis = () => {
       status: "error",
       successMessage: "Your pace is just right! Keep up the steady rhythm.",
       errorMessage: "You're speaking too fast. Try to slow down for better clarity.",
-      icon: "🔊"
+      icon: "analysis/pace.svg"
     },
     {
       title: "Filler Words",
@@ -18,7 +18,7 @@ const Analysis = () => {
       status: "success",
       successMessage: "You're doing great with filler words. Keep it up!",
       errorMessage: "Reduce filler words for a more concise answer.",
-      icon: "📝"
+      icon: "analysis/filler-words.svg"
     },
     {
       title: "Power Words",
@@ -27,7 +27,7 @@ const Analysis = () => {
       status: "error",
       successMessage: "Your answer is strong but could be enhanced with more impactful vocabulary.",
       errorMessage: "This answer needs some charging up. Integrate powerful vocabulary if you can.",
-      icon: "🧠"
+      icon: "analysis/power-words.svg"
     },
     {
       title: "Negative Tone",
@@ -36,7 +36,7 @@ const Analysis = () => {
       status: "success",
       successMessage: "No negative tone detected! Excellent work.",
       errorMessage: "Watch out for negative language in your tone.",
-      icon: "😊"
+      icon: "analysis/sad.svg"
     },
     {
       title: "Pauses",
@@ -45,7 +45,7 @@ const Analysis = () => {
       status: "success",
       successMessage: "No pauses detected. You’re maintaining a steady pace!",
       errorMessage: "Make sure to pause occasionally to collect your thoughts.",
-      icon: "⏸️"
+      icon: "analysis/pause.svg"
     },
     {
       title: "Eye Contact",
@@ -54,15 +54,16 @@ const Analysis = () => {
       status: "success",
       successMessage: "Great audience engagement! Keep maintaining strong eye contact.",
       errorMessage: "Make more eye contact with your audience for better connection.",
-      icon: "👁️"
+      icon: "analysis/eye.svg"
     },
     {
       title: "Lighting",
+      isQualitative: true,
       value: "Good",
       status: "success",
       successMessage: "Perfect lighting conditions for clear visibility.",
       errorMessage: "The lighting could be improved for clearer visibility.",
-      icon: "💡",
+      icon: "analysis/bulb.svg",
     }
   ];
 
@@ -89,24 +90,23 @@ const Analysis = () => {
   };
 
   return (
-    <div className="p-6 bg-darkblue bg-opacity-30 rounded-xl max-w-5xl mx-auto my-24">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl text-white font-bold">AI Feedback</h2>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="max-w-4xl mx-auto my-14">
+      <h1 className="text-white px-4 text-center text-2xl mt-14 mb-8 ">AI Feedback</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {metrics.map((metric, index) => (
-          <div key={index} className="bg-zinc-900 p-4 rounded-xl hover:bg-gray-750 transition-colors shadow-lg">
+          <div key={index} className="bg-zinc-900 p-6 rounded-xl hover:bg-zinc-950 transition-colors shadow-lg">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <span className={`text-3xl ${
                   metric.status === 'success' ? 'text-green-500' : 'text-red-500'
                 }`}>
-                  {metric.icon}
+                  <img src={metric.icon} alt="" className='w-8' />
                 </span>
                 <h3 className="text-white text-lg font-semibold">{metric.title}</h3>
               </div>
               
+
+            
               <div className="flex items-center gap-3">
                 {getValueDisplay(metric)}
               </div>
