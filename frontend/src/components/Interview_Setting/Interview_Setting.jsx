@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Transition } from '@headlessui/react';
 import {Link, useNavigate} from "react-router-dom"
 
 const levels = ["Internship", "Entry Level", "Mid Level", "Management"];

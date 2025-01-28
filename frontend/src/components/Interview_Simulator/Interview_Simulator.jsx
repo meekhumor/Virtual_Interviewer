@@ -34,12 +34,13 @@ export default function Interview_Simulator() {
   const [showInfo, setShowInfo] = useState(false);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [text, setText] = useState("");
-  const [timeLeft, setTimeLeft] = useState(null); // Countdown time in seconds
+  const [timeLeft, setTimeLeft] = useState("1200"); 
   const [isRunning, setIsRunning] = useState(false);
-  const [Level, setLevel] = useState("");
-  const [Time, setTime] = useState("");
+  const [Level, setLevel] = useState("Internship");
+  const [Time, setTime] = useState("20");
+  const [micStartTime, setMicStartTime] = useState(null); 
 
-
+  
   useEffect(() => {
     const storedTime = sessionStorage.getItem("interviewTime");
     const storedLevel = sessionStorage.getItem("interviewLevel");
@@ -48,7 +49,7 @@ export default function Interview_Simulator() {
     setLevel(storedLevel)
 
     if (storedTime) {
-      setTimeLeft(parseInt(storedTime) * 60); // Convert minutes to seconds
+      setTimeLeft(parseInt(storedTime) * 60); 
     }
   }, []);
 
@@ -62,6 +63,8 @@ export default function Interview_Simulator() {
     return () => clearInterval(timer);
   }, [isRunning, timeLeft]);
 
+
+
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -69,11 +72,17 @@ export default function Interview_Simulator() {
   };
 
   const startListening = () => {
+    setMicStartTime(Date.now()); 
     SpeechRecognition.startListening({ continuous: true });
   };
 
   const stopListening = () => {
     SpeechRecognition.stopListening();
+
+    if (micStartTime) {
+      const elapsedTime = Date.now() - micStartTime;  
+      console.log(`Mic was on for ${elapsedTime / 1000} seconds`);
+    }
   };
 
   const getVideo = async () => {
@@ -197,9 +206,9 @@ export default function Interview_Simulator() {
             {timeLeft !== null && <p className="text-xl font-semibold">{formatTime(timeLeft)}</p>}
           </div>
 
-          {/* Question */}
+          {/* Progress Bar */}
           <div className="w-96 bg-gray-800 h-12 rounded-full overflow-hidden relative flex items-center my-4">
-            <div className="bg-blue-600 h-full absolute left-0 top-0" style={{ width: "40%" }}></div>
+            <div className="bg-blue-600 h-full absolute left-0 top-0" style={{ width: `${((Time * 60 - timeLeft) / (Time * 60)) * 100}%` }}></div>
             <div className="flex justify-between w-full px-4 relative z-10 items-center">
               <img src="/rocket.png" alt="Rocket" className="w-7 h-7" />
               <img src="/goal.png" alt="Goal" className="w-7 h-7" />
@@ -249,194 +258,194 @@ export default function Interview_Simulator() {
       {/* User Webcam  */}
     
       <Draggable bounds="parent">
-      <div className="z-10 bg-zinc-950 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
-        {videoStatus ? (
-          <video
-            ref={videoRef}
-            autoPlay
-            className="w-full h-full rounded-2xl transform scale-x-[-1]"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center shadow-xl">
-            <div className="bg-zinc-900 w-28 h-28 rounded-full"></div>
-          </div>
-        )}
-      </div>
+        <div className="z-10 bg-zinc-950 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
+          {videoStatus ? (
+            <video
+              ref={videoRef}
+              autoPlay
+              className="w-full h-full rounded-2xl transform scale-x-[-1]"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center shadow-xl">
+              <div className="bg-zinc-900 w-28 h-28 rounded-full"></div>
+            </div>
+          )}
+        </div>
       </Draggable>
+
 
       {/* Messages  */}
       <div 
       className={`
-        absolute left-0 top-0 bottom-24 w-1/4 z-20
+        absolute left-0 top-0 bottom-24 md:w-1/4 w-2/5 z-20
         transform transition-transform duration-300 ease-in-out
-        ${showMessages ? 'translate-x-0' : '-translate-x-full'}
+        ${showMessages ? 'translate-x-0' : '-translate-x-full '}
       `}
-    >
-      <div className="h-full bg-zinc-950 border-r border-zinc-800/50 flex flex-col">
-        {/* Header */}
-        <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-blue1 animate-pulse"></div>
-              <h1 className="text-lg font-medium text-zinc-100">Interview Chat</h1>
-            </div>
-            <button
-              onClick={() => setShowMessages(false)}
-              className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors"
-              aria-label="Close messages"
-            >
-              <X size={18} />
-            </button>
-          </div>
-        </div>
-
-        {/* Messages Container */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
-          {transcriptHistory.length > 0 ? (
-            transcriptHistory.map((item, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  item.sender === "ai" ? "justify-start" : "justify-end"
-                } group`}
+      >
+        <div className="h-full bg-zinc-950 border-r border-zinc-800/50 flex flex-col">
+          {/* Header */}
+          <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-blue1 animate-pulse"></div>
+                <h1 className="text-lg font-medium text-zinc-100">Interview Chat</h1>
+              </div>
+              <button
+                onClick={() => setShowMessages(false)}
+                className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50 transition-colors"
+                aria-label="Close messages"
               >
+                <X size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Messages Container */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
+            {transcriptHistory.length > 0 ? (
+              transcriptHistory.map((item, index) => (
                 <div
-                  className={`
-                    max-w-[85%] p-3 rounded-2xl text-sm
-                    ${item.sender === "ai" 
-                      ? "bg-zinc-800/75 text-zinc-200 rounded-tl-none" 
-                      : "bg-blue1 text-white rounded-tr-none"
-                    }
-                    backdrop-blur-sm shadow-lg
-                  `}
+                  key={index}
+                  className={`flex ${
+                    item.sender === "ai" ? "justify-start" : "justify-end"
+                  } group`}
                 >
-                  {item.text}
+                  <div
+                    className={`
+                      max-w-[85%] p-3 rounded-2xl text-sm
+                      ${item.sender === "ai" 
+                        ? "bg-zinc-800/75 text-zinc-200 rounded-tl-none" 
+                        : "bg-blue1 text-white rounded-tr-none"
+                      }
+                      backdrop-blur-sm shadow-lg
+                    `}
+                  >
+                    {item.text}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
+                <div className="w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center">
+                  <FiMessageSquare className="w-6 h-6 text-zinc-500" />
+                </div>
+                <div className="text-zinc-500 text-sm">
+                  Start your interview conversation...
                 </div>
               </div>
-            ))
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-3 text-center">
-              <div className="w-12 h-12 rounded-full bg-zinc-800/50 flex items-center justify-center">
-                <FiMessageSquare className="w-6 h-6 text-zinc-500" />
-              </div>
-              <div className="text-zinc-500 text-sm">
-                Start your interview conversation...
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* Input Area */}
-        <div className="p-3 border-t border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
-          <div className="flex gap-2 items-center">
-            <input
-              type="text"
-              placeholder="Type your response..."
-              className="flex-grow p-2.5 px-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50 text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-blue1/50 focus:ring-1 focus:ring-blue1/25 transition-colors"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && text.trim()) {
-                  handleSendMessage(text);
-                  setText("");
-                }
-              }}
-            />
-            <button
-              className="p-2.5 rounded-xl bg-blue1 text-white hover:bg-blue1/80 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-              onClick={() => {
-                if (text.trim()) {
-                  handleSendMessage(text);
-                  setText("");
-                }
-              }}
-              disabled={!text.trim()}
-            >
-              Send
-            </button>
+          {/* Input Area */}
+          <div className="p-3 border-t border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
+            <div className="flex gap-2 items-center">
+              <input
+                type="text"
+                placeholder="Type your response..."
+                className="flex-grow p-2.5 px-4 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-200 placeholder-zinc-400 focus:outline-none focus:border-blue1/50 focus:ring-1 focus:ring-blue1/25 transition-colors"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && text.trim()) {
+                    handleSendMessage(text);
+                    setText("");
+                  }
+                }}
+              />
+              <button
+                className="p-2.5 rounded-xl bg-blue1 text-white hover:bg-blue1 transition-all"
+                onClick={() => {
+                  if (text.trim()) {
+                    handleSendMessage(text);
+                    setText("");
+                  }
+                }}
+              >
+                Send
+              </button>
+            </div>
           </div>
         </div>
-      </div>
       </div>
 
       {/* Code Editor */}
       <div 
       className={`
-        absolute right-0 top-0 bottom-24 w-1/4 z-20
+        absolute right-0 top-0 bottom-24 md:w-1/4 w-2/5 z-20
         transform transition-transform duration-300 ease-in-out 
         ${showCodeEditor ? 'block' : 'hidden'}
       `}
-    >
-      <div className="h-full bg-zinc-950 border-l border-zinc-800/50 flex flex-col">
-        {/* Header */}
-        <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <h1 className="text-lg font-medium text-zinc-100">Code Solution</h1>
-            </div>
-            <div className="flex items-center gap-2">
-              <button 
-                className="px-3 py-1.5 text-sm font-medium text-white bg-blue1 rounded-lg hover:bg-blue1/80 focus:outline-none focus:ring-2 focus:ring-blue1/50 focus:ring-offset-1 focus:ring-offset-zinc-900 transition-all"
-                onClick={() => console.log("Submit button clicked")}
-              >
-                Submit
-              </button>
+      >
+        <div className="h-full bg-zinc-950 border-l border-zinc-800/50 flex flex-col">
+          {/* Header */}
+          <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <h1 className="text-lg font-medium text-zinc-100">Code Solution</h1>
+              </div>
+              <div className="flex items-center gap-2">
+                <button 
+                  className="px-3 py-1.5 text-sm font-medium text-white bg-blue1 rounded-lg hover:bg-blue1/80 focus:outline-none focus:ring-2 focus:ring-blue1/50 focus:ring-offset-1 focus:ring-offset-zinc-900 transition-all"
+                  onClick={() => console.log("Submit button clicked")}
+                >
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Editor Container */}
-        <div className="flex-1 overflow-hidden bg-zinc-950">
-          <Editor
-            height="100%"
-            width="100%"
-            defaultLanguage="python"
-            defaultValue="# Write your solution here"
-            theme="vs-dark"
-            options={{
-              fontSize: 14,
-              lineNumbers: "on",
-              automaticLayout: true,
-              minimap: { enabled: false },
-              fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-              padding: { top: 16 },
-              scrollBeyondLastLine: false,
-              smoothScrolling: true,
-              cursorBlinking: "smooth",
-              cursorSmoothCaretAnimation: true,
-              renderLineHighlight: "all",
-              lineHeight: 1.6,
-              letterSpacing: 0.5,
-              tabSize: 4,
-              theme: {
-                base: 'vs-dark',
-                inherit: true,
-                rules: [],
-                colors: {
-                  'editor.background': '#09090b',
-                  'editor.lineHighlightBackground': '#18181b',
-                  'editorLineNumber.foreground': '#3f3f46',
-                  'editorLineNumber.activeForeground': '#71717a',
+          {/* Editor Container */}
+          <div className="flex-1 overflow-hidden bg-zinc-950">
+            <Editor
+              height="100%"
+              width="100%"
+              defaultLanguage="python"
+              defaultValue="# Write your solution here"
+              theme="vs-dark"
+              options={{
+                fontSize: 14,
+                lineNumbers: "on",
+                automaticLayout: true,
+                minimap: { enabled: false },
+                fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+                padding: { top: 16 },
+                scrollBeyondLastLine: false,
+                smoothScrolling: true,
+                cursorBlinking: "smooth",
+                cursorSmoothCaretAnimation: true,
+                renderLineHighlight: "all",
+                lineHeight: 1.6,
+                letterSpacing: 0.5,
+                tabSize: 4,
+                theme: {
+                  base: 'vs-dark',
+                  inherit: true,
+                  rules: [],
+                  colors: {
+                    'editor.background': '#09090b',
+                    'editor.lineHighlightBackground': '#18181b',
+                    'editorLineNumber.foreground': '#3f3f46',
+                    'editorLineNumber.activeForeground': '#71717a',
+                  }
                 }
-              }
-            }}
-            beforeMount={(monaco) => {
-              monaco.editor.defineTheme('custom-dark', {
-                base: 'vs-dark',
-                inherit: true,
-                rules: [],
-                colors: {
-                  'editor.background': '#09090b',
-                  'editor.lineHighlightBackground': '#18181b',
-                  'editorLineNumber.foreground': '#3f3f46',
-                  'editorLineNumber.activeForeground': '#71717a',
-                }
-              });
-              monaco.editor.setTheme('custom-dark');
-            }}
-          />
+              }}
+              beforeMount={(monaco) => {
+                monaco.editor.defineTheme('custom-dark', {
+                  base: 'vs-dark',
+                  inherit: true,
+                  rules: [],
+                  colors: {
+                    'editor.background': '#09090b',
+                    'editor.lineHighlightBackground': '#18181b',
+                    'editorLineNumber.foreground': '#3f3f46',
+                    'editorLineNumber.activeForeground': '#71717a',
+                  }
+                });
+                monaco.editor.setTheme('custom-dark');
+              }}
+            />
+          </div>
         </div>
-      </div>
       </div>
 
 

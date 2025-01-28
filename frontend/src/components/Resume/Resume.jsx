@@ -6,26 +6,23 @@ import { useNavigate } from "react-router-dom";
 export default function Resume() {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState(""); // Add state for error message
+  const [errorMessage, setErrorMessage] = useState(""); 
 
-  // Handle file input change
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
 
-  // Handle file upload and save in localStorage as base64
   const handleUpload = async () => {
     if (file) {
       const reader = new FileReader();
       
-      // Once the file is read, store it in localStorage as base64
       reader.onloadend = () => {
-        localStorage.setItem('resume', reader.result); // Store the base64 string in localStorage
-        alert('File saved in localStorage successfully');
-        navigate('/cam-permission'); // Navigate to the next page after upload
+        localStorage.setItem('resume', reader.result);
+        alert('File saved successfully');
+        navigate('/cam-permission'); 
       };
       
-      reader.readAsDataURL(file); // Convert file to base64
+      reader.readAsDataURL(file); 
     } else {
       setErrorMessage('Please select a file first by clicking on animation');
     }
@@ -66,7 +63,6 @@ export default function Resume() {
         </button>
       </div>
 
-      {/* Error message display */}
       {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
     </div>
   );
