@@ -5,7 +5,6 @@ import NotFound from "./components/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import './index.css'
 import 'regenerator-runtime/runtime';
-import { InterviewProvider } from "./components/Interview_Context";
 
 
 import Home from './components/Home/Home';
@@ -29,6 +28,7 @@ import Animation from "./components/Animation";
 import Acknowledgement from "./components/Home/Acknowledgement";
 import Support from "./components/Home/Support";
 import Review_Interface from "./components/Review_Interview/Review_Interface";
+import DisplayResume from "./components/Check";
 
 function Logout() {
   localStorage.clear();
@@ -68,6 +68,8 @@ function App() {
             <Route path="support" element={<Support />} />
             <Route path="*" element={<NotFound />} />
             <Route path="review" element={<Review_Interface />} />
+            <Route path="display" element={<DisplayResume />} />
+
 
 
 

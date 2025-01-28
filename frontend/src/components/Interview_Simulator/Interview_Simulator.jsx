@@ -12,14 +12,12 @@ import {
   FiLogOut,
   FiMessageSquare,
 } from "react-icons/fi";
-import { AiOutlineInfoCircle } from "react-icons/ai";
 import Draggable from "react-draggable";
 import { Link } from "react-router-dom";
 import { Editor } from "@monaco-editor/react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { useInterview } from "../Interview_Context";
 import axios from 'axios';
 
 import { X } from 'lucide-react';

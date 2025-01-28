@@ -1,37 +1,31 @@
 import React, { useState } from 'react';
 import LottieAnimation from '../Lottie';
 import animation from './file-upload.json';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Resume() {
   const [file, setFile] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(""); // Add state for error message
 
+  // Handle file input change
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
 
+  // Handle file upload and save in localStorage as base64
   const handleUpload = async () => {
     if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const response = await fetch('http://localhost:8000/upload/', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (response.ok) {
-          alert('File uploaded successfully');
-          navigate('/cam-permission')
-        } else {
-          setErrorMessage('File upload failed');
-        }
-      } catch (error) {
-        console.error('Error uploading file:', error);
-      }
+      const reader = new FileReader();
+      
+      // Once the file is read, store it in localStorage as base64
+      reader.onloadend = () => {
+        localStorage.setItem('resume', reader.result); // Store the base64 string in localStorage
+        alert('File saved in localStorage successfully');
+        navigate('/cam-permission'); // Navigate to the next page after upload
+      };
+      
+      reader.readAsDataURL(file); // Convert file to base64
     } else {
       setErrorMessage('Please select a file first by clicking on animation');
     }
@@ -72,7 +66,8 @@ export default function Resume() {
         </button>
       </div>
 
-        {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
+      {/* Error message display */}
+      {errorMessage && <p className="mt-4 text-red-500">{errorMessage}</p>}
     </div>
   );
 }
