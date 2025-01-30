@@ -49,14 +49,13 @@ export default function DashboardHeader() {
           </Link>
           
           {/* Profile */}
-          <div className="flex items-center gap-3 px-2 py-1.5 bg-darkblue bg-opacity-50 rounded-2xl relative">
+          <div className="flex items-center gap-3 px-2 py-1.5 bg-darkblue bg-opacity-50 rounded-2xl relative cursor-pointer" onClick={toggleDropdown}>
             <div className="bg-gray-300 w-6 h-6 rounded-full flex justify-center items-center font-semibold text-xs">
               {userDetails ? userDetails.username.charAt(0).toUpperCase() : "O"}
             </div>
             <img
               src="/down-arrow.png"
-              onClick={toggleDropdown}
-              className={`w-4 cursor-pointer h-4 ${
+              className={`w-4  h-4 ${
                 isDropdownOpen ? "rotate-180" : "rotate-0"
               }`}
               alt=""

@@ -68,7 +68,7 @@ export default function HomeHeader() {
             <ul className="flex flex-col mt-4 ml-45 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               <li>
                 <NavLink
-                  to="/"
+                  to="/animation"
                   className={({ isActive }) =>
                     `block py-2 pr-4 pl-3 duration-200 ${
                       isActive ? "text-blue1" : "text-gray-100"
@@ -83,7 +83,7 @@ export default function HomeHeader() {
                   to="/about"
                   className={({ isActive }) =>
                     `block py-2 pr-4 pl-3 duration-200 ${
-                      isActive ? "text-blue2" : "text-gray-100"
+                      isActive ? "text-blue1" : "text-gray-100"
                     } hover:text-blue1 lg:p-0`
                   }
                 >
@@ -95,7 +95,7 @@ export default function HomeHeader() {
                   to="/contact"
                   className={({ isActive }) =>
                     `block py-2 pr-4 pl-3 duration-200 ${
-                      isActive ? "text-blue2" : "text-gray-100"
+                      isActive ? "text-blue1" : "text-gray-100"
                     } hover:text-blue1 lg:p-0`
                   }
                 >
@@ -104,10 +104,10 @@ export default function HomeHeader() {
               </li>
               <li>
                 <NavLink
-                  to="https://github.com/meekhumor/Virtual-Interviewer"
+                  to="https://github.com/meekhumor/virtual_interviewer"
                   className={({ isActive }) =>
                     `block py-2 pr-4 pl-3 duration-200 ${
-                      isActive ? "text-blue2" : "text-gray-100"
+                      isActive ? "text-blue1" : "text-gray-100"
                     } hover:text-blue1 lg:p-0`
                   }
                 >
@@ -122,7 +122,7 @@ export default function HomeHeader() {
           <ul className="flex flex-col items-center mr-10 font-medium">
             <li>
               <NavLink
-                to="/"
+                to="/animation"
                 className={({ isActive }) =>
                   `block py-2 pr-4 pl-3 duration-200 ${
                     isActive ? "text-blue1" : "text-gray-100"
@@ -158,7 +158,7 @@ export default function HomeHeader() {
             </li>
             <li>
               <NavLink
-                to="/github"
+                to="https://github.com/meekhumor/virtual_interviewer"
                 className={({ isActive }) =>
                   `block py-2 pr-4 pl-3 duration-200 ${
                     isActive ? "text-blue2" : "text-gray-100"

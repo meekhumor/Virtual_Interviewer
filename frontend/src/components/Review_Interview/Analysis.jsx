@@ -43,7 +43,7 @@ const Analysis = () => {
       value: 0,
       unit: "total",
       status: "success",
-      successMessage: "No pauses detected. You’re maintaining a steady pace!",
+      successMessage: "No pauses detected. You're maintaining a steady pace!",
       errorMessage: "Make sure to pause occasionally to collect your thoughts.",
       icon: "analysis/pause.svg"
     },
@@ -71,7 +71,7 @@ const Analysis = () => {
     if (metric.isQualitative) {
       return (
         <span className={`px-3 py-1 rounded-full text-sm ${
-          metric.status === 'success' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+          metric.status === 'success' ? 'bg-green-500/20 text-green-500' : 'bg-red-500/20 text-red-400'
         }`}>
           {metric.value}
         </span>
@@ -90,40 +90,40 @@ const Analysis = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto my-14">
-      <h1 className="text-white px-4 text-center text-2xl mt-14 mb-8 ">AI Feedback</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {metrics.map((metric, index) => (
-          <div key={index} className="bg-zinc-900 p-6 rounded-xl hover:bg-zinc-950 transition-colors shadow-lg">
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
-                <span className={`text-3xl ${
-                  metric.status === 'success' ? 'text-green-500' : 'text-red-500'
-                }`}>
-                  <img src={metric.icon} alt="" className='w-8' />
-                </span>
-                <h3 className="text-white text-lg font-semibold">{metric.title}</h3>
-              </div>
-              
-
-            
-              <div className="flex items-center gap-3">
-                {getValueDisplay(metric)}
-              </div>
-              
-              <div className="mt-2">
-                <p className="text-gray-300 text-sm">
-                  {metric.status === 'success' ? metric.successMessage : metric.errorMessage}
-                </p>
-                {metric.status === 'error' && (
-                  <button className="text-blue1 text-sm mt-2 hover:text-blue-600">
-                    IMPROVE
-                  </button>
-                )}
+    <div className="min-h-screen bg-black mt-16">
+      <div className="max-w-4xl mx-auto space-y-10">
+        <h1 className="text-white text-center text-2xl">AI Feedback</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {metrics.map((metric, index) => (
+            <div key={index} className="bg-darkblue bg-opacity-30 p-6 rounded-lg shadow-lg hover:scale-105 cursor-pointer transition-colors">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <span className={`text-3xl ${
+                    metric.status === 'success' ? 'text-green-500' : 'text-red-500'
+                  }`}>
+                    <img src={metric.icon} alt="" className="w-8" />
+                  </span>
+                  <h3 className="text-white text-lg font-semibold">{metric.title}</h3>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  {getValueDisplay(metric)}
+                </div>
+                
+                <div className="mt-2">
+                  <p className="text-gray-400 text-sm">
+                    {metric.status === 'success' ? metric.successMessage : metric.errorMessage}
+                  </p>
+                  {metric.status === 'error' && (
+                    <button className="text-blue1 text-sm mt-4 hover:text-white rounded-full transition-colors">
+                      IMPROVE
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

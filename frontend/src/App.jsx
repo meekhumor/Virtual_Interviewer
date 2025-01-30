@@ -29,6 +29,7 @@ import Acknowledgement from "./components/Home/Acknowledgement";
 import Support from "./components/Home/Support";
 import Review_Interface from "./components/Review_Interview/Review_Interface";
 import TranscriptAnalysis from "./components/Check";
+import Profile from "./components/Dashboard/Profile";
 
 function Logout() {
   localStorage.clear();
@@ -69,6 +70,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
             <Route path="review" element={<Review_Interface />} />
             <Route path="check" element={<TranscriptAnalysis />} />
+            <Route path="profile" element={<Profile />} />
 
 
 
