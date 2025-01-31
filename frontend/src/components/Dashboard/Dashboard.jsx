@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Play, Pause } from "lucide-react"; 
 import CardDash1 from "./CardDash1";
 import { Link, NavLink } from "react-router-dom";
 
@@ -7,25 +8,42 @@ const interview = [
         title: 'General Interviews',
         description: 'Covers the questions you are most likely to get while interviewing.',
         tagline: 'Start Interview',
-        image: '/dashboard/icon1.svg'
+        image: '/dashboard/icon1.svg',
+        link:'/interview-setting'
     },
     {
         title: 'Interview by Job Position',
         description: 'Our AI selects the most relevant questions based on your job position',
         tagline: 'Choose Job Position',
-        image: '/dashboard/icon2.svg'
+        image: '/dashboard/icon2.svg',
+        link:'/domain'
     },
     {
         title: 'Custom-Built Interviews',
         description: 'Interview with your own questions, or take assigned interviews.',
         tagline: 'Start Interview',
-        image: '/dashboard/icon3.svg'
+        image: '/dashboard/icon3.svg',
+        link:'/coming-soon'
     }
 ]
 
 
 export default function Dashboard() {
 
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const videoRef = useRef(null);
+  
+    const togglePlay = () => {
+        if (videoRef.current) {
+            if (isPlaying) {
+                videoRef.current.pause();
+            } else {
+                videoRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
     return (
         <div className="w-full max-w-4xl mb-36 mx-auto">
             <div className='flex justify-center items-center'>
@@ -33,6 +51,7 @@ export default function Dashboard() {
                     <h1 className='text-white text-2xl text-center'>Simulate an Interview</h1>
                 </div>
             </div> 
+           
 
             {/* Simulate an interview  */}
             <div className="flex justify-center items-center gap-6">
@@ -44,6 +63,7 @@ export default function Dashboard() {
                                 description={step.description}
                                 tagline={step.tagline}
                                 image={step.image}
+                                link={step.link}
                             />
                         </div>
                     </div>
@@ -51,16 +71,56 @@ export default function Dashboard() {
             </div>
             
             {/* Master course  */}
-            <div className="flex justify-center gap-8 mt-16">
-                <div className="bg-darkblue bg-opacity-60 w-80 flex items-center justify-center text-white">VIDEO</div>
-                <div className="flex flex-col pt-4">
-                    <p className='text-gray-500 text-sm'>VIDEO COURSE</p>
-                    <h1 className='text-white text-lg mt-4 '>Master the Interview</h1>
-                    <p className='text-gray-400 text-sm mt-4 mb-6 w-52'>Take our online course and learn everything you need to know to ace the interview.</p>
-                    <button className="bg-blue1 text-white rounded-3xl py-3 mb-6 w-44 text-sm">Take the Class</button>
+            <div className="flex justify-center items-center gap-8 mt-16 relative">
+                <div 
+                    className="relative"
+                    onMouseEnter={() => setIsHovered(true)} 
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    <video 
+                        ref={videoRef}
+                        className="rounded-lg w-96 aspect-square" 
+                        loop 
+                        playsInline
+                        muted
+                    >
+                        <source src="courses/course.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
 
+                    {/* Play button - Always visible when video is NOT playing */}
+                    {!isPlaying && (
+                        <button 
+                            onClick={togglePlay} 
+                            className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg transition hover:bg-opacity-60 "
+                        >
+                            <Play size={50} className="text-zinc-200" />
+                        </button>
+                    )}
+
+                    {/* Pause button - Visible only on hover while playing */}
+                    {isPlaying && isHovered && (
+                        <button 
+                            onClick={togglePlay} 
+                            className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg transition hover:bg-opacity-60"
+                        >
+                            <Pause size={50} className="text-zinc-200" />
+                        </button>
+                    )}
+                </div>
+
+                <div className="flex flex-col pt-4 max-w-xs">
+                    <p className="text-gray-500 text-sm">VIDEO COURSE</p>
+                    <h1 className="text-white text-lg mt-4">Master the Interview</h1>
+                    <p className="text-gray-400 text-sm mt-4 mb-6">
+                        Take our online course and learn everything you need to know to ace the interview.
+                    </p>
+                    <Link to="/courses" className="bg-blue1 text-white rounded-3xl py-3 w-44 text-sm text-center hover:bg-darkblue/90 transition">
+                        Take the Class
+                    </Link>
                 </div>
             </div>
+
             
             {/* Review interview  */}
             <div className="flex flex-col mt-16 px-10 gap-4">
@@ -77,7 +137,7 @@ export default function Dashboard() {
                         <p className="text-sm">Entry Level</p>
                     </div>
 
-                    <Link to="/review-interview" className="text-white p-1 rounded-xl px-5  bg-blue1 hover:bg-darkblue">Review</Link>
+                    <Link to="/review" className="text-white p-1 rounded-xl px-5  bg-blue1 hover:bg-darkblue cursor-pointer">Review</Link>
                 </div>
             </div>
             

@@ -112,8 +112,8 @@ export default function Courses() {
         <h1 className="text-white text-2xl ">
           Top Courses
         </h1>
-        <p className="text-gray-400 max-w-xl text-sm mx-auto">
-          Expert-curated courses to help you excel in your interviews. Choose from our selection of specialized training programs.
+        <p className="text-gray-400 max-w-xl mx-auto">
+          Choose from our selection of specialized training programs.
         </p>
       </div>
 
