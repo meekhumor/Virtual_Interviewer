@@ -14,5 +14,5 @@ uvicorn==0.34.0
 dj-database-url==2.3.0 
 psycopg==3.2.3
 psycopg2===2.9.10
-
+requests==2.31.0
 
