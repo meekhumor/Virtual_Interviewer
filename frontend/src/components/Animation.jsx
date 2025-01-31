@@ -6,7 +6,7 @@ const Animation = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            navigate('/');  
+            navigate('/home');  
         }, 2000); 
 
         return () => clearTimeout(timer);  

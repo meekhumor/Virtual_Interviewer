@@ -155,7 +155,7 @@ export default function Home() {
           </p>
           <Link
             to="/register"
-            className="text-white bg-blue1 w-28 py-3 rounded-full text-center mt-10"
+            className="text-white bg-blue1 hover:bg-darkblue/50 w-28 py-3 rounded-full text-center mt-10"
           >
             Sign Up
           </Link>

@@ -103,7 +103,7 @@ export default function Register() {
           />
           <button 
             type="submit" 
-            className="bg-blue1 hover:bg-blue-700 text-white py-1.5 px-4 rounded-full w-28 mt-6"
+            className="bg-blue1 hover:bg-darkblue/50 text-white py-1.5 px-4 rounded-full w-28 mt-6"
           >
             {loading ? "Loading..." : "Continue"} 
           </button>

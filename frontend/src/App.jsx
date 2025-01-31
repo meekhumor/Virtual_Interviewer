@@ -47,7 +47,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Animation />} />
             <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="interview-category" element={<ProtectedRoute><Category /></ProtectedRoute>} />
             <Route path="cam-permission" element={<ProtectedRoute><Permission /></ProtectedRoute>} />
@@ -65,7 +65,7 @@ function App() {
             <Route path="email-verification" element={<ProtectedRoute><Email_Verification /></ProtectedRoute>} />
             <Route path="interview-setting" element={<ProtectedRoute><Interview_Setting /></ProtectedRoute>} />
             <Route path="interview-simulator" element={<ProtectedRoute><Interview_Simulator /></ProtectedRoute>} />
-            <Route path="animation" element={<Animation />} />
+            <Route path="home" element={<Home />} />
             <Route path="acknowledgement" element={<Acknowledgement />} />
             <Route path="support" element={<Support />} />
             <Route path="*" element={<NotFound />} />
