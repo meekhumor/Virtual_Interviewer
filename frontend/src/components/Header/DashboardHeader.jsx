@@ -32,7 +32,6 @@ export default function DashboardHeader() {
     <header className="shadow sticky z-50 top-0">
       <nav className="bg-black px-4 py-4">
         <div className="flex flex-wrap justify-evenly items-center mx-auto mt-2 relative">
-          
           {/* Toggle Menu */}
           <button type="button" className="text-white" onClick={toggleMenu}>
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +54,7 @@ export default function DashboardHeader() {
             </div>
             <img
               src="/down-arrow.png"
-              className="w-4  h-4"
+              className="w-4 h-4"
               alt=""
             />
             <div
@@ -77,92 +76,131 @@ export default function DashboardHeader() {
         <div
           className={`bg-black2 ${
             isMenuOpen ? "block" : "hidden"
-          } h-screen w-1/3 lg:w-1/4 xl:w-1/5 z-10 absolute top-0 left-0`}
+          } h-screen w-1/3 lg:w-1/4 xl:w-1/5 z-10 absolute top-0 left-0 flex flex-col justify-between`}
         >
-          <div className="flex justify-end mt-4 mr-4">
-            <img
-              src="/close.svg"
-              className="flex w-8 h-8 opacity-75 cursor-pointer"
-              alt=""
-              onClick={toggleMenu}
-            />
+          {/* Top section with close button */}
+          <div>
+            <div className="flex justify-end mt-4 mr-4">
+              <img
+                src="/close.svg"
+                className="flex w-8 h-8 opacity-75 cursor-pointer"
+                alt=""
+                onClick={toggleMenu}
+              />
+            </div>
+
+            {/* Main menu items */}
+            <div className="mt-12">
+              <ul className="flex flex-col text-lg gap-1">
+                <li>
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      `block py-2 text-center duration-200 ${
+                        isActive ? "text-blue1 hover:text-white" : "text-gray-100"
+                      } hover:bg-blue1`
+                    }
+                  >
+                    Home
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/practice"
+                    className={({ isActive }) =>
+                      `block py-2 text-center duration-200 ${
+                        isActive ? "text-blue1 hover:text-white" : "text-gray-100"
+                      } hover:bg-blue1`
+                    }
+                  >
+                    Practice
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/review-interview"
+                    className={({ isActive }) =>
+                      `block py-2 text-center duration-200 ${
+                        isActive ? "text-blue1 hover:text-white" : "text-gray-100"
+                      } hover:bg-blue1`
+                    }
+                  >
+                    Review 
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/interview-category"
+                    className={({ isActive }) =>
+                      `block py-2 text-center duration-200 ${
+                        isActive ? "text-blue1 hover:text-white" : "text-gray-100"
+                      } hover:bg-blue1`
+                    }
+                  >
+                    Categories
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/courses"
+                    className={({ isActive }) =>
+                      `block py-2 text-center duration-200 ${
+                        isActive ? "text-blue1 hover:text-white" : "text-gray-100"
+                      } hover:bg-blue1`
+                    }
+                  >
+                    Courses
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div className={`{isMenuOpen ? "block" : "hidden"}`}>
-            <ul className="flex flex-col mt-12 text-lg gap-1">
-              <li>
-                <NavLink
-                  to="/dashboard"
-                  className={({ isActive }) =>
-                    `block py-2 text-center duration-200 ${
-                      isActive ? "text-blue1 hover:text-white" : "text-gray-100"
-                    } hover:bg-blue1`
-                  }
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/practice"
-                  className={({ isActive }) =>
-                    `block py-2 text-center duration-200 ${
-                      isActive ? "text-blue1 hover:text-white" : "text-gray-100"
-                    } hover:bg-blue1`
-                  }
-                >
-                  Practice
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/analysis"
-                  className={({ isActive }) =>
-                    `block py-2 text-center duration-200 ${
-                      isActive ? "text-blue1 hover:text-white" : "text-gray-100"
-                    } hover:bg-blue1 `
-                  }
-                >
-                  Analysis
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/review-interview"
-                  className={({ isActive }) =>
-                    `block py-2 text-center duration-200 ${
-                      isActive ? "text-blue1 hover:text-white" : "text-gray-100"
-                    } hover:bg-blue1 `
-                  }
-                >
-                  Review 
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/interview-category"
-                  className={({ isActive }) =>
-                    `block py-2 text-center duration-200 ${
-                      isActive ? "text-blue1 hover:text-white" : "text-gray-100"
-                    } hover:bg-blue1 `
-                  }
-                >
-                  Categories
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/courses"
-                  className={({ isActive }) =>
-                    `block py-2 text-center duration-200 ${
-                      isActive ? "text-blue1 hover:text-white" : "text-gray-100"
-                    } hover:bg-blue1 `
-                  }
-                >
-                  Courses
-                </NavLink>
-              </li>
-            </ul>
+  
+          <div className="mb-16 px-4 mx-auto">
+            <div className="flex flex-col gap-3">
+              <NavLink
+                to="/support"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                    isActive ? "text-blue1 bg-blue1 bg-opacity-10" : "text-gray-100"
+                  } hover:bg-blue1 hover:bg-opacity-10 transition-all duration-200`
+                }
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                Support
+              </NavLink>
+              
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                    isActive ? "text-blue1 bg-blue1 bg-opacity-10" : "text-gray-100"
+                  } hover:bg-blue1 hover:bg-opacity-10 transition-all duration-200`
+                }
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                Contact
+              </NavLink>
+              
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-2 rounded-lg ${
+                    isActive ? "text-blue1 bg-blue1 bg-opacity-10" : "text-gray-100"
+                  } hover:bg-blue1 hover:bg-opacity-10 transition-all duration-200`
+                }
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                About
+              </NavLink>
+            </div>
           </div>
         </div>
       </nav>

@@ -107,12 +107,12 @@ function CourseCard({ course }) {
 export default function Courses() {
   return (
     <div className="w-full max-w-4xl mx-auto mb-36 px-6">
-      <div className="text-center space-y-3 mb-12 mt-20">
+      <div className="text-center space-y-3 my-12">
 
         <h1 className="text-white text-2xl ">
           Top Courses
         </h1>
-        <p className="text-gray-400 max-w-xl mx-auto">
+        <p className="text-gray-400 max-w-xl text-sm mx-auto">
           Expert-curated courses to help you excel in your interviews. Choose from our selection of specialized training programs.
         </p>
       </div>

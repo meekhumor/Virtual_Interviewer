@@ -57,24 +57,24 @@ const reviewData = [
 function ReviewCard({title, level, mode, time, day}) {
   return (
     <div className="transition-all duration-200">
-      <div className="flex flex-wrap justify-between py-4 px-6 items-center hover:bg-darkblue hover:bg-opacity-30 rounded-2xl">
+      <div className="flex flex-wrap justify-between py-4 px-6 items-center hover:bg-darkblue hover:bg-opacity-40 rounded-2xl">
         <div className="flex flex-col gap-2">
           <p className="text-gray-400 text-xs">{day} Days Ago</p>
           <h1 className="text-white text-lg font-medium">{title}</h1>
           <div className="flex gap-3 items-center">
-            <span className="px-3 py-1 rounded-full bg-darkblue/40 text-gray-300 text-xs">{level} Level</span>
-            <span className="px-3 py-1 rounded-full bg-darkblue/40 text-gray-300 text-xs">{mode} Mode</span>
-            <span className="px-3 py-1 rounded-full bg-darkblue/40 text-gray-300 text-xs">{time} min</span>
+            <span className="px-3 py-1 rounded-full bg-darkblue/50 text-gray-300 text-xs">{level} Level</span>
+            <span className="px-3 py-1 rounded-full bg-darkblue/50 text-gray-300 text-xs">{mode} Mode</span>
+            <span className="px-3 py-1 rounded-full bg-darkblue/50 text-gray-300 text-xs">{time} min</span>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <button className="p-2 hover:bg-darkblue/40 rounded-full transition-colors">
+          <button className="p-2 hover:bg-darkblue/50 rounded-full transition-colors">
             <img src="/share.svg" className="w-5 h-5" alt="Share" />
           </button>
-          <button className="p-2 hover:bg-darkblue/40 rounded-full transition-colors">
+          <button className="p-2 hover:bg-darkblue/50 rounded-full transition-colors">
             <img src="/delete.svg" className="w-5 h-5" alt="Delete" />
           </button>
-          <Link className="rounded-lg text-gray-900 hover:bg-darkblue/50 bg-zinc-300 px-3 py-1 text-sm hover:text-white transition-colors">
+          <Link to="/review" className="rounded-lg text-gray-900 hover:bg-darkblue/50 bg-zinc-300 px-3 py-1 text-sm hover:text-white transition-colors">
             View
           </Link>
         </div>
@@ -102,7 +102,7 @@ export default function Review_Interview() {
 
   return (
     <div className="mx-auto w-full max-w-3xl mb-44">
-      <h1 className="text-white px-4 text-center text-2xl mt-14 mb-8">
+      <h1 className="text-white px-4 text-center text-2xl my-12">
         Review Interviews
       </h1>
       

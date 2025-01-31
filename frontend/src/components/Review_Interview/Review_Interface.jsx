@@ -41,7 +41,7 @@ const Review_Interface = () => {
   return (
     <div className="flex min-h-screen max-w-5xl mx-auto gap-5">
       {/* Questions */}
-      <div className="w-1/2 bg-darkblue bg-opacity-30 p-4 py-12">
+      <div className="w-1/2 bg-darkblue bg-opacity-40 p-4 py-12">
         <div className="space-y-4">
           {questions.map((question, index) => (
             <div
@@ -71,11 +71,7 @@ const Review_Interface = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div className="flex items-center space-x-2">
-            <Link to="/dashboard" className="text-gray-400 hover:text-gray-400 cursor-pointer text-sm"> Back to Dashboard</Link>
-          </div>
-          <div className="flex space-x-4">
-            <Link className="w-5 h-5 text-gray-400" />
-            <Trash2 className="w-5 h-5 text-gray-400" />
+            <Link to="/dashboard" className="text-gray-400 hover:text-gray-200 cursor-pointer text-sm">&lt; Back to Dashboard</Link>
           </div>
         </div>
 
@@ -111,20 +107,8 @@ const Review_Interface = () => {
 
         {/* Video */}
         <div className="relative rounded-lg overflow-hidden bg-gray-100 aspect-video mb-8">
-          <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between p-4 bg-gradient-to-t from-gray-900/50">
-            <div className="flex space-x-4">
-              <button className="text-white">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" />
-                </svg>
-              </button>
-              <button className="text-white">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z" />
-                </svg>
-              </button>
-            </div>
-            <div className="text-white text-sm">
+          <div className="absolute bottom-0 left-0 right-0 flex justify-end items-center  p-4 bg-gradient-to-t from-gray-900/50">
+            <div className="text-white text-sm ">
               00:00 / 00:19
             </div>
           </div>
