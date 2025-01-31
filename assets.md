@@ -1,16 +1,23 @@
-<h1 align="center">Virtual Interviewer 👨‍💻</h1>
+<h1 align="center">
+  <a href="https://github.com/CommunityOfCoders/Inheritance-2024">
+    <img src="https://github.com/user-attachments/assets/87ca9524-ab3a-4b03-9103-70569df456c1" alt="CoC Inheritance 2024" width="200" height="166">
+  </a>
+  <br>
+ Virtual Interviewer
+</h1>
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/ef9fff91-264b-4029-993c-1c353f7cb78b" width="350" />
 </p>
 
-## 🔎 Overview  
+## 📝 Description 
 
 Virtual Interviewer is an AI-powered platform designed to simulate job interviews, assess candidate responses, and provide real-time feedback. The system offers adaptive difficulty levels, job-specific question sets, and a performance review mechanism to help users improve their interview skills.  
 
 ---
 
-## 📑 Table of Contents  
+<details>
+<summary>Table of Contents</summary>  
 
 - [Key Features](#-key-features)  
 - [Live Demo](#-live-demo)  
@@ -20,8 +27,17 @@ Virtual Interviewer is an AI-powered platform designed to simulate job interview
 - [Future Scope](#-future-scope)  
 - [Screenshots](#-screenshots)  
 - [Contributors](#-contributors)  
+</details>
 
 ---
+
+## 🔗Links
+
+- [GitHub Repository](https://github.com/meekhumor/virtual_interviewer/)
+- [Demo Video]()
+- [Drive Link to Screenshots of your project](https://drive.google.com/drive/u/0/folders/1IXCwQUXPXyfOV45liRXjdBZev9kLT6cT)
+- [Hosted Website Link](https://virtual-interviewer-frontend.onrender.com/)
+- [Hosted Backend Link](https://virtual-interviewer.onrender.com)
 
 ## 🚀 Key Features  
 
@@ -33,12 +49,6 @@ Virtual Interviewer is an AI-powered platform designed to simulate job interview
 ✅ **Performance Review & Progress Tracking**  
 ✅ **NLP-Based Answer Evaluation**   
  
-
----
-
-## 🔗 Live Demo  
-
-[https://virtual-interviewer-frontend.onrender.com/](https://virtual-interviewer-frontend.onrender.com/)  
 ---
 
 ## 🛠 Tech Stack  
