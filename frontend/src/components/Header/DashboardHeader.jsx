@@ -55,9 +55,7 @@ export default function DashboardHeader() {
             </div>
             <img
               src="/down-arrow.png"
-              className={`w-4  h-4 ${
-                isDropdownOpen ? "rotate-180" : "rotate-0"
-              }`}
+              className="w-4  h-4"
               alt=""
             />
             <div
@@ -137,7 +135,7 @@ export default function DashboardHeader() {
                     } hover:bg-blue1 `
                   }
                 >
-                  Review Interviews
+                  Review 
                 </NavLink>
               </li>
               <li>
@@ -149,7 +147,7 @@ export default function DashboardHeader() {
                     } hover:bg-blue1 `
                   }
                 >
-                  General Interviews
+                  Categories
                 </NavLink>
               </li>
               <li>

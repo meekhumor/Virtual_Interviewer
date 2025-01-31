@@ -56,7 +56,7 @@ export default function Category() {
     <div className="mx-auto w-full max-w-6xl min-h-screen">
       <div className="flex justify-center flex-row items-center mb-8">
         <div className="flex flex-col mt-12 mb-5 gap-2 items-center">
-          <p className="text-gray-400 text-sm">GENERAL INTERVIEW</p>
+          <p className="text-gray-400 text-sm">INTERVIEW CATEGORY</p>
           <h1 className="text-white text-2xl text-center">
             Select an Interview
           </h1>

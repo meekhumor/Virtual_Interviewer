@@ -15,7 +15,7 @@ function CardCat({ index, label, title, level, time, questions, image, descripti
             <img src={image} className="w-14 h-14" alt="" />
           </div>
           <div className="flex flex-col gap-2 w-2/3">
-            <p className="text-blue-200 text-center py-1 rounded-full bg-darkblue text-xs w-28">
+            <p className="text-blue-200 text-center py-1 rounded-full bg-darkblue/30 text-xs w-28">
               {label}
             </p>
             <h1 className="text-white text-xl w-40 pl-1">{title}</h1>
@@ -53,12 +53,12 @@ function CardCat({ index, label, title, level, time, questions, image, descripti
                 />
                 <div
                   className={`w-12 h-6 ${
-                    isToggled ? "bg-blue1" : "bg-darkblue"
+                    isToggled ? "bg-blue1" : "bg-darkblue/30"
                   } rounded-full shadow-inner`}
                 ></div>
 
                 <div
-                  className={`dot relative w-4 h-4 bg-white rounded-full shadow left-[0.2rem] top-[-1.3rem] transition-transform 
+                  className={`dot relative w-4 h-4 bg-zinc-300 rounded-full shadow left-[0.3rem] top-[-1.3rem] transition-transform 
                   ${isToggled ? "transform translate-x-6" : ""}`}
                 ></div>
               </div>

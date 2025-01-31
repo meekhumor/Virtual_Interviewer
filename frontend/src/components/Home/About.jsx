@@ -21,14 +21,14 @@ const features = [
   },
   {
     icon: <BookOpen className="w-10 h-10 text-blue-500" />, 
-    title: 'Comprehensive Resources',
+    title: 'Comprehensive Guide',
     description: 'Access guides, sample answers, and real-world interview questions.'
   }
 ];
 
 export default function About() {
   return (
-    <div className="max-w-6xl mx-auto px-6 py-16 text-white">
+    <div className="max-w-4xl mx-auto px-6 py-16 text-white">
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold mb-4">About</h1>
         <p className="text-gray-400 max-w-3xl mx-auto">
