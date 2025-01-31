@@ -246,24 +246,17 @@ export default function Interview_Simulator() {
 
 
       {/* Center Bot */}
-      <div
-        className={`w-full flex-grow flex justify-center items-center transition-all duration-300 ${
-          showMessages ? "ml-1/4" : ""
-        } ${showCodeEditor ? "mr-1/4" : ""}`}
-      >
-        <div className="bg-darkblue bg-opacity-30 w-56 h-56 rounded-full  hover:scale-105 flex items-center justify-center">
+      <div className="w-full flex-grow flex justify-center items-center transition-all duration-300">
+        <div className={`bg-darkblue bg-opacity-30 w-56 h-56 rounded-full  hover:scale-105 ${micStatus ? "border-green-600 border-4 animate-pulse" : "border-red-600 border-4"} flex items-center justify-center`}>
           <div
-              className={`w-3 h-3 rounded-full shadow-lg ${
-                micStatus ? "bg-green-600 animate-pulse" : "bg-red-600"
-              }`}
+              className="w-3 h-3 rounded-full shadow-lg"
             ></div>
         </div>
       </div>
 
       {/* User Webcam  */}
-    
       <Draggable bounds="parent">
-        <div className="z-10 bg-zinc-950 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
+        <div className="z-10 bg-darkblue3 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
           {videoStatus ? (
             <video
               ref={videoRef}
@@ -272,7 +265,7 @@ export default function Interview_Simulator() {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center shadow-xl">
-              <div className="bg-zinc-900 w-28 h-28 rounded-full"></div>
+              <div className="bg-darkblue/20 w-28 h-28 rounded-full"></div>
             </div>
           )}
         </div>

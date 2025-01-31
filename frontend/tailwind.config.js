@@ -8,6 +8,7 @@ export default {
         blue2: "#0F4C75",
         darkblue: "#073757",
         darkblue2: "#031623",
+        darkblue3: "#02111a",
         teal: "#20c997",
         black1: "#1B262C",
         black2: "#0F1D26",
