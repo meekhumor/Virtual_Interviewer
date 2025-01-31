@@ -20,7 +20,7 @@ export default function Permission() {
         Your recordings are always private and will only be seen by people you choose to share them with.
       </p>
       <Link to="/interview-simulator" className="text-blue1 hover:underline">
-        I Don&apos;t Want to Use Video
+        I don&apos;t want to use video
       </Link>
     </div>
   );
