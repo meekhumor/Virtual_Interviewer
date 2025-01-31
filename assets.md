@@ -16,28 +16,29 @@ Virtual Interviewer is an AI-powered platform designed to simulate job interview
 
 ---
 
-<details>
-<summary>Table of Contents</summary>  
+## 📝 Table of Contents 
 
 - [Key Features](#-key-features)  
-- [Live Demo](#-live-demo)  
+- [Live Demo](#-links)  
 - [Tech Stack](#-tech-stack)  
 - [Installation and Setup](#️-installation-and-setup)  
 - [How to Use](#-how-to-use)  
 - [Future Scope](#-future-scope)  
 - [Screenshots](#-screenshots)  
 - [Contributors](#-contributors)  
-</details>
+
 
 ---
 
-## 🔗Links
+## 🔗 Links
 
 - [GitHub Repository](https://github.com/meekhumor/virtual_interviewer/)
 - [Demo Video]()
 - [Drive Link to Screenshots of your project](https://drive.google.com/drive/u/0/folders/1IXCwQUXPXyfOV45liRXjdBZev9kLT6cT)
 - [Hosted Website Link](https://virtual-interviewer-frontend.onrender.com/)
 - [Hosted Backend Link](https://virtual-interviewer.onrender.com)
+
+---
 
 ## 🚀 Key Features  
 
