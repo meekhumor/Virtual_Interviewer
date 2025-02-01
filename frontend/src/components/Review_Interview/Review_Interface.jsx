@@ -58,8 +58,8 @@ const Review_Interface = () => {
               </div>
               <p className={`text-sm ${
                 activeQuestionIndex === index
-                  ? " text-gray-400 "
-                  : " text-gray-500"
+                  ? " text-gray-300 "
+                  : " text-gray-400"
               }`}>{question.text}</p>
             </div>
           ))}
@@ -92,15 +92,15 @@ const Review_Interface = () => {
         {/* Question Display */}
         <div className="mb-6">
           <h2 className="text-gray-300 text-xl font-semibold mb-4">Question</h2>
-          <p className="text-gray-500 mb-4">
+          <p className="text-gray-400 mb-4">
             {questions[activeQuestionIndex].text}
           </p>
         </div>
 
         {/* Answer Display */}
         <div className="mb-6">
-          <h2 className="text-gray-300 text-xl font-semibold mb-4">Response</h2>
-          <p className="text-gray-500 mb-4">
+          <h2 className="text-5 text-xl font-semibold mb-4 text-gray-300">Response</h2>
+          <p className="text-gray-400 mb-4">
             {questions[activeQuestionIndex].answer}
           </p>
         </div>

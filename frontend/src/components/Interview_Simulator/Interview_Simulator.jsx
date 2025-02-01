@@ -25,7 +25,7 @@ export default function Interview_Simulator() {
   const [showCodeEditor, setShowCodeEditor] = useState(false);
   const [transcriptHistory, setTranscriptHistory] = useState([]);
   const [isTopBarOpen, setIsTopBarOpen] = useState(true);
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [text, setText] = useState("");
   const [timeLeft, setTimeLeft] = useState("1200"); 
@@ -603,9 +603,9 @@ export default function Interview_Simulator() {
               <FiVideoOff className="w-8 h-8" />
             )}
           </button>
-          <button className="text-white p-3 bg-red-600 hover:bg-gray-600 rounded-2xl">
+          <Link to="/review" className="text-white p-3 bg-red-600 hover:bg-gray-600 rounded-2xl">
             <FiLogOut className="w-8 h-8" />
-          </button>
+          </Link>
         </div>
 
         <button
