@@ -71,7 +71,7 @@ export default function Dashboard() {
             </div>
             
             {/* Master course  */}
-            <div className="flex justify-center items-center gap-8 mt-16 relative">
+            <div className="flex justify-center items-center gap-8 relative">
                 <div 
                     className="relative"
                     onMouseEnter={() => setIsHovered(true)} 
@@ -123,7 +123,7 @@ export default function Dashboard() {
 
             
             {/* Review interview  */}
-            <div className="flex flex-col mt-16 px-10 gap-4">
+            <div className="flex flex-col px-10 gap-4">
                 <div className='flex justify-between'>
                     <h1 className='text-white text-2xl'>Review Your Interview</h1>
                     <NavLink to="/review-interview" className= "text-blue1 text-md hover:text-gray-400"> VIEW ALL </NavLink>
