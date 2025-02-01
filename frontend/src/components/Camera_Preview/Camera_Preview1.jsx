@@ -54,17 +54,17 @@ export default function Camera_Preview1() {
       <div className='flex gap-14'>
         <div className='flex flex-col items-center gap-3'>
           <p className='items-center text-white '>Video</p>
-          <img src={videoAccess ? "/public/check.svg" : "/cross.svg"} className='w-16' alt="" />
+          <img src={videoAccess ? "/check.svg" : "/cross.svg"} className='w-16' alt="" />
         </div>
 
         <div className='flex flex-col items-center gap-3'>
           <p className='items-center text-white'>Audio</p>
-          <img src={audioAccess ? "/public/check.svg" : "/cross.svg"} className='w-16' alt="" />
+          <img src={audioAccess ? "/check.svg" : "/cross.svg"} className='w-16' alt="" />
         </div>
 
         <div className='flex flex-col items-center gap-3'>
           <p className='items-center text-white'>Network</p>
-          <img src={networkAccess ? "/public/check.svg" : "/cross.svg"} className='w-16' alt="" />
+          <img src={networkAccess ? "/check.svg" : "/cross.svg"} className='w-16' alt="" />
         </div>
       </div>
     </div>

@@ -1,8 +1,3 @@
-// "Welcome to your virtual interview for the {domain} domain. This interview is designed for a {level} level candidate and will last approximately {minutes} minutes.
-// I will ask you a series of questions to assess your knowledge, problem-solving skills, and practical expertise. Please respond to each question to the best of your ability.
-
-// At the end of the interview, I will provide you with an analysis of your performance and a rating. Let's get started!"
-
 import { useState, useRef, useEffect } from "react";
 import {
   FiVideo,
@@ -18,7 +13,6 @@ import { Editor } from "@monaco-editor/react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import axios from 'axios';
 
 import { X } from 'lucide-react';
 
@@ -40,7 +34,8 @@ export default function Interview_Simulator() {
   const [Time, setTime] = useState("20");
   const [resume, setResume] = useState(null);
   const [micStartTime, setMicStartTime] = useState(null); 
-
+  const [shouldProcessTranscript, setShouldProcessTranscript] = useState(false);
+  
 
   
   useEffect(() => {
@@ -75,18 +70,40 @@ export default function Interview_Simulator() {
     return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  
+  useEffect(() => {
+    if (shouldProcessTranscript && transcript && !listening) {
+      handleSendMessage(transcript);
+      resetTranscript();
+      setShouldProcessTranscript(false);
+    }
+  }, [transcript, listening, shouldProcessTranscript]);
+
   const startListening = () => {
-    setMicStartTime(Date.now()); 
+    setMicStartTime(Date.now());
+    setShouldProcessTranscript(true);
     SpeechRecognition.startListening({ continuous: true });
   };
 
   const stopListening = () => {
     SpeechRecognition.stopListening();
-
+    
     if (micStartTime) {
-      const elapsedTime = Date.now() - micStartTime;  
+      const elapsedTime = Date.now() - micStartTime;
       console.log(`Mic was on for ${elapsedTime / 1000} seconds`);
     }
+  };
+
+  const handleMicToggle = () => {
+    setIsRunning(prev => !prev);
+    setMicStatus(prev => {
+      if (!prev) {
+        startListening();
+      } else {
+        stopListening();
+      }
+      return !prev;
+    });
   };
 
   const getVideo = async () => {
@@ -565,21 +582,7 @@ export default function Interview_Simulator() {
 
         <div className="flex gap-6">
         <button
-          onClick={() => {
-            setIsRunning((prev) => !prev);
-            setMicStatus((prev) => {
-              if (!prev) {
-                // When turning mic ON
-                startListening();
-              } else {
-                // When turning mic OFF
-                stopListening();
-                handleSendMessage(transcript);
-                resetTranscript();
-              }
-              return !prev;
-            });
-          }}
+          onClick={handleMicToggle}
           className={`text-white p-3 rounded-2xl hover:bg-darkblue ${
             micStatus ? "bg-blue1" : "bg-gray-600"
           }`}
