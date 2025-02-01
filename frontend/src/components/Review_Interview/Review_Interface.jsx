@@ -115,7 +115,7 @@ const Review_Interface = () => {
         </div>
 
         {/* AI Feedback Section */}
-        <div className="bg-darkblue bg-opacity-30 p-8 rounded-xl shadow-lg">
+        <div className="bg-darkblue bg-opacity-40 p-8 rounded-xl shadow-lg">
           <div className="flex justify-center items-center space-x-2 mb-6">
             <Brain className="w-6 h-6 text-white mr-2" />
             <span className="text-white text-2xl">AI Powered Feedback</span>

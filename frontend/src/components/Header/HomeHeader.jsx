@@ -104,14 +104,14 @@ export default function HomeHeader() {
               </li>
               <li>
                 <NavLink
-                  to="https://github.com/meekhumor/virtual_interviewer"
+                  to="support"
                   className={({ isActive }) =>
                     `block py-2 pr-4 pl-3 duration-200 ${
                       isActive ? "text-blue1" : "text-gray-100"
                     } hover:text-blue1 lg:p-0`
                   }
                 >
-                  Github
+                  Support
                 </NavLink>
               </li>
             </ul>
@@ -158,14 +158,14 @@ export default function HomeHeader() {
             </li>
             <li>
               <NavLink
-                to="https://github.com/meekhumor/virtual_interviewer"
+                to="/support"
                 className={({ isActive }) =>
                   `block py-2 pr-4 pl-3 duration-200 ${
                     isActive ? "text-blue2" : "text-gray-100"
                   } hover:text-blue1 lg:p-0`
                 }
               >
-                Github
+                Support
               </NavLink>
             </li>
           </ul>

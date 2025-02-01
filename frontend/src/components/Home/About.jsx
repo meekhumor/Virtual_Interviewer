@@ -5,22 +5,21 @@ const teamMembers = [
   { name: 'Om Mukherjee', role: 'Student', github: '#', linkedin: '#' },
   { name: 'Aryan Yadav', role: 'Student', github: '#', linkedin: '#' },
   { name: 'Aman Vatsa', role: 'Student', github: '#', linkedin: '#' },
-  { name: 'Aditya Mahajan', role: 'AI Specialist', github: '#', linkedin: '#' }
 ];
 
 const features = [
   {
-    icon: <Users className="w-10 h-10 text-blue-500" />, 
+    icon: <Users className="w-10 h-10 text-blue1" />, 
     title: 'AI-Powered Interviews',
     description: 'Advanced AI-driven mock interviews tailored to your career needs.'
   },
   {
-    icon: <Target className="w-10 h-10 text-blue-500" />, 
+    icon: <Target className="w-10 h-10 text-blue1" />, 
     title: 'Personalized Feedback',
     description: 'Get real-time AI feedback to improve your interview skills.'
   },
   {
-    icon: <BookOpen className="w-10 h-10 text-blue-500" />, 
+    icon: <BookOpen className="w-10 h-10 text-blue1" />, 
     title: 'Comprehensive Guide',
     description: 'Access guides, sample answers, and real-world interview questions.'
   }
@@ -38,7 +37,7 @@ export default function About() {
 
       <div className="grid md:grid-cols-3 gap-8 mb-16">
         {features.map((feature, index) => (
-          <div key={index} className="bg-gray-900 p-6 rounded-xl shadow-lg text-center">
+          <div key={index} className="bg-darkblue/40 p-6 rounded-xl shadow-lg text-center">
             <div className="mb-4 flex justify-center">{feature.icon}</div>
             <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
             <p className="text-gray-400">{feature.description}</p>
@@ -50,9 +49,9 @@ export default function About() {
         <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>
       </div>
       
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {teamMembers.map((member, index) => (
-          <div key={index} className="bg-gray-900 p-6 rounded-xl shadow-lg text-center">
+          <div key={index} className="bg-darkblue/40 p-6 rounded-xl shadow-lg text-center hover:scale-105">
             <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
             <p className="text-gray-400 mb-4">{member.role}</p>
             <div className="flex justify-center gap-4">

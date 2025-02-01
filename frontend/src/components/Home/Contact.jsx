@@ -20,12 +20,12 @@ export default function Contact(){
       <div className="flex flex-col items-center mt-12 mb-10">
         <h1 className="text-white text-3xl font-bold mb-4">Contact Us</h1>
         <p className="text-gray-400 text-center max-w-2xl">
-          Have questions about our interview preparation platform? We're here to help you succeed in your career journey.
+          Have questions about our interview preparation platform? 
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-darkblue bg-opacity-60 border-0 p-6 rounded-lg">
+        <div className="bg-darkblue bg-opacity-40 border-0 p-6 rounded-lg">
           <div className="space-y-6">
             <div className="flex items-center gap-4">
               <Mail className="text-blue1 w-6 h-6" />
@@ -45,7 +45,7 @@ export default function Contact(){
               <Clock className="text-blue1 w-6 h-6" />
               <div>
                 <h3 className="text-white font-medium">Hours</h3>
-                <p className="text-gray-400">Mon-Fri: 9AM-6PM EST</p>
+                <p className="text-gray-400">Mon-Fri: 9AM-6PM IST</p>
               </div>
             </div>
           </div>
@@ -55,32 +55,32 @@ export default function Contact(){
           <input
             type="text"
             placeholder="Your Name"
-            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-60 text-white border-0 focus:ring-2 focus:ring-blue1"
+            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-40 text-white border-0 focus:ring-2 focus:ring-blue1"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
           <input
             type="email"
             placeholder="Your Email"
-            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-60 text-white border-0 focus:ring-2 focus:ring-blue1"
+            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-40 text-white border-0 focus:ring-2 focus:ring-blue1"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
           <input
             type="text"
             placeholder="Subject"
-            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-60 text-white border-0 focus:ring-2 focus:ring-blue1"
+            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-40 text-white border-0 focus:ring-2 focus:ring-blue1"
             value={formData.subject}
             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
           />
           <textarea
             placeholder="Your Message"
             rows="5"
-            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-60 text-white border-0 focus:ring-2 focus:ring-blue1"
+            className="w-full p-3 rounded-lg bg-darkblue bg-opacity-40 text-white border-0 focus:ring-2 focus:ring-blue1"
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
           />
-          <button className="bg-blue1 text-white rounded-3xl py-3 px-6 w-full hover:bg-opacity-90">
+          <button className="bg-blue1 text-white rounded-3xl py-3 px-6 w-full hover:bg-darkblue cursor-pointer">
             Send Message
           </button>
         </form>

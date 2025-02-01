@@ -46,7 +46,7 @@ export default function Support() {
         <input
           type="text"
           placeholder="Search for help..."
-          className="w-full max-w-xl p-3 rounded-lg bg-darkblue bg-opacity-60 text-white border-0 focus:ring-2 focus:ring-blue1 mb-12"
+          className="w-full max-w-xl p-3 rounded-lg bg-darkblue bg-opacity-40 text-white border-0 focus:ring-2 focus:ring-blue1 mb-12"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -54,7 +54,7 @@ export default function Support() {
 
       <div className="grid md:grid-cols-2 gap-8">
         {faqCategories.map((category, index) => (
-          <div key={index} className="bg-darkblue bg-opacity-60 p-6 rounded-lg">
+          <div key={index} className="bg-darkblue bg-opacity-40 p-6 rounded-lg">
             <div className="flex items-center gap-3 mb-4">
               <div>{category.icon}</div>
               <h2 className="text-white text-lg font-medium">{category.title}</h2>
@@ -71,13 +71,13 @@ export default function Support() {
         ))}
       </div>
 
-      <div className="mt-12 bg-darkblue bg-opacity-60 p-6 rounded-lg text-center">
+      <div className="mt-12 bg-darkblue bg-opacity-40 p-6 rounded-lg text-center">
         <HelpCircle className="w-12 h-12 text-blue1 mb-4 mx-auto" />
         <h2 className="text-white text-xl font-medium mb-2">Still need help?</h2>
         <p className="text-gray-400 mb-4">
           Our support team is available to assist you with any questions or concerns.
         </p>
-        <button className="bg-blue1 text-white rounded-3xl py-3 px-6 hover:bg-opacity-90">
+        <button className="bg-blue1 text-white rounded-3xl py-3 px-6 hover:bg-darkblue/70">
           Contact Support
         </button>
       </div>

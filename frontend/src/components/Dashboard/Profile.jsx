@@ -28,7 +28,7 @@ const Profile = () => {
   return (
       <div className="max-w-4xl mx-auto space-y-6 mt-16">
         {/* Profile Header */}
-        <div className="bg-darkblue bg-opacity-30 text-white rounded-lg shadow-lg">
+        <div className="bg-darkblue bg-opacity-40 text-white rounded-lg shadow-lg">
           <div className="p-6">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-6">
@@ -44,16 +44,16 @@ const Profile = () => {
                   <h1 className="text-2xl font-bold">{userDetails.username}</h1>
                   <p className="text-gray-400">{userDetails.email}</p>
                   <div className="flex gap-2 mt-2">
-                    <span className="px-3 py-1 text-sm bg-darkblue text-white rounded-full">
+                    <span className="px-3 py-1 text-sm bg-darkblue/60 text-white rounded-full">
                       Intermediate
                     </span>
-                    <span className="px-3 py-1 text-sm bg-darkblue text-white rounded-full">
-                      {userDetails.totalInterviews} Interviews
+                    <span className="px-3 py-1 text-sm bg-darkblue/60 text-white rounded-full">
+                      Consistent
                     </span>
                   </div>
                 </div>
               </div>
-              <button className="px-4 py-2 bg-darkblue hover:bg-blue1 rounded-lg transition-colors flex items-center">
+              <button className="px-4 py-2 bg-darkblue/60 hover:bg-blue1 rounded-lg transition-colors flex items-center">
                 <Edit2 className="w-4 h-4 mr-2" /> Edit Profile
               </button>
             </div>
@@ -62,37 +62,37 @@ const Profile = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-darkblue/30 text-white rounded-lg shadow-lg">
+          <div className="bg-darkblue/40 text-white rounded-lg shadow-lg">
             <div className="p-6">
               <div className="flex items-center gap-4">
                 <Award className="w-8 h-8 text-blue1" />
                 <div>
                   <p className="text-gray-400">Average Score</p>
-                  <p className="text-2xl font-bold">{userDetails.averageScore}%</p>
+                  <p className="text-2xl font-bold">78.6 %</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="bg-darkblue/30 text-white rounded-lg shadow-lg">
+          <div className="bg-darkblue/40 text-white rounded-lg shadow-lg">
             <div className="p-6">
               <div className="flex items-center gap-4">
                 <Clock className="w-8 h-8 text-blue1" />
                 <div>
                   <p className="text-gray-400">Total Time</p>
-                  <p className="text-2xl font-bold">24h 30m</p>
+                  <p className="text-2xl font-bold">13h 30m</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="bg-darkblue/30 text-white rounded-lg shadow-lg">
+          <div className="bg-darkblue/40 text-white rounded-lg shadow-lg">
             <div className="p-6">
               <div className="flex items-center gap-4">
                 <BarChart2 className="w-8 h-8 text-blue1" />
                 <div>
                   <p className="text-gray-400">Completed</p>
-                  <p className="text-2xl font-bold">{userDetails.totalInterviews}</p>
+                  <p className="text-2xl font-bold">7</p>
                 </div>
               </div>
             </div>
@@ -100,7 +100,7 @@ const Profile = () => {
         </div>
 
         {/* Recent Interviews */}
-        <div className="bg-darkblue/30 text-white rounded-lg shadow-lg">
+        <div className="bg-darkblue/40 text-white rounded-lg shadow-lg">
           <div className="p-6">
             <h2 className="text-xl font-bold mb-4">Recent Interviews</h2>
             <div className="space-y-4">

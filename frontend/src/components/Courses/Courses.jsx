@@ -50,12 +50,12 @@ const courses = [
 function CourseCard({ course }) {
   return (
     
-    <div className="bg-gray-900 rounded-xl p-6 shadow-lg transition-all duration-300 border border-gray-800 hover:border-blue1/50 group">
+    <div className="bg-darkblue/40 rounded-xl p-6 shadow-lg transition-all duration-300 border border-gray-800 hover:border-blue1/50 group">
       <div className="flex gap-6">
         <div className="relative">
           <img src={course.src} alt={course.title} className="w-80 h-60" />
           {course.status && (
-            <span className="absolute -top-3 -left-3 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+            <span className="absolute -top-3 -left-3 bg-blue1 text-white text-xs px-2 py-1 rounded-full">
               {course.status}
             </span>
           )}
@@ -85,7 +85,7 @@ function CourseCard({ course }) {
             {course.topics.map((topic, index) => (
               <span 
                 key={index}
-                className="text-xs px-2 py-1 bg-gray-800 text-gray-300 rounded-full"
+                className="text-xs px-2 py-1 bg-darkblue/50 text-gray-300 rounded-full"
               >
                 {topic}
               </span>
@@ -93,7 +93,7 @@ function CourseCard({ course }) {
           </div>
 
           <div className="flex justify-between items-center pt-2">
-            <a href={course.link} className="bg-blue-500 text-white rounded-full py-2 px-6 text-sm hover:bg-blue-600 transition-colors flex items-center gap-2 group">
+            <a href={course.link} className="bg-blue1 text-white rounded-full py-2 px-6 text-sm hover:bg-darkblue transition-colors flex items-center gap-2 group">
               <span>Start Learning</span>
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Link} from "react-router-dom"
 
 function CardCat({ index, label, title, level, time, questions, image, description }) {
   const [isToggled, setIsToggled] = useState(false);
@@ -38,7 +39,6 @@ function CardCat({ index, label, title, level, time, questions, image, descripti
           </div>
         </div>
 
-        {/* Bottom */}
         <div className='flex gap-10 justify-center items-center mt-2'>
           <h1 className='text-gray-400'>Real Mode</h1>
           <div className="flex justify-center items-center mt-4">
@@ -53,7 +53,7 @@ function CardCat({ index, label, title, level, time, questions, image, descripti
                 />
                 <div
                   className={`w-12 h-6 ${
-                    isToggled ? "bg-blue1" : "bg-darkblue/30"
+                    isToggled ? "bg-blue1" : "bg-darkblue/80"
                   } rounded-full shadow-inner`}
                 ></div>
 
@@ -66,9 +66,9 @@ function CardCat({ index, label, title, level, time, questions, image, descripti
           </div>
         </div>
 
-        <button className="bg-blue1 hover:bg-darkblue text-white rounded-2xl py-3 px-4 mx-auto">
-          Take Interview
-        </button>
+        <Link className="bg-blue1 hover:bg-darkblue text-white rounded-2xl  py-3 px-16 text-center mx-auto mt-8">
+          Start Interview
+        </Link>
       </div>
     </div>
   );
