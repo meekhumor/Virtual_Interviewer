@@ -18,14 +18,21 @@ Virtual Interviewer is an AI-powered platform designed to simulate job interview
 
 ## 📝 Table of Contents 
 
-- [Key Features](#-key-features)  
-- [Live Demo](#-links)  
-- [Tech Stack](#-tech-stack)  
-- [Installation and Setup](#️-installation-and-setup)  
-- [How to Use](#-how-to-use)  
-- [Future Scope](#-future-scope)  
-- [Screenshots](#-screenshots)  
-- [Contributors](#-contributors)  
+- [📝 Description](#-description)
+- [📝 Table of Contents](#-table-of-contents)
+- [🔗 Links](#-links)
+- [🚀 Key Features](#-key-features)
+- [🛠 Tech Stack](#-tech-stack)
+- [⚙️ Installation and Setup](#️-installation-and-setup)
+  - [Backend Setup](#backend-setup)
+  - [Frontend Setup](#frontend-setup)
+- [📱 How to Use](#-how-to-use)
+- [🌟 Future Scope](#-future-scope)
+- [📸 Screenshots](#-screenshots)
+- [📜 Acknowledgement](#-acknowledgement)
+- [👥 Contributors](#-contributors)
+  - [**Mentors**](#mentors)
+  - [**Team Members**](#team-members)
 
 
 ---
@@ -150,8 +157,7 @@ A special thanks to our project mentor [Harshala](https://github.com/harshala334
 - Harshala Mahajan  
 - Sayali Khandare  
 
-### **Team Members**  
-- Aditya Mahajan  
-- Aryan Yadav  
+### **Team Members**   
+- Om Mukherjee
+- Aryan Yadav 
 - Aman Vatsa  
-- Om Mukherjee  
