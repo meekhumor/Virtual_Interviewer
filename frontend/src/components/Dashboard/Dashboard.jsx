@@ -147,7 +147,7 @@ export default function Dashboard() {
                     <img src="/dashboard/icon3.svg" alt="" className="w-44"/>
                     <h1 className="text-white text-xl">Build an Interview</h1>
                     <p className="text-gray-400 text-sm text-center">Add your own questions and build your own interview from scratch</p>
-                    <button className="bg-blue1 text-white rounded-3xl py-2 my-3 px-6 text-sm">Build Interview</button>
+                    <NavLink to="/coming-soon" className="bg-blue1 hover:bg-darkblue text-white rounded-3xl py-2 my-3 px-6 text-sm">Build Interview</NavLink>
                 </div>
                 <div className="flex flex-col gap-4 w-2/3">
                     <div className='flex justify-between items-center'>
@@ -161,7 +161,7 @@ export default function Dashboard() {
                             <h1 className="text-xl text-white">Brainteaser</h1>
                             <p className="text-gray-400 text-sm pr-3">Brainteasers are question that make you think and arrive at reasonable answer.</p>
 
-                            <Link to="" className="hover:cursor-pointer text-sm text-blue1 mt-3">Take Interview</Link>
+                            <Link to="/interview-setting" className="hover:cursor-pointer text-sm text-blue1 mt-3">Take Interview</Link>
                         </div>
                     </div>
                     <div className="bg-darkblue bg-opacity-60 w-full h-1/2 rounded-lg flex gap-2 py-4">
@@ -171,7 +171,7 @@ export default function Dashboard() {
                             <h1 className="text-xl text-white">Critical Thinking</h1>
                             <p className="text-gray-400 text-sm pr-3">Critical Thinking is becoming more important in today&apos;s data driven environment</p>
 
-                            <Link to="" className="hover:cursor-pointer text-sm text-blue1 mt-3">Take Interview</Link>
+                            <Link to="/interview-setting" className="hover:cursor-pointer text-sm text-blue1 mt-3">Take Interview</Link>
                         </div>
                     </div>
 

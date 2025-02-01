@@ -14,7 +14,7 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
-import { X } from 'lucide-react';
+import { X, Mic, Camera, Code, MessageSquare, Clock, TrendingUp, HelpCircle } from 'lucide-react';
 
 
 export default function Interview_Simulator() {
@@ -466,110 +466,108 @@ export default function Interview_Simulator() {
 
       {/* Info  */}
       <div
-      className={`fixed inset-0 flex items-center justify-center z-20 bg-black/50 ${
-        showInfo ? "block" : "hidden"
-        }`}
-      >
-        <div className="relative w-[800px] max-h-[85vh] bg-white rounded-xl shadow-2xl overflow-y-auto text-black2">
-          {/* Fun wavy top decoration */}
-          <div className="absolute top-0 left-0 w-full">
-            <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-8">
-              <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-                    className="fill-blue1">
-              </path>
-            </svg>
+      className={`fixed inset-0 flex items-center justify-center z-20 bg-black/60 backdrop-blur-sm ${
+        showInfo ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+    >
+      <div className="relative w-[800px] max-h-[85vh] bg-darkblue2 rounded-xl shadow-2xl overflow-y-auto">
+
+        <button 
+          onClick={() => setShowInfo(false)} 
+          className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 hover:bg-white/5 rounded-lg transition-all duration-200"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <div className="p-10 pt-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-white">Master Your Interview</h2>
+            <p className="text-gray-400 mt-2">Navigate our advanced interview simulator with confidence</p>
           </div>
 
-          <button 
-            onClick={() => setShowInfo(false)} 
-            className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 z-10"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          <div className="p-10 pt-16">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-800">Ready to Ace Your Interview? </h2>
-              <p className="text-gray-600 mt-2">Here's your guide to mastering our interview simulator</p>
+          {/* Interactive Elements */}
+          <div className="mb-8">
+            <div className="space-y-4">
+              {[
+                {
+                  icon: <Mic className="w-5 h-5" />,
+                  title: "Voice Controls",
+                  description: "Click to speak, release when finished. Watch for the pulse indicator.",
+                },
+                {
+                  icon: <Camera className="w-5 h-5" />,
+                  title: "Video Interface",
+                  description: "Toggle camera to practice professional presence and body language.",
+                },
+                {
+                  icon: <Code className="w-5 h-5" />,
+                  title: "Code Editor",
+                  description: "Access the built-in code editor for technical challenges.",
+                },
+                {
+                  icon: <MessageSquare className="w-5 h-5" />,
+                  title: "Chat Interface",
+                  description: "Switch to text mode for written responses when needed.",
+                }
+              ].map((item, index) => (
+                <div 
+                  key={index}
+                  className="flex items-start space-x-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-200 cursor-pointer group"
+                >
+                  <div className={`bg-blue1/10 p-3 rounded-xl text-blue1 group-hover:scale-110 transition-transform duration-200`}>
+                    {item.icon}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white">{item.title}</h4>
+                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-200">{item.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* Interactive Elements Section */}
-            <div className="mb-8">
-              <div className="bg-gray-50 p-6 rounded-xl space-y-4">
-                <div className="flex items-start space-x-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <div className="bg-red-100 p-3 rounded-full">🎤</div>
-                  <div>
-                    <h4 className="font-semibold">Microphone Magic</h4>
-                    <p className="text-gray-600">Watch for the blinking light - that's your cue! Click to speak, release when done. Simple as that!</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <div className="bg-blue-100 p-3 rounded-full">📹</div>
-                  <div>
-                    <h4 className="font-semibold">Video Vibes</h4>
-                    <p className="text-gray-600">Toggle your camera to practice those winning expressions and professional poses.</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <div className="bg-green-100 p-3 rounded-full">💻</div>
-                  <div>
-                    <h4 className="font-semibold">Code Mode</h4>
-                    <p className="text-gray-600">Got a coding challenge? Hit the code submission button to show off your skills!</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                  <div className="bg-yellow-100 p-3 rounded-full">💭</div>
-                  <div>
-                    <h4 className="font-semibold">Chat Channel</h4>
-                    <p className="text-gray-600">Need to type instead? The message button is your friend!</p>
-                  </div>
-                </div>
+          {/* Progress Section */}
+          <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
+              <div className="flex items-center gap-2 text-blue1 mb-2">
+                <Clock className="w-5 h-5" />
+                <h4 className="font-semibold text-white">Progress Tracking</h4>
               </div>
+              <p className="text-gray-400">Monitor your progress and remaining time via the dynamic top bar</p>
             </div>
-
-            {/* Progress Tracking */}
-            <div className="mb-8">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-xl">
-                  <h4 className="font-semibold mb-2">⏳ Time & Progress</h4>
-                  <p className="text-gray-600">Keep an eye on the top bar - it shows your time left and how far you've come!</p>
-                </div>
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
-                  <h4 className="font-semibold mb-2">📈 Performance Insights</h4>
-                  <p className="text-gray-600">Check your analysis anytime to see how you're doing.</p>
-                </div>
+            <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
+              <div className="flex items-center gap-2 text-blue1 mb-2">
+                <TrendingUp className="w-5 h-5" />
+                <h4 className="font-semibold text-white">Real-time Analytics</h4>
               </div>
+              <p className="text-gray-400">Access detailed performance metrics and feedback instantly</p>
             </div>
+          </div>
 
-            {/* Quick Tips */}
-            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-xl">
-              <h3 className="text-xl font-semibold mb-4 flex items-center">
-                <span className="bg-yellow-100 text-yellow-600 p-2 rounded-lg mr-2">💡</span>
-                Pro Tips
-              </h3>
-              <ul className="space-y-2">
-                <li className="flex items-center space-x-2">
-                  <span className="text-orange-400">•</span>
-                  <span>Need a breather? Hit the Leave button anytime</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-orange-400">•</span>
-                  <span>Your interview ends automatically when the progress bar fills up</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-orange-400">•</span>
-                  <span>Help button is always there if you need a refresher!</span>
-                </li>
-              </ul>
+          {/* Quick Tips */}
+          <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="bg-blue1/10 p-2 rounded-lg text-blue1">
+                <HelpCircle className="w-5 h-5" />
+              </div>
+              <h3 className="text-xl font-semibold text-white">Essential Tips</h3>
             </div>
+            <ul className="space-y-3">
+              {[
+                "Use the escape key or leave button to exit the interview",
+                "Interview concludes automatically upon completion",
+                "Access help documentation at any time during the session"
+              ].map((tip, index) => (
+                <li key={index} className="flex items-center space-x-2 text-gray-400 ">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue1"></div>
+                  <span>{tip}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
+    </div>
 
       {/* Bottom bar */}
       <div className="w-full bg-darkblue bg-opacity-30 h-24 flex justify-between items-center">

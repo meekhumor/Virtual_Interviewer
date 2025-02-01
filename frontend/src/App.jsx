@@ -31,6 +31,7 @@ import Review_Interface from "./components/Review_Interview/Review_Interface";
 import TranscriptAnalysis from "./components/Check";
 import Profile from "./components/Dashboard/Profile";
 import Domain from "./components/Interview_Setting/Domain";
+import ComingSoon from "./components/Coming_soon";
 
 function Logout() {
   localStorage.clear();
@@ -73,6 +74,8 @@ function App() {
             <Route path="check" element={<TranscriptAnalysis />} />
             <Route path="profile" element={<Profile />} />
             <Route path="domain" element={<Domain />} />
+            <Route path="coming-soon" element={<ComingSoon />} />
+
 
 
 
