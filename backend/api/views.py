@@ -8,31 +8,43 @@ from .serializers import MyTokenObtainPairSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
-import requests
+import google.generativeai as genai
 
-
-
-class ProxyRequestView(APIView):
+class GeminiInterviewView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        api_url = "https://api.langflow.astra.datastax.com/lf/b1444534-75cd-484e-b621-881da671f9f4/api/v1/run/13515189-21af-4792-9cf1-59ca061da351?stream=false"
-        
-        headers = {
-            "Authorization": "Bearer AstraCS:HrjJmTTwgfyRebnQsKmAQSdD:5a91655534e3149afc18f0b18c3afde57cd242d677fdb565512f7c122795e6c7",
-            "Content-Type": "application/json",
-        }
-    
-        request_data = request.data
+        # Configure Gemini with your API key
+        genai.configure(api_key="AIzaSyBpGfLXNlbO8V0kDkUb5WrRcC4PaEF-C-M")  # Replace with your actual key
+
+        # Extract data from the request
+        data = request.data
+        user_input = data.get("input_value", "")
+        level = data.get("tweaks", {}).get("TextInput-QXLsN", {}).get("input_value", "Internship")
+        time = data.get("tweaks", {}).get("TextInput-XXLvP", {}).get("input_value", "20")
+        resume = data.get("tweaks", {}).get("File-icCjQ", {}).get("input_value", None)
+
+        # Choose a Gemini model (e.g., 1.5 Flash for speed)
+        model = genai.GenerativeModel("gemini-1.5-flash")
+
+        # Craft a prompt that includes the resume and interview context
+        prompt = (
+            f"You are an AI interview simulator for a {level} level position. "
+            f"The interview duration is {time} minutes. "
+            f"Here is the candidate's resume: {resume if resume else 'No resume provided.'}\n\n"
+            f"Based on the resume and the level, ask a relevant interview question or respond to this input: '{user_input}'."
+        )
 
         try:
-            response = requests.post(api_url, json=request_data, headers=headers)
-            response.raise_for_status()
-            return Response(response.json(), status=response.status_code)
-
-        except requests.exceptions.RequestException as e:
-            return Response({"error": str(e)}, status=500)
-
+            response = model.generate_content(prompt)
+            ai_response = response.text.strip() or "Sorry, I couldn’t generate a response."
+            return Response({
+                "outputs": [{
+                    "outputs": [{"results": {"message": {"text": ai_response}}}]}]},
+                status=200
+            )
+        except Exception as e:
+            return Response({"error": f"Gemini API error: {str(e)}"}, status=500)
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()

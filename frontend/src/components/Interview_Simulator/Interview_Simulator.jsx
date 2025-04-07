@@ -13,9 +13,12 @@ import { Editor } from "@monaco-editor/react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-
 import { X, Mic, Camera, Code, MessageSquare, Clock, TrendingUp, HelpCircle } from 'lucide-react';
 
+// Simple function to strip Markdown bold markers
+const stripMarkdown = (text) => {
+  return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/[#*_`]/g, '');
+};
 
 export default function Interview_Simulator() {
   const videoRef = useRef(null);
@@ -35,20 +38,25 @@ export default function Interview_Simulator() {
   const [resume, setResume] = useState(null);
   const [micStartTime, setMicStartTime] = useState(null); 
   const [shouldProcessTranscript, setShouldProcessTranscript] = useState(false);
-  
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // Track current question
 
-  
   useEffect(() => {
     const storedTime = sessionStorage.getItem("interviewTime");
     const storedLevel = sessionStorage.getItem("interviewLevel");
     const storedResume = localStorage.getItem("resume");
 
     setResume(storedResume); 
-    setTime(storedTime)
-    setLevel(storedLevel)
+    setTime(storedTime);
+    setLevel(storedLevel);
 
     if (storedTime) {
       setTimeLeft(parseInt(storedTime) * 60); 
+    }
+
+    // If resume is a file path or encoded string, process it here
+    if (storedResume) {
+      // Assuming storedResume is plain text for now; adjust if it's a PDF
+      setResume(storedResume);
     }
   }, []);
 
@@ -62,15 +70,12 @@ export default function Interview_Simulator() {
     return () => clearInterval(timer);
   }, [isRunning, timeLeft]);
 
-
-
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${minutes.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  
   useEffect(() => {
     if (shouldProcessTranscript && transcript && !listening) {
       handleSendMessage(transcript);
@@ -87,7 +92,6 @@ export default function Interview_Simulator() {
 
   const stopListening = () => {
     SpeechRecognition.stopListening();
-    
     if (micStartTime) {
       const elapsedTime = Date.now() - micStartTime;
       console.log(`Mic was on for ${elapsedTime / 1000} seconds`);
@@ -109,7 +113,6 @@ export default function Interview_Simulator() {
   const getVideo = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      console.log("Stream obtained:", stream);
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
       }
@@ -126,7 +129,6 @@ export default function Interview_Simulator() {
       tracks.forEach((track) => track.stop());
       videoRef.current.srcObject = null;
     }
-
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const tracks = videoRef.current.srcObject.getTracks();
@@ -135,24 +137,13 @@ export default function Interview_Simulator() {
     };
   }, [videoStatus]);
 
-
   const handleSpeak = (text) => {
     if (text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      // const voices = window.speechSynthesis.getVoices();
-      // const prabhatVoice = voices.find(
-      //   (voice) =>
-      //     voice.name === "Microsoft Prabhat Online (Natural) - English (India)"
-      // );
-
-      // if (prabhatVoice) {
-      //   utterance.voice = prabhatVoice;
-      // }
-
+      const cleanText = stripMarkdown(text); // Remove Markdown before speaking
+      const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.lang = "en-IN";
       utterance.pitch = 1;
       utterance.rate = 1;
-
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -162,60 +153,55 @@ export default function Interview_Simulator() {
       console.warn("Input message is empty.");
       return;
     }
-  
+
     setTranscriptHistory((prevHistory) => [
       ...prevHistory,
       { sender: "user", text: inputMessage },
     ]);
-  
+
     const data = {
       input_value: inputMessage,
       tweaks: {
         "TextInput-QXLsN": { input_value: Level },
         "TextInput-XXLvP": { input_value: Time },
-        "File-icCjQ": {input_value: resume},
+        "File-icCjQ": { input_value: resume || "" }, // Ensure resume is sent as text
       },
+      // Add instruction to ask one question at a time
+      instruction: "Ask one interview question at a time based on the resume and level. Do not use Markdown in the response."
     };
-  
+
     try {
-      const response = await fetch("http://localhost:8000/api/proxy/", {
+      const response = await fetch("http://localhost:8000/api/gemini/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-  
+
       if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error("Unauthorized. Please check your access token.");
-        } else if (response.status === 500) {
-          throw new Error("Server error. Please try again later.");
-        }
         throw new Error(`Error: ${response.statusText}`);
       }
-  
+
       const result = await response.json();
-      console.log(result)
       const message = result.outputs?.[0]?.outputs?.[0]?.results?.message?.text || "No response received";
-      handleSpeak(message)
-  
+      
+      // Add AI response to history and speak it
+      handleSpeak(message);
       setTranscriptHistory((prevHistory) => [
         ...prevHistory,
         { sender: "ai", text: message },
       ]);
+      setCurrentQuestionIndex((prev) => prev + 1); // Move to next question
     } catch (error) {
       console.error("Error fetching AI response:", error.message);
-  
       setTranscriptHistory((prevHistory) => [
         ...prevHistory,
         { sender: "ai", text: error.message },
       ]);
     }
   };
-
-
-
+  
   return (
     
     <div className="flex flex-col justify-between items-center text-white min-h-screen relative">

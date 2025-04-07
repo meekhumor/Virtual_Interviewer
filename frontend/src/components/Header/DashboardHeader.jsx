@@ -50,7 +50,7 @@ export default function DashboardHeader() {
           {/* Profile */}
           <div className="flex items-center gap-3 px-2 py-1.5 bg-darkblue bg-opacity-50 rounded-2xl relative cursor-pointer" onClick={toggleDropdown}>
             <div className="bg-gray-300 w-6 h-6 rounded-full flex justify-center items-center font-semibold text-xs">
-              {userDetails ? userDetails.username.charAt(0).toUpperCase() : "O"}
+              {(userDetails?.username || "O")[0].toUpperCase()}
             </div>
             <img
               src="/down-arrow.png"

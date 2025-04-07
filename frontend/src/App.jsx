@@ -2,10 +2,8 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./components/Register/Register";
 import NotFound from "./components/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
-import './index.css'
+import './index.css';
 import 'regenerator-runtime/runtime';
-
 
 import Home from './components/Home/Home';
 import Layout from "./Layout";
@@ -45,49 +43,40 @@ function RegisterAndLogout() {
 
 function App() {
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Animation />} />
-            <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="interview-category" element={<ProtectedRoute><Category /></ProtectedRoute>} />
-            <Route path="cam-permission" element={<ProtectedRoute><Permission /></ProtectedRoute>} />
-            <Route path="register" element={<RegisterAndLogout />} />
-            <Route path="cam-preview1" element={<ProtectedRoute><Camera_Preview1 /></ProtectedRoute>} />
-            <Route path="cam-preview2" element={<ProtectedRoute><Camera_Preview2 /></ProtectedRoute>} />
-            <Route path="resume" element={<ProtectedRoute><Resume /></ProtectedRoute>} />
-            <Route path="review-interview" element={<ProtectedRoute><Review_Interview /></ProtectedRoute>} />
-            <Route path="analysis" element={<ProtectedRoute><Analysis /></ProtectedRoute>} />
-            <Route path="about" element={<About />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="logout" element={<Logout />} />
-            <Route path="courses" element={<ProtectedRoute><Courses /></ProtectedRoute>} />
-            <Route path="practice" element={<ProtectedRoute><Practice /></ProtectedRoute>} />
-            <Route path="email-verification" element={<ProtectedRoute><Email_Verification /></ProtectedRoute>} />
-            <Route path="interview-setting" element={<ProtectedRoute><Interview_Setting /></ProtectedRoute>} />
-            <Route path="interview-simulator" element={<ProtectedRoute><Interview_Simulator /></ProtectedRoute>} />
-            <Route path="home" element={<Home />} />
-            <Route path="acknowledgement" element={<Acknowledgement />} />
-            <Route path="support" element={<Support />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="review" element={<Review_Interface />} />
-            <Route path="check" element={<TranscriptAnalysis />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="domain" element={<Domain />} />
-            <Route path="coming-soon" element={<ComingSoon />} />
-
-
-
-
-
-          </Route>
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Animation />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="interview-category" element={<Category />} />
+          <Route path="cam-permission" element={<Permission />} />
+          <Route path="register" element={<RegisterAndLogout />} />
+          <Route path="cam-preview1" element={<Camera_Preview1 />} />
+          <Route path="cam-preview2" element={<Camera_Preview2 />} />
+          <Route path="resume" element={<Resume />} />
+          <Route path="review-interview" element={<Review_Interview />} />
+          <Route path="analysis" element={<Analysis />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="logout" element={<Logout />} />
+          <Route path="courses" element={<Courses />} />
+          <Route path="practice" element={<Practice />} />
+          <Route path="email-verification" element={<Email_Verification />} />
+          <Route path="interview-setting" element={<Interview_Setting />} />
+          <Route path="interview-simulator" element={<Interview_Simulator />} />
+          <Route path="home" element={<Home />} />
+          <Route path="acknowledgement" element={<Acknowledgement />} />
+          <Route path="support" element={<Support />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="review" element={<Review_Interface />} />
+          <Route path="check" element={<TranscriptAnalysis />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="domain" element={<Domain />} />
+          <Route path="coming-soon" element={<ComingSoon />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-{/* <img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="https://interviewbot.ai/assets/feature3.png" width="819" height="968"> </img> */}
-{/* <img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="https://interviewbot.ai/assets/feature2.png" width="819" height="968"> </img> */}
-{/* <img style="display: block;-webkit-user-select: none;margin: auto;cursor: zoom-in;background-color: hsl(0, 0%, 90%);transition: background-color 300ms;" src="https://interviewbot.ai/assets/feature.png" width="819" height="968"> </img> */}

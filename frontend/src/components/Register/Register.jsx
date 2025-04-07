@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import CardSign from "./CardSign";
 import axios from "axios";
-import api from "../../api"; // Adjust the import according to your file structure
+import api from "../../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants";
 
 const signup = [
@@ -33,16 +33,13 @@ export default function Register() {
     e.preventDefault();
 
     try {
-      // Step 1: Register the user
       const res = await api.post("/api/user/register/", { email, username, password });
       alert("Registration successful");
 
-      // Step 2: Log the user in after registration
       const loginRes = await api.post("/api/token/", { username, email, password });
       localStorage.setItem(ACCESS_TOKEN, loginRes.data.access);
       localStorage.setItem(REFRESH_TOKEN, loginRes.data.refresh);
 
-      // Step 3: Redirect to the dashboard
       navigate("/dashboard");
     } catch (error) {
       alert("Already registered, please login!")
@@ -101,12 +98,20 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button 
-            type="submit" 
-            className="bg-blue1 hover:bg-darkblue/50 text-white py-1.5 px-4 rounded-full w-28 mt-6"
-          >
-            {loading ? "Loading..." : "Continue"} 
-          </button>
+          <div className="flex items-center gap-4 mt-6">
+            <button 
+              type="submit" 
+              className="bg-blue1 hover:bg-darkblue/50 text-white py-1.5 px-4 rounded-full w-28"
+            >
+              {loading ? "Loading..." : "Continue"} 
+            </button>
+            <Link 
+              to="/dashboard"
+              className="text-zinc-400 hover:text-zinc-300 underline ml-24"
+            >
+              Guest Login
+            </Link>
+          </div>
         </form>
       </div>
     </div>
