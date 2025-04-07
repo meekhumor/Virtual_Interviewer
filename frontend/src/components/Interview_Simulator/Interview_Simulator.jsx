@@ -20,6 +20,10 @@ const stripMarkdown = (text) => {
   return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/[#*_`]/g, '');
 };
 
+// Define the API base URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://virtual-interviewer.onrender.com'
+  : 'http://localhost:8000';
 
 export default function Interview_Simulator() {
   const videoRef = useRef(null);
@@ -36,7 +40,6 @@ export default function Interview_Simulator() {
   const [isRunning, setIsRunning] = useState(false);
   const [Level, setLevel] = useState("Internship");
   const [Time, setTime] = useState("20");
-  const [resume, setResume] = useState(null);
   const [micStartTime, setMicStartTime] = useState(null); 
   const [shouldProcessTranscript, setShouldProcessTranscript] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); 
@@ -45,42 +48,14 @@ export default function Interview_Simulator() {
     const storedTime = sessionStorage.getItem("interviewTime");
     const storedLevel = sessionStorage.getItem("interviewLevel");
 
-    const fetchResumeData = () => {
-      try {
-        // Get resume data from localStorage
-        const storedResume = localStorage.getItem('resume');
-        
-        if (storedResume) {
-          // If it's very long, we might want to trim it
-          const trimmedResume = storedResume.length > 50000 
-            ? storedResume.substring(0, 50000) + "..." 
-            : storedResume;
-            
-          console.log("Resume loaded from localStorage, length:", trimmedResume.length);
-          setResume(trimmedResume);
-        } else {
-          console.log("No resume found in localStorage");
-          setResume("No resume provided");
-        }
-      } catch (error) {
-        console.error("Error loading resume:", error);
-        setResume("Error loading resume");
-      }
-    };
-    
-    fetchResumeData();
-
     setTime(storedTime);
     setLevel(storedLevel);
-
     if (storedTime) {
       setTimeLeft(parseInt(storedTime) * 60); 
     }
 
-  }, []);
-
-  useEffect(() => {
-    
+    // Send initial "hello" message to start the interview
+    handleSendMessage("hello");
   }, []);
 
   useEffect(() => {
@@ -162,7 +137,7 @@ export default function Interview_Simulator() {
 
   const handleSpeak = (text) => {
     if (text) {
-      const cleanText = stripMarkdown(text); // Remove Markdown before speaking
+      const cleanText = stripMarkdown(text);
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.lang = "en-IN";
       utterance.pitch = 1;
@@ -182,23 +157,19 @@ export default function Interview_Simulator() {
       { sender: "user", text: inputMessage },
     ]);
   
-    // Ensure resume is included properly
-    const resumeData = resume || "No resume data available";
-    
     const data = {
       input_value: inputMessage,
       tweaks: {
         "TextInput-QXLsN": { input_value: Level },
         "TextInput-XXLvP": { input_value: Time },
-        "File-icCjQ": { input_value: resumeData }
       },
-      instruction: "Ask one interview question at a time based on the resume and level."
+      instruction: "Ask one interview question at a time based on the level and user input."
     };
   
     try {
       console.log("Sending data to API:", JSON.stringify(data).substring(0, 200) + "...");
       
-      const response = await fetch("http://localhost:8000/api/gemini/", {
+      const response = await fetch(`${API_BASE_URL}/api/gemini/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -213,34 +184,30 @@ export default function Interview_Simulator() {
       const result = await response.json();
       const message = result.outputs?.[0]?.outputs?.[0]?.results?.message?.text || "No response received";
       
-      // Add AI response to history and speak it
       handleSpeak(message);
       setTranscriptHistory((prevHistory) => [
         ...prevHistory,
         { sender: "ai", text: message },
       ]);
-      setCurrentQuestionIndex((prev) => prev + 1); // Move to next question
+      setCurrentQuestionIndex((prev) => prev + 1);
     } catch (error) {
       console.error("Error fetching AI response:", error.message);
       setTranscriptHistory((prevHistory) => [
         ...prevHistory,
-        { sender: "ai", text: "Sorry, I couldn't process your response. Let's continue with the interview. Tell me about your recent experience." },
+        { sender: "ai", text: "Sorry, I couldn't process your response. Let's continue anyway. What’s your name and what topics would you like to discuss?" },
       ]);
     }
   };
+
+  // JSX remains unchanged
   return (
-    
     <div className="flex flex-col justify-between items-center text-white min-h-screen relative">
-      {/* Top Bar */}
       <div className={`fixed top-0 max-w-7xl w-full mx-auto ${isTopBarOpen ? "h-28" : "h-8"} bg-zinc-900 flex items-center justify-between px-6 transition-all duration-500 ease-in-out rounded-b-xl z-10`}>
         <div className={`w-full flex ${isTopBarOpen ? "opacity-100" : "opacity-0"} justify-between items-center mb-4 px-6 transition-opacity duration-300`}>
-          {/* Time */}
           <div className="flex items-center gap-3 p-3 bg-gray-800 rounded-lg">
             <img src="/clock.png" alt="Clock" className="w-7 h-7" />
             {timeLeft !== null && <p className="text-xl font-semibold">{formatTime(timeLeft)}</p>}
           </div>
-
-          {/* Progress Bar */}
           <div className="w-96 bg-gray-800 h-12 rounded-full overflow-hidden relative flex items-center my-4">
             <div className="bg-blue-600 h-full absolute left-0 top-0" style={{ width: `${((Time * 60 - timeLeft) / (Time * 60)) * 100}%` }}></div>
             <div className="flex justify-between w-full px-4 relative z-10 items-center">
@@ -248,19 +215,15 @@ export default function Interview_Simulator() {
               <img src="/goal.png" alt="Goal" className="w-7 h-7" />
             </div>
           </div>
-
-          {/* Analysis and Help */}
           <div className="flex items-center gap-6 h-12">
             <Link to="/analysis" className="bg-yellow-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
               <img src="/analysis.png" alt="Analysis" className="w-7" />
             </Link>
-            <button  onClick={() => { setShowInfo((prev) => !prev); }} className="bg-blue-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
+            <button onClick={() => { setShowInfo((prev) => !prev); }} className="bg-blue-600 text-white font-semibold rounded-lg p-3 flex items-center transition hover:bg-darkblue">
               <img src="/help.png" alt="Help" className="w-7" />
             </button>
           </div>
         </div>
-
-        {/* Toggle Button */}
         <button
           onClick={() => setIsTopBarOpen((prev) => !prev)}
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-zinc-800 px-4 py-2 rounded-full shadow-lg transition-all duration-300 ease-in-out z-30"
@@ -272,18 +235,11 @@ export default function Interview_Simulator() {
           />
         </button>
       </div>
-
-
-      {/* Center Bot */}
       <div className="w-full flex-grow flex justify-center items-center transition-all duration-300">
-        <div className={`bg-darkblue bg-opacity-30 w-56 h-56 rounded-full  hover:scale-105 ${micStatus ? "border-green-600 border-4 animate-pulse" : "border-red-600 border-4"} flex items-center justify-center`}>
-          <div
-              className="w-3 h-3 rounded-full shadow-lg"
-            ></div>
+        <div className={`bg-darkblue bg-opacity-30 w-56 h-56 rounded-full hover:scale-105 ${micStatus ? "border-green-600 border-4 animate-pulse" : "border-red-600 border-4"} flex items-center justify-center`}>
+          <div className="w-3 h-3 rounded-full shadow-lg"></div>
         </div>
       </div>
-
-      {/* User Webcam  */}
       <Draggable bounds="parent">
         <div className="z-10 bg-darkblue3 w-80 h-60 rounded-2xl absolute bottom-36 right-10">
           {videoStatus ? (
@@ -299,18 +255,14 @@ export default function Interview_Simulator() {
           )}
         </div>
       </Draggable>
-
-
-      {/* Messages  */}
       <div 
-      className={`
-        absolute left-0 top-0 bottom-24 md:w-1/4 w-2/5 z-20
-        transform transition-transform duration-300 ease-in-out
-        ${showMessages ? 'translate-x-0' : '-translate-x-full '}
-      `}
+        className={`
+          absolute left-0 top-0 bottom-24 md:w-1/4 w-2/5 z-20
+          transform transition-transform duration-300 ease-in-out
+          ${showMessages ? 'translate-x-0' : '-translate-x-full '}
+        `}
       >
         <div className="h-full bg-zinc-950 border-r border-zinc-800/50 flex flex-col">
-          {/* Header */}
           <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -326,8 +278,6 @@ export default function Interview_Simulator() {
               </button>
             </div>
           </div>
-
-          {/* Messages Container */}
           <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
             {transcriptHistory.length > 0 ? (
               transcriptHistory.map((item, index) => (
@@ -362,8 +312,6 @@ export default function Interview_Simulator() {
               </div>
             )}
           </div>
-
-          {/* Input Area */}
           <div className="p-3 border-t border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
             <div className="flex gap-2 items-center">
               <input
@@ -394,17 +342,14 @@ export default function Interview_Simulator() {
           </div>
         </div>
       </div>
-
-      {/* Code Editor */}
       <div 
-      className={`
-        absolute right-0 top-0 bottom-24 md:w-1/4 w-2/5 z-20
-        transform transition-transform duration-300 ease-in-out 
-        ${showCodeEditor ? 'block' : 'hidden'}
-      `}
+        className={`
+          absolute right-0 top-0 bottom-24 md:w-1/4 w-2/5 z-20
+          transform transition-transform duration-300 ease-in-out 
+          ${showCodeEditor ? 'block' : 'hidden'}
+        `}
       >
         <div className="h-full bg-zinc-950 border-l border-zinc-800/50 flex flex-col">
-          {/* Header */}
           <div className="px-4 py-3 border-b border-zinc-800/50 bg-zinc-900/50 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -420,8 +365,6 @@ export default function Interview_Simulator() {
               </div>
             </div>
           </div>
-
-          {/* Editor Container */}
           <div className="flex-1 overflow-hidden bg-zinc-950">
             <Editor
               height="100%"
@@ -444,144 +387,106 @@ export default function Interview_Simulator() {
                 lineHeight: 1.6,
                 letterSpacing: 0.5,
                 tabSize: 4,
-                theme: {
-                  base: 'vs-dark',
-                  inherit: true,
-                  rules: [],
-                  colors: {
-                    'editor.background': '#09090b',
-                    'editor.lineHighlightBackground': '#18181b',
-                    'editorLineNumber.foreground': '#3f3f46',
-                    'editorLineNumber.activeForeground': '#71717a',
-                  }
-                }
-              }}
-              beforeMount={(monaco) => {
-                monaco.editor.defineTheme('custom-dark', {
-                  base: 'vs-dark',
-                  inherit: true,
-                  rules: [],
-                  colors: {
-                    'editor.background': '#09090b',
-                    'editor.lineHighlightBackground': '#18181b',
-                    'editorLineNumber.foreground': '#3f3f46',
-                    'editorLineNumber.activeForeground': '#71717a',
-                  }
-                });
-                monaco.editor.setTheme('custom-dark');
               }}
             />
           </div>
         </div>
       </div>
-
-
-      {/* Info  */}
       <div
-      className={`fixed inset-0 flex items-center justify-center z-20 bg-black/60 backdrop-blur-sm ${
-        showInfo ? "opacity-100" : "opacity-0 pointer-events-none"
-      }`}
-    >
-      <div className="relative w-[800px] max-h-[85vh] bg-darkblue2 rounded-xl shadow-2xl overflow-y-auto">
-
-        <button 
-          onClick={() => setShowInfo(false)} 
-          className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 hover:bg-white/5 rounded-lg transition-all duration-200"
-        >
-          <X className="w-5 h-5" />
-        </button>
-
-        <div className="p-10 pt-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white">Master Your Interview</h2>
-            <p className="text-gray-400 mt-2">Navigate our advanced interview simulator with confidence</p>
-          </div>
-
-          {/* Interactive Elements */}
-          <div className="mb-8">
-            <div className="space-y-4">
-              {[
-                {
-                  icon: <Mic className="w-5 h-5" />,
-                  title: "Voice Controls",
-                  description: "Click to speak, release when finished. Watch for the pulse indicator.",
-                },
-                {
-                  icon: <Camera className="w-5 h-5" />,
-                  title: "Video Interface",
-                  description: "Toggle camera to practice professional presence and body language.",
-                },
-                {
-                  icon: <Code className="w-5 h-5" />,
-                  title: "Code Editor",
-                  description: "Access the built-in code editor for technical challenges.",
-                },
-                {
-                  icon: <MessageSquare className="w-5 h-5" />,
-                  title: "Chat Interface",
-                  description: "Switch to text mode for written responses when needed.",
-                }
-              ].map((item, index) => (
-                <div 
-                  key={index}
-                  className="flex items-start space-x-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-200 cursor-pointer group"
-                >
-                  <div className={`bg-blue1/10 p-3 rounded-xl text-blue1 group-hover:scale-110 transition-transform duration-200`}>
-                    {item.icon}
+        className={`fixed inset-0 flex items-center justify-center z-20 bg-black/60 backdrop-blur-sm ${
+          showInfo ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="relative w-[800px] max-h-[85vh] bg-darkblue2 rounded-xl shadow-2xl overflow-y-auto">
+          <button 
+            onClick={() => setShowInfo(false)} 
+            className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 hover:bg-white/5 rounded-lg transition-all duration-200"
+          >
+            <X className="w-5 h-5" />
+          </button>
+          <div className="p-10 pt-16">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-white">Master Your Interview</h2>
+              <p className="text-gray-400 mt-2">Navigate our advanced interview simulator with confidence</p>
+            </div>
+            <div className="mb-8">
+              <div className="space-y-4">
+                {[
+                  {
+                    icon: <Mic className="w-5 h-5" />,
+                    title: "Voice Controls",
+                    description: "Click to speak, release when finished. Watch for the pulse indicator.",
+                  },
+                  {
+                    icon: <Camera className="w-5 h-5" />,
+                    title: "Video Interface",
+                    description: "Toggle camera to practice professional presence and body language.",
+                  },
+                  {
+                    icon: <Code className="w-5 h-5" />,
+                    title: "Code Editor",
+                    description: "Access the built-in code editor for technical challenges.",
+                  },
+                  {
+                    icon: <MessageSquare className="w-5 h-5" />,
+                    title: "Chat Interface",
+                    description: "Switch to text mode for written responses when needed.",
+                  }
+                ].map((item, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-start space-x-4 p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all duration-200 cursor-pointer group"
+                  >
+                    <div className={`bg-blue1/10 p-3 rounded-xl text-blue1 group-hover:scale-110 transition-transform duration-200`}>
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white">{item.title}</h4>
+                      <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-200">{item.description}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-white">{item.title}</h4>
-                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-200">{item.description}</p>
-                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
+                <div className="flex items-center gap-2 text-blue1 mb-2">
+                  <Clock className="w-5 h-5" />
+                  <h4 className="font-semibold text-white">Progress Tracking</h4>
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Progress Section */}
-          <div className="grid grid-cols-2 gap-4 mb-8">
-            <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
-              <div className="flex items-center gap-2 text-blue1 mb-2">
-                <Clock className="w-5 h-5" />
-                <h4 className="font-semibold text-white">Progress Tracking</h4>
+                <p className="text-gray-400">Monitor your progress and remaining time via the dynamic top bar</p>
               </div>
-              <p className="text-gray-400">Monitor your progress and remaining time via the dynamic top bar</p>
+              <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
+                <div className="flex items-center gap-2 text-blue1 mb-2">
+                  <TrendingUp className="w-5 h-5" />
+                  <h4 className="font-semibold text-white">Real-time Analytics</h4>
+                </div>
+                <p className="text-gray-400">Access detailed performance metrics and feedback instantly</p>
+              </div>
             </div>
             <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
-              <div className="flex items-center gap-2 text-blue1 mb-2">
-                <TrendingUp className="w-5 h-5" />
-                <h4 className="font-semibold text-white">Real-time Analytics</h4>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="bg-blue1/10 p-2 rounded-lg text-blue1">
+                  <HelpCircle className="w-5 h-5" />
+                </div>
+                <h3 className="text-xl font-semibold text-white">Essential Tips</h3>
               </div>
-              <p className="text-gray-400">Access detailed performance metrics and feedback instantly</p>
+              <ul className="space-y-3">
+                {[
+                  "Use the escape key or leave button to exit the interview",
+                  "Interview concludes automatically upon completion",
+                  "Access help documentation at any time during the session"
+                ].map((tip, index) => (
+                  <li key={index} className="flex items-center space-x-2 text-gray-400 ">
+                    <div className="w-1.5 h-1.5 rounded-full bg-blue1"></div>
+                    <span>{tip}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-
-          {/* Quick Tips */}
-          <div className="bg-white/5 p-6 rounded-xl hover:bg-white/10 transition-all duration-200 cursor-pointer">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="bg-blue1/10 p-2 rounded-lg text-blue1">
-                <HelpCircle className="w-5 h-5" />
-              </div>
-              <h3 className="text-xl font-semibold text-white">Essential Tips</h3>
-            </div>
-            <ul className="space-y-3">
-              {[
-                "Use the escape key or leave button to exit the interview",
-                "Interview concludes automatically upon completion",
-                "Access help documentation at any time during the session"
-              ].map((tip, index) => (
-                <li key={index} className="flex items-center space-x-2 text-gray-400 ">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue1"></div>
-                  <span>{tip}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>
-    </div>
-
-      {/* Bottom bar */}
       <div className="w-full bg-darkblue bg-opacity-30 h-24 flex justify-between items-center">
         <button
           onClick={() => setShowMessages((prev) => !prev)}
@@ -589,20 +494,19 @@ export default function Interview_Simulator() {
         >
           <FiMessageSquare className="w-8 h-8" />
         </button>
-
         <div className="flex gap-6">
-        <button
-          onClick={handleMicToggle}
-          className={`text-white p-3 rounded-2xl hover:bg-darkblue ${
-            micStatus ? "bg-blue1" : "bg-gray-600"
-          }`}
-        >
-          {micStatus ? (
-            <FiMic className="w-8 h-8" />
-          ) : (
-            <FiMicOff className="w-8 h-8" />
-          )}
-        </button>
+          <button
+            onClick={handleMicToggle}
+            className={`text-white p-3 rounded-2xl hover:bg-darkblue ${
+              micStatus ? "bg-blue1" : "bg-gray-600"
+            }`}
+          >
+            {micStatus ? (
+              <FiMic className="w-8 h-8" />
+            ) : (
+              <FiMicOff className="w-8 h-8" />
+            )}
+          </button>
           <button
             onClick={() => setVideoStatus((prev) => !prev)}
             className={`text-white p-3 rounded-2xl hover:bg-darkblue ${
@@ -619,7 +523,6 @@ export default function Interview_Simulator() {
             <FiLogOut className="w-8 h-8" />
           </Link>
         </div>
-
         <button
           onClick={() => setShowCodeEditor((prev) => !prev)}
           className="bg-orange-600 hover:bg-darkblue text-white text-xl p-3 mr-20 rounded-2xl font-bold"
