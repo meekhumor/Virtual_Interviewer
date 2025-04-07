@@ -7,9 +7,15 @@ export default function Resume() {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(""); 
+  const [fileName, setFileName] = useState(""); // Add filename state
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    if (selectedFile) {
+      setFileName(selectedFile.name);
+      setErrorMessage("");
+    }
   };
 
   const handleUpload = async () => {
@@ -17,14 +23,29 @@ export default function Resume() {
       const reader = new FileReader();
       
       reader.onloadend = () => {
-        localStorage.setItem('resume', reader.result);
-        alert('File saved successfully');
-        navigate('/cam-permission'); 
+        try {
+          // Store file content as plain text instead of DataURL for better compatibility
+          const fileContent = reader.result;
+          
+          // Store the text content of the resume
+          localStorage.setItem('resume', fileContent);
+          
+          // Also store the filename separately
+          localStorage.setItem('resumeFileName', fileName);
+          
+          console.log('Resume saved to localStorage');
+          alert('Resume uploaded successfully');
+          navigate('/cam-permission'); 
+        } catch (error) {
+          console.error('Error saving resume:', error);
+          setErrorMessage('Failed to process file. Please try again.');
+        }
       };
       
-      reader.readAsDataURL(file); 
+      // Read as text instead of DataURL for PDF/DOCX content
+      reader.readAsText(file);
     } else {
-      setErrorMessage('Please select a file first by clicking on animation');
+      setErrorMessage('Please select a file first by clicking on the animation');
     }
   };
 
@@ -37,7 +58,13 @@ export default function Resume() {
         We&apos;ll use it to generate better questions, relevant to your unique skills and experience.
       </p>
 
-      <input type="file" onChange={handleFileChange} className="hidden" id="file-upload" />
+      <input 
+        type="file" 
+        onChange={handleFileChange} 
+        className="hidden" 
+        id="file-upload" 
+        accept=".pdf,.docx,.txt" // Limit file types
+      />
       <label htmlFor="file-upload" className="cursor-pointer">
         <div className="flex justify-center items-center overflow-hidden w-56 h-44"> 
           <LottieAnimation animationData={animation} loop={true} />
@@ -49,10 +76,15 @@ export default function Resume() {
           <img
             src="/file-upload.png"
             className="w-8 h-8"
+            alt="File upload"
           />
-          <p className="text-gray-400 text-sm">
-            Click the icon to select files. <br/>Upload PDF or DOCX.
-          </p>
+          <div className="text-gray-400 text-sm">
+            {fileName ? (
+              <p className="text-blue1">{fileName}</p>
+            ) : (
+              <p>Click the icon to select files. <br/>Upload PDF, DOCX, or TXT.</p>
+            )}
+          </div>
         </div>
         
         <button

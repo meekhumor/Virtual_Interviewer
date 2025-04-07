@@ -20,6 +20,7 @@ const stripMarkdown = (text) => {
   return text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/[#*_`]/g, '');
 };
 
+
 export default function Interview_Simulator() {
   const videoRef = useRef(null);
   const [micStatus, setMicStatus] = useState(false);
@@ -38,14 +39,37 @@ export default function Interview_Simulator() {
   const [resume, setResume] = useState(null);
   const [micStartTime, setMicStartTime] = useState(null); 
   const [shouldProcessTranscript, setShouldProcessTranscript] = useState(false);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); // Track current question
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0); 
 
   useEffect(() => {
     const storedTime = sessionStorage.getItem("interviewTime");
     const storedLevel = sessionStorage.getItem("interviewLevel");
-    const storedResume = localStorage.getItem("resume");
 
-    setResume(storedResume); 
+    const fetchResumeData = () => {
+      try {
+        // Get resume data from localStorage
+        const storedResume = localStorage.getItem('resume');
+        
+        if (storedResume) {
+          // If it's very long, we might want to trim it
+          const trimmedResume = storedResume.length > 50000 
+            ? storedResume.substring(0, 50000) + "..." 
+            : storedResume;
+            
+          console.log("Resume loaded from localStorage, length:", trimmedResume.length);
+          setResume(trimmedResume);
+        } else {
+          console.log("No resume found in localStorage");
+          setResume("No resume provided");
+        }
+      } catch (error) {
+        console.error("Error loading resume:", error);
+        setResume("Error loading resume");
+      }
+    };
+    
+    fetchResumeData();
+
     setTime(storedTime);
     setLevel(storedLevel);
 
@@ -53,11 +77,10 @@ export default function Interview_Simulator() {
       setTimeLeft(parseInt(storedTime) * 60); 
     }
 
-    // If resume is a file path or encoded string, process it here
-    if (storedResume) {
-      // Assuming storedResume is plain text for now; adjust if it's a PDF
-      setResume(storedResume);
-    }
+  }, []);
+
+  useEffect(() => {
+    
   }, []);
 
   useEffect(() => {
@@ -153,24 +176,28 @@ export default function Interview_Simulator() {
       console.warn("Input message is empty.");
       return;
     }
-
+  
     setTranscriptHistory((prevHistory) => [
       ...prevHistory,
       { sender: "user", text: inputMessage },
     ]);
-
+  
+    // Ensure resume is included properly
+    const resumeData = resume || "No resume data available";
+    
     const data = {
       input_value: inputMessage,
       tweaks: {
         "TextInput-QXLsN": { input_value: Level },
         "TextInput-XXLvP": { input_value: Time },
-        "File-icCjQ": { input_value: resume || "" }, // Ensure resume is sent as text
+        "File-icCjQ": { input_value: resumeData }
       },
-      // Add instruction to ask one question at a time
-      instruction: "Ask one interview question at a time based on the resume and level. Do not use Markdown in the response."
+      instruction: "Ask one interview question at a time based on the resume and level."
     };
-
+  
     try {
+      console.log("Sending data to API:", JSON.stringify(data).substring(0, 200) + "...");
+      
       const response = await fetch("http://localhost:8000/api/gemini/", {
         method: "POST",
         headers: {
@@ -178,11 +205,11 @@ export default function Interview_Simulator() {
         },
         body: JSON.stringify(data),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-
+  
       const result = await response.json();
       const message = result.outputs?.[0]?.outputs?.[0]?.results?.message?.text || "No response received";
       
@@ -197,11 +224,10 @@ export default function Interview_Simulator() {
       console.error("Error fetching AI response:", error.message);
       setTranscriptHistory((prevHistory) => [
         ...prevHistory,
-        { sender: "ai", text: error.message },
+        { sender: "ai", text: "Sorry, I couldn't process your response. Let's continue with the interview. Tell me about your recent experience." },
       ]);
     }
   };
-  
   return (
     
     <div className="flex flex-col justify-between items-center text-white min-h-screen relative">
