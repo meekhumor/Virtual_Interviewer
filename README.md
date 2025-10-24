@@ -55,6 +55,12 @@ Virtual Interviewer is an AI-powered platform designed to simulate job interview
 | **AI/NLP**                  | ![Langflow](https://img.shields.io/badge/Langflow-563D7C?style=for-the-badge&logo=ai&logoColor=white) ![Langchain](https://img.shields.io/badge/Langchain-0A192F?style=for-the-badge&logo=ai&logoColor=white) ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white) |
 
 ---
+
+## 🗄️ Database Schema Diagram
+
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/a48a3bf4-3433-433b-8bb2-928e05c6c644" />
+
+
 ## 📈 Progress
 
 - Frontend Completed
